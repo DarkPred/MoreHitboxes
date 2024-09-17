@@ -1,12 +1,12 @@
 {
     "required": true,
     "minVersion": "0.8",
-    "package": "com.example.examplemod.mixin",
+    "package": "com.darkpred.examplemod.mixin",
     "compatibilityLevel": "JAVA_17",
     "mixins": [
     ],
     "client": [
-      "ExampleMixin"
+      "com.github.darkpred.examplemod.mixin.ExampleMixin"
     ],
     "injectors": {
       "defaultRequire": 1
