@@ -1,7 +1,5 @@
 package com.github.darkpred.multipartsupport.mixin;
 
-import com.fossil.fossil.entity.prehistoric.base.Prehistoric;
-import com.fossil.fossil.entity.prehistoric.parts.MultiPart;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
 import net.minecraft.server.level.ServerLevel;

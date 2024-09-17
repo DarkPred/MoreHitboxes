@@ -1,6 +1,5 @@
 package com.github.darkpred.multipartsupport.mixin;
 
-import com.fossil.fossil.entity.prehistoric.parts.MultiPart;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.EntityHitResult;

@@ -1,6 +1,6 @@
 package com.github.darkpred.multipartsupport.mixin;
 
-import com.fossil.fossil.fabric.MultiPartServerLevel;
+import com.github.darkpred.multipartsupport.MultiPartServerLevel;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.server.level.ServerLevel;

@@ -1,7 +1,5 @@
 package com.github.darkpred.multipartsupport.mixin;
 
-import com.fossil.fossil.entity.prehistoric.base.Prehistoric;
-import com.fossil.fossil.entity.prehistoric.parts.MultiPart;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.Level;

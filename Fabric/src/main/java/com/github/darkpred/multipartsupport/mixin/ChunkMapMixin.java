@@ -1,6 +1,5 @@
 package com.github.darkpred.multipartsupport.mixin;
 
-import com.fossil.fossil.entity.prehistoric.parts.MultiPart;
 import net.minecraft.server.level.ChunkMap;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
