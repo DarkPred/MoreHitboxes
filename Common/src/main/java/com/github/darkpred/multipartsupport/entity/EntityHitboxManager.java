@@ -20,6 +20,7 @@ import java.util.Map;
 /**
  *
  */
+//TODO: Link blockbench plugin or add to repo
 public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
     private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
     public static final EntityHitboxManager HITBOX_DATA = new EntityHitboxManager(GSON);

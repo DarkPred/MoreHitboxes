@@ -1,16 +1,10 @@
 package com.github.darkpred.multipartsupport.entity;
 
-import net.minecraft.world.entity.EntityType;
-
-import java.util.List;
+import net.minecraft.world.damagesource.DamageSource;
+import org.jetbrains.annotations.NotNull;
 
 public interface MultiPartEntity {
-    Store getStore();
+    PlacholderName<?> getPlaceHolderName();
 
-    void spawnHitBoxes(List<EntityHitboxManager.Hitbox> hitboxes, EntityType<? extends Example> entityType);
-
-    default boolean isCustomMultiPart() {
-        //TODO: Probably should use mixin instead
-        return getStore().isCustomMultiPart();
-    }
+    boolean partHurt(MultiPart<?> multiPart, @NotNull DamageSource source, float amount);
 }

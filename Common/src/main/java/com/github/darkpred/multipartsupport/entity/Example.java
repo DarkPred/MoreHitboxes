@@ -1,7 +1,6 @@
 package com.github.darkpred.multipartsupport.entity;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
@@ -10,7 +9,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +23,7 @@ public abstract class Example extends Mob implements MultiPartEntity {
     public final Map<EntityHitboxManager.Hitbox, Vec3> activeAttackBoxes = new HashMap<>();
     private AABB attackBounds = new AABB(0, 0, 0, 0, 0, 0);
     private AABB cullingBounds = new AABB(0, 0, 0, 0, 0, 0);
-    private final Store store = Store.get(self);
+    private final PlacholderName<Example> placholderName = PlacholderName.get(this, resourceLocation);
 
     protected Example(EntityType<? extends Example> entityType, Level level) {
         super(entityType, level);
@@ -48,26 +46,6 @@ public abstract class Example extends Mob implements MultiPartEntity {
     @Nullable
     public MultiPart getCustomPart(String ref) {
         return partsByRef.get(ref);
-    }
-
-    @Override
-    public void refreshDimensions() {
-        double oldY = getY();
-        if (isCustomMultiPart()) {
-            super.refreshDimensions();
-            setPos(getX(), oldY, getZ());
-            for (MultiPart part : parts) {
-                part.getEntity().refreshDimensions();
-            }
-        } else {
-            super.refreshDimensions();
-            setPos(getX(), oldY, getZ());
-        }
-    }
-
-    @Override
-    public boolean isPickable() {
-        return !isCustomMultiPart();
     }
 
     @SuppressWarnings("java:S2589")

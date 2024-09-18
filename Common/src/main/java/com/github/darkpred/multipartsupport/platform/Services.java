@@ -1,6 +1,6 @@
 package com.github.darkpred.multipartsupport.platform;
 
-import com.github.darkpred.multipartsupport.Constants;
+import com.github.darkpred.multipartsupport.CommonClass;
 import com.github.darkpred.multipartsupport.platform.services.IPlatformHelper;
 
 import java.util.ServiceLoader;
@@ -14,7 +14,7 @@ public class Services {
         final T loadedService = ServiceLoader.load(clazz)
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
-        Constants.LOG.debug("Loaded {} for service {}", loadedService, clazz);
+        CommonClass.LOGGER.debug("Loaded {} for service {}", loadedService, clazz);
         return loadedService;
     }
 }

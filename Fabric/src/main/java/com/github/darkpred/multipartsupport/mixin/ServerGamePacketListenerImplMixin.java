@@ -1,8 +1,10 @@
 package com.github.darkpred.multipartsupport.mixin;
 
+import com.github.darkpred.multipartsupport.entity.MultiPart;
+import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.InteractionHand;
@@ -17,7 +19,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.Optional;
 
@@ -27,9 +28,9 @@ public class ServerGamePacketListenerImplMixin {
     @Shadow
     public ServerPlayer player;
 
-    @Inject(method = "handleInteract", locals = LocalCapture.CAPTURE_FAILHARD, at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;distanceToSqr(Lnet/minecraft/world/entity/Entity;)D"))
-    private void replaceHurtEntity(ServerboundInteractPacket packet, CallbackInfo ci, ServerLevel serverLevel, Entity target) {
-        if (!(target instanceof Prehistoric) && !(target instanceof MultiPart)) {
+    @Inject(method = "handleInteract", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;distanceToSqr(Lnet/minecraft/world/entity/Entity;)D"))
+    private void replaceHurtEntity(ServerboundInteractPacket packet, CallbackInfo ci, @Local Entity target) {
+        if (!(target instanceof MultiPartEntity) && !(target instanceof MultiPart<?>)) {
             return;
         }
         //Copy forges extended attack and interact range for larger entities

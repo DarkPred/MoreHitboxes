@@ -1,6 +1,7 @@
 package com.github.darkpred.multipartsupport.mixin;
 
 import com.github.darkpred.multipartsupport.MultiPartServerLevel;
+import com.github.darkpred.multipartsupport.entity.MultiPart;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.server.level.ServerLevel;
@@ -16,45 +17,36 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Collection;
 
 /**
- * Fabric has no PartEntity so we mixin our own
- *
- * @see ChunkMapMixin
- * @see EntityCallbacksMixin
- * @see LevelMixin
- * @see PlayerMixin
- * @see ServerPlayerMixin
- * @see MultiPartServerLevel
+ * Based on what forge does with PartEntity and ServerLevel#dragonParts
  */
 @Mixin(ServerLevel.class)
 public abstract class ServerLevelMixin implements MultiPartServerLevel {
     @Unique
-    private Int2ObjectMap<Entity> prehistoricParts = new Int2ObjectOpenHashMap<>();
+    private final Int2ObjectMap<Entity> multiParts = new Int2ObjectOpenHashMap<>();
 
     @Shadow
     protected abstract LevelEntityGetter<Entity> getEntities();
 
     @Override
-    public Collection<Entity> fossilsArcheologyRevival$getMultiParts() {
-        return prehistoricParts.values();
+    public Collection<Entity> multiPartSupport$getMultiParts() {
+        return multiParts.values();
     }
 
     @Override
-    public void fossilsArcheologyRevival$addMultiPart(Entity part) {
-        prehistoricParts.put(part.getId(), part);
+    public void multiPartSupport$addMultiPart(Entity part) {
+        multiParts.put(part.getId(), part);
     }
 
     @Override
-    public void fossilsArcheologyRevival$removeMultiPart(Entity part) {
-        prehistoricParts.remove(part.getId());
+    public void multiPartSupport$removeMultiPart(Entity part) {
+        multiParts.remove(part.getId());
     }
 
 
     @Inject(method = "getEntityOrPart(I)Lnet/minecraft/world/entity/Entity;", at = @At("TAIL"), cancellable = true)
     private void getEntityOrMultiPart(int id, CallbackInfoReturnable<Entity> cir) {
-        if (getEntities().get(id) == null) {
-            if (prehistoricParts.containsKey(id)) {
-                cir.setReturnValue(prehistoricParts.get(id));
-            }
+        if (getEntities().get(id) == null && multiParts.containsKey(id)) {
+            cir.setReturnValue(multiParts.get(id));
         }
     }
 }

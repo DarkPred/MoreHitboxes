@@ -1,28 +1,26 @@
 package com.github.darkpred.multipartsupport.entity;
 
-import com.github.darkpred.multipartsupport.registration.RegistrationProvider;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Store {
-    private final List<MultiPart> parts = new ArrayList<>();
-    private final Map<String, MultiPart> partsByRef = new HashMap<>();
-
+public class PlacholderName<T extends Mob & MultiPartEntity> {
+    private final List<MultiPart<T>> parts = new ArrayList<>();
+    private final Map<String, MultiPart<T>> partsByRef = new HashMap<>();
+//TODO: I think this would go into an api package
     private float headRadius;
     private float frustumWidthRadius;
     private float frustumHeightRadius;
+    private final T entity;
 
-    public Store(ResourceLocation path) {
+    public PlacholderName(T entity, ResourceLocation path) {
+        this.entity = entity;
         List<EntityHitboxManager.Hitbox> hitboxes = EntityHitboxManager.HITBOX_DATA.getHitboxes(path);
-        if (hitboxes!= null && !hitboxes.isEmpty()) {
+        if (hitboxes != null && !hitboxes.isEmpty()) {
             spawnHitBoxes(hitboxes);
         }
     }
@@ -34,7 +32,7 @@ public class Store {
             if (hitbox.isAttackBox()) {
                 attackBoxes.put(hitbox.ref(), hitbox);
             } else {
-                MultiPart part = MultiPart.get(this, hitbox);
+                MultiPart<T> part = MultiPart.Factory.INSTANCE.create(entity, hitbox);
                 parts.add(part);
                 if (hitbox.ref() != null) {
                     partsByRef.put(hitbox.ref(), part);
@@ -60,7 +58,16 @@ public class Store {
     public boolean isCustomMultiPart() {
         return !parts.isEmpty();
     }
-    public static Store get(ResourceLocation path) {
-        return new Store(path);
+
+    /**
+     * @return The child parts of this entity.
+     * @implSpec On the forge classpath this implementation should return objects that inherit from PartEntity instead of Entity.
+     */
+    public List<MultiPart<T>> getCustomParts() {
+        return parts;
+    }
+
+    public static <T extends Mob & MultiPartEntity> PlacholderName<T> get(T entity, ResourceLocation path) {
+        return new PlacholderName<>(entity, path);
     }
 }

@@ -1,6 +1,6 @@
 package com.github.darkpred.multipartsupport.registration;
 
-import com.github.darkpred.multipartsupport.Constants;
+import com.github.darkpred.multipartsupport.CommonClass;
 import net.minecraft.core.Registry;
 import net.minecraft.world.item.Item;
 
@@ -12,7 +12,7 @@ public class ExampleItems {
     /**
      * The provider for items
      */
-    public static final RegistrationProvider<Item> ITEMS = RegistrationProvider.get(Registry.ITEM_REGISTRY, Constants.MOD_ID);
+    public static final RegistrationProvider<Item> ITEMS = RegistrationProvider.get(Registry.ITEM_REGISTRY, CommonClass.MOD_ID);
 
     public static final RegistryObject<Item> EXAMPLE = ITEMS.register("example", () -> new Item(new Item.Properties().fireResistant().stacksTo(12)));
 

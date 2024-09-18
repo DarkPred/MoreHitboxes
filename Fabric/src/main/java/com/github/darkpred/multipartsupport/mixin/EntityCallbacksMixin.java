@@ -1,6 +1,9 @@
 package com.github.darkpred.multipartsupport.mixin;
 
 
+import com.github.darkpred.multipartsupport.MultiPartServerLevel;
+import com.github.darkpred.multipartsupport.entity.MultiPart;
+import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Final;
@@ -10,10 +13,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+
 /**
- * Fabric has no PartEntity so we mixin our own
- *
- * @see ServerLevelMixin
+ * Equivalent to what forge does with PartEntity
  */
 @Mixin(targets = "net/minecraft/server/level/ServerLevel$EntityCallbacks")
 public abstract class EntityCallbacksMixin {
@@ -24,18 +26,18 @@ public abstract class EntityCallbacksMixin {
 
     @Inject(method = "onTrackingStart(Lnet/minecraft/world/entity/Entity;)V", at = @At(value = "RETURN"))
     public void addMultiPartOnTrackingStart(Entity entity, CallbackInfo ci) {
-        if (entity instanceof Prehistoric prehistoric) {
-            for (MultiPart part : prehistoric.getCustomParts()) {
-                ((MultiPartServerLevel) field_26936).fossilsArcheologyRevival$addMultiPart(part.getEntity());
+        if (entity instanceof MultiPartEntity multiPartEntity) {
+            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
+                ((MultiPartServerLevel) field_26936).multiPartSupport$addMultiPart(part.getEntity());
             }
         }
     }
 
     @Inject(method = "onTrackingEnd(Lnet/minecraft/world/entity/Entity;)V", at = @At(value = "RETURN"))
     public void removeMultiPartOnTrackingEnd(Entity entity, CallbackInfo ci) {
-        if (entity instanceof Prehistoric prehistoric) {
-            for (MultiPart part : prehistoric.getCustomParts()) {
-                ((MultiPartServerLevel) field_26936).fossilsArcheologyRevival$removeMultiPart(part.getEntity());
+        if (entity instanceof MultiPartEntity multiPartEntity) {
+            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
+                ((MultiPartServerLevel) field_26936).multiPartSupport$removeMultiPart(part.getEntity());
             }
         }
     }
