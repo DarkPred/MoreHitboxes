@@ -3,10 +3,7 @@ package com.github.darkpred.multipartsupport.entity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -18,62 +15,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Example extends LivingEntity {
+public abstract class Example extends Mob implements MultiPartEntity {
 
     private float headRadius;
     private float frustumWidthRadius;
     private float frustumHeightRadius;
     public long attackBoxEndTime;
-    private final List<MultiPart> parts = new ArrayList<>();
-    private final Map<String, MultiPart> partsByRef = new HashMap<>();
     public final Map<String, EntityHitboxManager.Hitbox> attackBoxes = new HashMap<>();
     public final Map<EntityHitboxManager.Hitbox, Vec3> activeAttackBoxes = new HashMap<>();
     private AABB attackBounds = new AABB(0, 0, 0, 0, 0, 0);
     private AABB cullingBounds = new AABB(0, 0, 0, 0, 0, 0);
+    private final Store store = Store.get(self);
 
-    protected Example(EntityType<? extends Example> entityType, Level level, ResourceLocation animationLocation) {
+    protected Example(EntityType<? extends Example> entityType, Level level) {
         super(entityType, level);
-        List<EntityHitboxManager.Hitbox> hitboxes = EntityHitboxManager.HITBOX_DATA.getHitboxes(EntityType.getKey(getType()).getPath());
-        if (hitboxes != null && !hitboxes.isEmpty()) {
-            spawnHitBoxes(hitboxes, entityType);
-        }
         this.attackBounds = makeAttackBounds();
         this.cullingBounds = makeBoundingBoxForCulling();
-    }
-
-    private void spawnHitBoxes(List<EntityHitboxManager.Hitbox> hitboxes, EntityType<? extends Example> entityType) {
-        float maxFrustumWidthRadius = 0;
-        float maxFrustumHeightRadius = 0;
-        for (EntityHitboxManager.Hitbox hitbox : hitboxes) {
-            if (hitbox.isAttackBox()) {
-                attackBoxes.put(hitbox.ref(), hitbox);
-            } else {
-                MultiPart part = MultiPart.get(this, hitbox);
-                parts.add(part);
-                if (hitbox.ref() != null) {
-                    partsByRef.put(hitbox.ref(), part);
-                }
-                //Caching this value might be overkill but this ensures that the entity will be visible even if parts are outside its bounding box
-                float j = hitbox.getFrustumWidthRadius();
-                if (hitbox.name().contains("head") && (headRadius == 0 || j > maxFrustumWidthRadius)) {
-                    headRadius = j;
-                }
-                if (j > maxFrustumWidthRadius) {
-                    maxFrustumWidthRadius = j;
-                }
-                float h = hitbox.getFrustumHeightRadius();
-                if (h > maxFrustumHeightRadius) {
-                    maxFrustumHeightRadius = h;
-                }
-            }
-        }
-        frustumWidthRadius = maxFrustumWidthRadius;
-        frustumHeightRadius = maxFrustumHeightRadius;
-    }
-
-
-    public boolean isCustomMultiPart() {
-        return !parts.isEmpty();
     }
 
     /**

@@ -9,6 +9,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
@@ -22,15 +23,15 @@ import java.util.Map;
 public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
     private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
     public static final EntityHitboxManager HITBOX_DATA = new EntityHitboxManager(GSON);
-    private ImmutableMap<String, List<Hitbox>> entities = ImmutableMap.of();
+    private ImmutableMap<ResourceLocation, List<Hitbox>> entities = ImmutableMap.of();
 
     public EntityHitboxManager(Gson gson) {
         super(gson, "hitboxes");
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> jsons, ResourceManager resourceManager, ProfilerFiller profiler) {
-        ImmutableMap.Builder<String, List<Hitbox>> builder = ImmutableMap.builder();
+    protected void apply(Map<ResourceLocation, JsonElement> jsons, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profiler) {
+        ImmutableMap.Builder<ResourceLocation, List<Hitbox>> builder = ImmutableMap.builder();
         for (Map.Entry<ResourceLocation, JsonElement> fileEntry : jsons.entrySet()) {
             if (!(fileEntry.getValue() instanceof JsonObject root)) {
                 continue;
