@@ -2,8 +2,7 @@ package com.github.darkpred.multipartsupport.mixin;
 
 import com.github.darkpred.multipartsupport.entity.MultiPart;
 import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import net.minecraft.world.damagesource.DamageSource;
@@ -34,12 +33,11 @@ public abstract class PlayerMixin {
     /**
      * Replace the hurt call to the parent entity
      */
-    @WrapOperation(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
-    private boolean attackMultiPart(Entity target, DamageSource source, float amount, Operation<Boolean> original, @Share("part") LocalRef<Entity> partRef) {
+    @ModifyReceiver(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z"))
+    private Entity attackMultiPart(Entity target, DamageSource source, float amount, @Share("part") LocalRef<Entity> partRef) {
         if (target instanceof MultiPartEntity && partRef.get() != null) {
-            return partRef.get().hurt(source, amount);
-        } else {
-            return original.call(target, source, amount);
+            return partRef.get();
         }
+        return target;
     }
 }

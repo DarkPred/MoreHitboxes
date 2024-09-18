@@ -15,7 +15,7 @@ import net.minecraftforge.entity.PartEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ForgeMultiPart<T extends Mob & MultiPartEntity> extends PartEntity<T> implements MultiPart<T> {
+public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEntity<T> implements MultiPart<T> {
     private final EntityDimensions size;
     private final Vec3 offset;
     private final String name;
@@ -119,7 +119,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity> extends PartEntity<
     static class ForgeMultiPartFactory implements MultiPart.Factory {
 
         @Override
-        public <T extends Mob & MultiPartEntity> MultiPart<T> create(T parent, EntityHitboxManager.HitboxData hitboxData) {
+        public <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, EntityHitboxManager.HitboxData hitboxData) {
             return new ForgeMultiPart<>(parent, hitboxData);
         }
     }

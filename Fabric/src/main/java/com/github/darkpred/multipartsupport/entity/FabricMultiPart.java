@@ -1,5 +1,6 @@
 package com.github.darkpred.multipartsupport.entity;
 
+import com.google.auto.service.AutoService;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.InteractionHand;
@@ -14,7 +15,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FabricMultiPart<T extends Mob & MultiPartEntity> extends Entity implements MultiPart<T> {
+public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity implements MultiPart<T> {
     public final T parent;
     private final EntityDimensions size;
     private final Vec3 offset;
@@ -122,11 +123,12 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity> extends Entity imp
         throw new UnsupportedOperationException();
     }
 
-    static class FabricMultiPartFactory implements MultiPart.Factory {
+    @AutoService(MultiPart.Factory.class)
+    public static class FabricMultiPartFactory implements MultiPart.Factory {
 
-       @Override
-       public <T extends Mob & MultiPartEntity> MultiPart<T> create(T parent, EntityHitboxManager.HitboxData hitboxData) {
-           return new FabricMultiPart<>(parent, hitboxData);
-       }
-   }
+        @Override
+        public <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, EntityHitboxManager.HitboxData hitboxData) {
+            return new FabricMultiPart<>(parent, hitboxData);
+        }
+    }
 }

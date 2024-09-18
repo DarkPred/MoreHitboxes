@@ -19,7 +19,7 @@ dependencies {
     modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     implementation project(":Common")
-    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.1")))
+    compileOnly(annotationProcessor('com.google.auto.service:auto-service:1.1.1'))
 }
 
 loom {

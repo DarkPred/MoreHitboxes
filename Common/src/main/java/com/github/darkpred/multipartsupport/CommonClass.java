@@ -1,9 +1,11 @@
 package com.github.darkpred.multipartsupport;
 
+import com.github.darkpred.multipartsupport.entity.EntityHitboxManager;
 import com.github.darkpred.multipartsupport.platform.Services;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -22,6 +24,7 @@ public class CommonClass {
     // game has no mechanism to load tooltip listeners so this must be
     // invoked from a mod loader specific project like Forge or Fabric.
     public static void init() {
-
+        Services.RESOURCE_PACK_PROVIDER.register(PackType.SERVER_DATA, EntityHitboxManager.HITBOX_DATA);
+        Services.RESOURCE_PACK_PROVIDER.register(PackType.CLIENT_RESOURCES, EntityHitboxManager.HITBOX_DATA);
     }
 }

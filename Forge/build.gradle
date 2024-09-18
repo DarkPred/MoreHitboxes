@@ -77,6 +77,7 @@ dependencies {
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
         jarJar.ranged(it, "[0.4.1,)")
     }
+    compileOnly(annotationProcessor('com.google.auto.service:auto-service:1.1.1'))
 }
 
 tasks.withType(JavaCompile) {

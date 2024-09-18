@@ -1,6 +1,6 @@
 {
     "schemaVersion": 1,
-    "id": "modid",
+    "id": "multipartsupport",
     "version": "${version}",
   
     "name": "Example Mod",
@@ -14,16 +14,16 @@
     },
   
     "license": "CC0-1.0",
-    "icon": "assets/modid/icon.png",
+    "icon": "assets/multipartsupport/icon.png",
   
     "environment": "*",
     "entrypoints": {
       "main": [
-        "com.example.examplemod.ExampleMod"
+        "com.github.darkpred.multipartsupport.MultiPartSupportMod"
       ]
     },
     "mixins": [
-      "modid.mixins.json"
+      "multipartsupport.mixins.json"
     ],
   
     "depends": {

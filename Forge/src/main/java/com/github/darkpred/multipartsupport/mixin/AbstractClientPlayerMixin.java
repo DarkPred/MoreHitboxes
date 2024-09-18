@@ -22,7 +22,7 @@ public abstract class AbstractClientPlayerMixin extends Player {
         if (super.isCloseEnough(entity, dist)) {
             return true;
         }
-        if (entity instanceof MultiPartEntity multiPartEntity) {
+        if (entity instanceof MultiPartEntity<?> multiPartEntity) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                 if (isCloseEnough(part.getEntity(), dist)) {
                     return true;

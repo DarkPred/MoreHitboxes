@@ -54,13 +54,13 @@ public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
                 boolean isAttack = ref != null && ref.equals("attack_hitbox");
                 listBuilder.add(new HitboxData(elemObject.get("name").getAsString(), new Vec3(pos[0] / 16, pos[1] / 16, pos[2] / 16), width, height, ref, isAttack));
             }
-            builder.put(fileEntry.getKey().getPath(), listBuilder.build());
+            builder.put(fileEntry.getKey(), listBuilder.build());
         }
         entities = builder.build();
     }
 
-    public List<HitboxData> getHitboxes(String entityName) {
-        return entities.get(entityName);
+    public List<HitboxData> getHitboxes(ResourceLocation entity) {
+        return entities.get(entity);
     }
 
     public record HitboxData(String name, Vec3 pos, float width, float height, String ref, boolean isAttackBox) {

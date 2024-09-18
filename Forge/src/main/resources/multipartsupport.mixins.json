@@ -6,9 +6,7 @@
   "mixins": [
     "EntityHitResultMixin", "EntityMixin", "MobMixin", "PlayerMixin", "ProjectileUtilMixin", "TransientEntitySectionManagerMixin"
   ],
-  "client": [
-    "AbstractClientPlayerMixin", "MinecraftMixin"
-  ],
+  "client": ["AbstractClientPlayerMixin", "EntityRenderDispatcherMixin", "MinecraftMixin"],
   "injectors": {
     "defaultRequire": 1
   }

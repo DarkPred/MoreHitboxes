@@ -32,7 +32,7 @@ public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess>
      */
     @Inject(method = "addEntity", at = @At("HEAD"))
     private void addPartEntitiesToSections(T entity, CallbackInfo ci) {
-        if (entity instanceof MultiPartEntity multiPartEntity && multiPartEntity.getPlaceHolderName().hasCustomParts()) {
+        if (entity instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getPlaceHolderName().hasCustomParts()) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                 T partEntity = (T) part.getEntity();
                 long l = SectionPos.asLong(partEntity.blockPosition());

@@ -26,7 +26,7 @@ public abstract class EntityCallbacksMixin {
 
     @Inject(method = "onTrackingStart(Lnet/minecraft/world/entity/Entity;)V", at = @At(value = "RETURN"))
     public void addMultiPartOnTrackingStart(Entity entity, CallbackInfo ci) {
-        if (entity instanceof MultiPartEntity multiPartEntity) {
+        if (entity instanceof MultiPartEntity<?> multiPartEntity) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                 ((MultiPartServerLevel) field_26936).multiPartSupport$addMultiPart(part.getEntity());
             }
@@ -35,7 +35,7 @@ public abstract class EntityCallbacksMixin {
 
     @Inject(method = "onTrackingEnd(Lnet/minecraft/world/entity/Entity;)V", at = @At(value = "RETURN"))
     public void removeMultiPartOnTrackingEnd(Entity entity, CallbackInfo ci) {
-        if (entity instanceof MultiPartEntity multiPartEntity) {
+        if (entity instanceof MultiPartEntity<?> multiPartEntity) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                 ((MultiPartServerLevel) field_26936).multiPartSupport$removeMultiPart(part.getEntity());
             }

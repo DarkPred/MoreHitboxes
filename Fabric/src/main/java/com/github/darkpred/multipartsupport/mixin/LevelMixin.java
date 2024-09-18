@@ -28,7 +28,7 @@ public abstract class LevelMixin {
     @Inject(method = "getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;", at = @At(value = "RETURN"))
     private void addMultiPartsToEntityQuery(Entity entity, AABB area, Predicate<? super Entity> predicate, CallbackInfoReturnable<List<Entity>> cir) {
         getEntities().get(area, entity2 -> {
-            if (entity2 instanceof MultiPartEntity multiPartEntity) {
+            if (entity2 instanceof MultiPartEntity<?> multiPartEntity) {
                 for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                     Entity partEntity = part.getEntity();
                     if (partEntity == entity || !partEntity.getBoundingBox().intersects(area) || !predicate.test(partEntity)) continue;
@@ -42,7 +42,7 @@ public abstract class LevelMixin {
     private <T extends Entity> void addMultiPartsToEntityQuery(EntityTypeTest<Entity, T> entityTypeTest, AABB area, Predicate<? super T> predicate,
                                                                CallbackInfoReturnable<List<T>> cir) {
         getEntities().get(entityTypeTest, area, entity -> {
-            if (entity instanceof MultiPartEntity multiPartEntity) {
+            if (entity instanceof MultiPartEntity<?> multiPartEntity) {
                 for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                     Entity partEntity = part.getEntity();
                     T entity2 = entityTypeTest.tryCast(partEntity);
