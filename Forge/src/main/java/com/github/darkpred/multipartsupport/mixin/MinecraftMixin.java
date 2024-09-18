@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import javax.annotation.Nullable;
 
 @Mixin(Minecraft.class)
-public abstract class MinecraftMixin {
+public class MinecraftMixin {
 
     @Shadow
     @Nullable

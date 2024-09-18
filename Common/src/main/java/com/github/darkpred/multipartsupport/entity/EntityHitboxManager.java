@@ -24,7 +24,7 @@ import java.util.Map;
 public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
     private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
     public static final EntityHitboxManager HITBOX_DATA = new EntityHitboxManager(GSON);
-    private ImmutableMap<ResourceLocation, List<Hitbox>> entities = ImmutableMap.of();
+    private ImmutableMap<ResourceLocation, List<HitboxData>> entities = ImmutableMap.of();
 
     public EntityHitboxManager(Gson gson) {
         super(gson, "hitboxes");
@@ -32,13 +32,13 @@ public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> jsons, @NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profiler) {
-        ImmutableMap.Builder<ResourceLocation, List<Hitbox>> builder = ImmutableMap.builder();
+        ImmutableMap.Builder<ResourceLocation, List<HitboxData>> builder = ImmutableMap.builder();
         for (Map.Entry<ResourceLocation, JsonElement> fileEntry : jsons.entrySet()) {
             if (!(fileEntry.getValue() instanceof JsonObject root)) {
                 continue;
             }
             JsonArray elements = GsonHelper.getAsJsonArray(root, "elements");
-            ImmutableList.Builder<Hitbox> listBuilder = ImmutableList.builder();
+            ImmutableList.Builder<HitboxData> listBuilder = ImmutableList.builder();
             for (JsonElement element : elements) {
                 JsonObject elemObject = element.getAsJsonObject();
                 double[] pos = new double[3];
@@ -52,18 +52,18 @@ public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
                 JsonElement refElement = elemObject.get("ref");
                 String ref = refElement == null ? null : refElement.getAsString();
                 boolean isAttack = ref != null && ref.equals("attack_hitbox");
-                listBuilder.add(new Hitbox(elemObject.get("name").getAsString(), new Vec3(pos[0] / 16, pos[1] / 16, pos[2] / 16), width, height, ref, isAttack));
+                listBuilder.add(new HitboxData(elemObject.get("name").getAsString(), new Vec3(pos[0] / 16, pos[1] / 16, pos[2] / 16), width, height, ref, isAttack));
             }
             builder.put(fileEntry.getKey().getPath(), listBuilder.build());
         }
         entities = builder.build();
     }
 
-    public List<Hitbox> getHitboxes(String entityName) {
+    public List<HitboxData> getHitboxes(String entityName) {
         return entities.get(entityName);
     }
 
-    public record Hitbox(String name, Vec3 pos, float width, float height, String ref, boolean isAttackBox) {
+    public record HitboxData(String name, Vec3 pos, float width, float height, String ref, boolean isAttackBox) {
         public float getFrustumWidthRadius() {
             return (float) Math.max(Math.abs(pos.x) + width / 2, Math.abs(pos.z) + width / 2);
         }

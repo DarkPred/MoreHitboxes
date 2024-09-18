@@ -2,18 +2,23 @@ package com.github.darkpred.multipartsupport.mixin;
 
 import com.github.darkpred.multipartsupport.entity.MultiPart;
 import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.extensions.IForgePlayer;
+import net.minecraftforge.entity.PartEntity;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import javax.annotation.Nullable;
+import java.util.List;
+
 @Mixin(Entity.class)
-//TODO: I think this is how its done. Maybe have to extend LivingEntity instead. https://fabricmc.net/wiki/tutorial:interface_injection
-//TODO: Nvm this isnt on forge
-public abstract class EntityMixin {
+public abstract class EntityMixin implements IForgePlayer {
 
     @Inject(method = "refreshDimensions", at = @At("RETURN"))
     public void refreshDimensionsForParts(CallbackInfo ci) {

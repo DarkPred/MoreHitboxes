@@ -7,10 +7,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public abstract class Example extends Mob implements MultiPartEntity {
@@ -19,8 +17,8 @@ public abstract class Example extends Mob implements MultiPartEntity {
     private float frustumWidthRadius;
     private float frustumHeightRadius;
     public long attackBoxEndTime;
-    public final Map<String, EntityHitboxManager.Hitbox> attackBoxes = new HashMap<>();
-    public final Map<EntityHitboxManager.Hitbox, Vec3> activeAttackBoxes = new HashMap<>();
+    public final Map<String, EntityHitboxManager.HitboxData> attackBoxes = new HashMap<>();
+    public final Map<EntityHitboxManager.HitboxData, Vec3> activeAttackBoxes = new HashMap<>();
     private AABB attackBounds = new AABB(0, 0, 0, 0, 0, 0);
     private AABB cullingBounds = new AABB(0, 0, 0, 0, 0, 0);
     private final PlacholderName<Example> placholderName = PlacholderName.get(this, resourceLocation);
@@ -29,23 +27,6 @@ public abstract class Example extends Mob implements MultiPartEntity {
         super(entityType, level);
         this.attackBounds = makeAttackBounds();
         this.cullingBounds = makeBoundingBoxForCulling();
-    }
-
-    /**
-     * @return The child parts of this entity.
-     * @implSpec On the forge classpath this implementation should return objects that inherit from PartEntity instead of Entity.
-     */
-    public List<MultiPart> getCustomParts() {
-        return parts;
-    }
-
-    /**
-     * @param ref the name of the bone the hitbox is attached to
-     * @return the hitbox attached to the given bone
-     */
-    @Nullable
-    public MultiPart getCustomPart(String ref) {
-        return partsByRef.get(ref);
     }
 
     @SuppressWarnings("java:S2589")
@@ -95,25 +76,6 @@ public abstract class Example extends Mob implements MultiPartEntity {
     }
 
     @Override
-    public void setId(int id) {
-        super.setId(id);
-        for (int i = 0; i < parts.size(); ++i) {
-            parts.get(i).getEntity().setId(id + i + 1);
-        }
-    }
-
-    @Override
-    public void remove(RemovalReason reason) {
-        super.remove(reason);
-        if (isCustomMultiPart()) {
-            //Ensures that the callbacks get called. Probably not necessary because the multiparts are not added to the server
-            for (MultiPart part : parts) {
-                part.getEntity().remove(reason);
-            }
-        }
-    }
-
-    @Override
     public void onClientRemoval() {
         super.onClientRemoval();
         if (isCustomMultiPart()) {
@@ -125,21 +87,6 @@ public abstract class Example extends Mob implements MultiPartEntity {
         ((PrehistoricGeoRenderer<? extends Example>) Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(this)).removeTickForEntity(this);
     }
 
-    public boolean hurt(Entity part, DamageSource source, float damage) {
-        return hurt(source, damage);
-    }
-
-
-    @Override
-    public void aiStep() {
-        super.aiStep();
-        if (isCustomMultiPart()) {
-            for (MultiPart part : parts) {
-                part.updatePosition();
-            }
-        }
-    }
-
     @Override
     public void tick() {
         super.tick();
@@ -148,9 +95,9 @@ public abstract class Example extends Mob implements MultiPartEntity {
             if (level.getGameTime() > attackBoxEndTime) {
                 activeAttackBoxes.clear();
             }
-            for (Map.Entry<EntityHitboxManager.Hitbox, Vec3> entry : activeAttackBoxes.entrySet()) {
-                EntityHitboxManager.Hitbox hitbox = entry.getKey();
-                EntityDimensions size = EntityDimensions.scalable(hitbox.width(), hitbox.height()).scale(getScale());
+            for (Map.Entry<EntityHitboxManager.HitboxData, Vec3> entry : activeAttackBoxes.entrySet()) {
+                EntityHitboxManager.HitboxData hitboxData = entry.getKey();
+                EntityDimensions size = EntityDimensions.scalable(hitboxData.width(), hitboxData.height()).scale(getScale());
                 AABB aabb = size.makeBoundingBox(entry.getValue());
                 if (Minecraft.getInstance().player.getBoundingBox().intersects(aabb)) {
                     activeAttackBoxes.clear();
@@ -159,5 +106,10 @@ public abstract class Example extends Mob implements MultiPartEntity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean partHurt(MultiPart<?> multiPart, @NotNull DamageSource source, float amount) {
+        return hurt(source, amount);
     }
 }

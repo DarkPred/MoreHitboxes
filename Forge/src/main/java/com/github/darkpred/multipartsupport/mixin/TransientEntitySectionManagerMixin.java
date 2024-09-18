@@ -1,5 +1,8 @@
 package com.github.darkpred.multipartsupport.mixin;
 
+import com.github.darkpred.multipartsupport.CommonClass;
+import com.github.darkpred.multipartsupport.entity.MultiPart;
+import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
 import net.minecraft.core.SectionPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.entity.*;
@@ -20,19 +23,20 @@ public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess>
     EntitySectionStorage<T> sectionStorage;
 
     /**
-     * Vanilla hitresults stop working if the bounding box of an entity is in an empty EntitySection.
-     * There are multiple ways to get around this, and we have opted to manually add/remove the part entities to/from their correct EntitySections.
+     * Vanilla hit results stop working if the bounding box of an entity is in an empty EntitySection.
+     * There are multiple ways to get around this and in this case the implementation manually adds/removes the part
+     * entities to/from their correct EntitySections.
      *
      * @see EntitySection
      * @see EntitySectionStorage#getEntities(AABB, Consumer)
      */
     @Inject(method = "addEntity", at = @At("HEAD"))
     private void addPartEntitiesToSections(T entity, CallbackInfo ci) {
-        if (entity instanceof Prehistoric prehistoric && prehistoric.isCustomMultiPart()) {
-            for (MultiPart part : prehistoric.getCustomParts()) {
-                long l = SectionPos.asLong(part.getParent().blockPosition());
-                EntitySection<T> section = this.sectionStorage.getOrCreateSection(l);
+        if (entity instanceof MultiPartEntity multiPartEntity && multiPartEntity.getPlaceHolderName().hasCustomParts()) {
+            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                 T partEntity = (T) part.getEntity();
+                long l = SectionPos.asLong(partEntity.blockPosition());
+                EntitySection<T> section = this.sectionStorage.getOrCreateSection(l);
                 section.add(partEntity);
                 partEntity.setLevelCallback(new EntityInLevelCallback() {
                     private long currentSectionKey = l;
@@ -43,7 +47,7 @@ public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess>
                         long newSectionKey = SectionPos.asLong(partEntity.blockPosition());
                         if (newSectionKey != currentSectionKey) {
                             if (!currentSection.remove(partEntity)) {
-                                Fossil.LOGGER.warn("PrehistoricMultiPart {} wasn't found in section {} (moving to {})", partEntity, SectionPos.of(currentSectionKey), newSectionKey);
+                                CommonClass.LOGGER.warn("MultiPart {} wasn't found in section {} (moving to {})", partEntity, SectionPos.of(currentSectionKey), newSectionKey);
                             }
                             removeSectionIfEmpty(currentSectionKey, currentSection);
                             EntitySection<T> newSection = sectionStorage.getOrCreateSection(newSectionKey);
@@ -56,7 +60,7 @@ public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess>
                     @Override
                     public void onRemove(Entity.RemovalReason reason) {
                         if (!currentSection.remove(partEntity)) {
-                            Fossil.LOGGER.warn("PrehistoricMultiPart {} wasn't found in section {} (destroying due to {})", partEntity, SectionPos.of(currentSectionKey), reason);
+                            CommonClass.LOGGER.warn("MultiPart {} wasn't found in section {} (destroying due to {})", partEntity, SectionPos.of(currentSectionKey), reason);
                         }
                         partEntity.setLevelCallback(NULL);
                         removeSectionIfEmpty(currentSectionKey, currentSection);

@@ -22,12 +22,12 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity> extends Entity imp
     @Nullable
     private AnimationOverride animationOverride;
 
-    public FabricMultiPart(T parent, EntityHitboxManager.Hitbox hitbox) {
+    public FabricMultiPart(T parent, EntityHitboxManager.HitboxData hitboxData) {
         super(parent.getType(), parent.level);
         this.parent = parent;
-        this.size = EntityDimensions.scalable(hitbox.width(), hitbox.height());
-        this.offset = hitbox.pos();
-        this.name = hitbox.name();
+        this.size = EntityDimensions.scalable(hitboxData.width(), hitboxData.height());
+        this.offset = hitboxData.pos();
+        this.name = hitboxData.name();
         this.refreshDimensions();
     }
 
@@ -125,8 +125,8 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity> extends Entity imp
     static class FabricMultiPartFactory implements MultiPart.Factory {
 
        @Override
-       public <T extends Mob & MultiPartEntity> MultiPart<T> create(T parent, EntityHitboxManager.Hitbox hitbox) {
-           return new FabricMultiPart<>(parent, hitbox);
+       public <T extends Mob & MultiPartEntity> MultiPart<T> create(T parent, EntityHitboxManager.HitboxData hitboxData) {
+           return new FabricMultiPart<>(parent, hitboxData);
        }
    }
 }

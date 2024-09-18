@@ -1,6 +1,7 @@
 package com.github.darkpred.multipartsupport.mixin;
 
-import net.minecraft.world.entity.Entity;
+import com.github.darkpred.multipartsupport.MultiPartEntityHitResult;
+import com.github.darkpred.multipartsupport.entity.MultiPart;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.EntityHitResult;
 import org.spongepowered.asm.mixin.Mixin;
@@ -8,6 +9,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * Uses {@link MultiPartEntityHitResult} to add the correct part to the EntityHitResult
+ */
 @Mixin(ProjectileUtil.class)
 public abstract class ProjectileUtilMixin {
 
@@ -16,9 +20,10 @@ public abstract class ProjectileUtilMixin {
         if (cir.getReturnValue() == null) {
             return;
         }
-        Entity entity = cir.getReturnValue().getEntity();
-        if (entity instanceof MultiPart part) {
-            cir.setReturnValue(new EntityHitResult(part.getParent(), cir.getReturnValue().getLocation()));
+        if (cir.getReturnValue().getEntity() instanceof MultiPart<?> part) {
+            EntityHitResult hitResult = new EntityHitResult(part.getParent(), cir.getReturnValue().getLocation());
+            ((MultiPartEntityHitResult)hitResult).multiPartSupport$setMultiPart(part);
+            cir.setReturnValue(hitResult);
         }
     }
 }

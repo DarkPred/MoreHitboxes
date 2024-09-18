@@ -23,24 +23,5 @@ public class CommonClass {
     // invoked from a mod loader specific project like Forge or Fabric.
     public static void init() {
 
-        LOGGER.info("Hello from Common init on {}! we are currently in a {} environment!", Services.PLATFORM.getPlatformName(), Services.PLATFORM.isDevelopmentEnvironment() ? "development" : "production");
-        LOGGER.info("Diamond Item >> {}", Registry.ITEM.getKey(Items.DIAMOND));
-    }
-
-    // This method serves as a hook to modify item tooltips. The vanilla game
-    // has no mechanism to load tooltip listeners so this must be registered
-    // by a mod loader like Forge or Fabric.
-    public static void onItemTooltip(ItemStack stack, TooltipFlag context, List<Component> tooltip) {
-
-        if (!stack.isEmpty()) {
-
-            final FoodProperties food = stack.getItem().getFoodProperties();
-
-            if (food != null) {
-
-                tooltip.add(new TextComponent("Nutrition: " + food.getNutrition()));
-                tooltip.add(new TextComponent("Saturation: " + food.getSaturationModifier()));
-            }
-        }
     }
 }

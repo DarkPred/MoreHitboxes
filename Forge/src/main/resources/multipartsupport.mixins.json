@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.github.darkpred.multipartsupport.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "EntityHitResultMixin", "EntityMixin", "MobMixin", "PlayerMixin", "ProjectileUtilMixin", "TransientEntitySectionManagerMixin"
+  ],
+  "client": [
+    "AbstractClientPlayerMixin", "MinecraftMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  

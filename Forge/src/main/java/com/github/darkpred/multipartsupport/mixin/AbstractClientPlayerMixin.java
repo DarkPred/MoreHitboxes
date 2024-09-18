@@ -1,5 +1,6 @@
 package com.github.darkpred.multipartsupport.mixin;
 
+import com.github.darkpred.multipartsupport.entity.MultiPart;
 import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -21,8 +22,8 @@ public abstract class AbstractClientPlayerMixin extends Player {
         if (super.isCloseEnough(entity, dist)) {
             return true;
         }
-        if (entity instanceof MultiPartEntity prehistoric && prehistoric.isCustomMultiPart()) {
-            for (MultiPart part : prehistoric.getCustomParts()) {
+        if (entity instanceof MultiPartEntity multiPartEntity) {
+            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                 if (isCloseEnough(part.getEntity(), dist)) {
                     return true;
                 }
