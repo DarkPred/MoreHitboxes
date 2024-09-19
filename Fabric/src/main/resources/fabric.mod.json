@@ -3,19 +3,17 @@
     "id": "multipartsupport",
     "version": "${version}",
   
-    "name": "Example Mod",
+    "name": "MultiPartSupport",
     "description": "This is an example description! Tell everyone what your mod is about!",
     "authors": [
-      "Me!"
+      "DarkPred"
     ],
     "contact": {
-      "homepage": "https://fabricmc.net/",
-      "sources": "https://github.com/FabricMC/fabric-example-mod"
+      "homepage": "https://www.curseforge.com/minecraft/mc-mods/nocreativedrift",
+      "sources": "https://github.com/DarkPred/NoCreativeDriftFabric/issues"
     },
-  
-    "license": "CC0-1.0",
+    "license": "MIT",
     "icon": "assets/multipartsupport/icon.png",
-  
     "environment": "*",
     "entrypoints": {
       "main": [
@@ -31,9 +29,6 @@
       "fabric": "*",
       "minecraft": "1.18.x",
       "java": ">=17"
-    },
-    "suggests": {
-      "another-mod": "*"
     }
   }
   

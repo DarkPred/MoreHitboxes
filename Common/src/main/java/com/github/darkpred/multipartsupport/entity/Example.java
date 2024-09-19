@@ -5,7 +5,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-
+//TODO: Change license to Mit, add icon
 public class Example extends Mob implements MultiPartEntity<Example> {
 
     private final PlaceHolderName<Example> placeHolderName = PlaceHolderName.create(this);

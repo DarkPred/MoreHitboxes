@@ -1,3 +1,20 @@
+import net.fabricmc.loom.api.mappings.layered.MappingContext
+import net.fabricmc.loom.api.mappings.layered.MappingLayer
+import net.fabricmc.loom.api.mappings.layered.spec.FileMappingsSpecBuilder
+import net.fabricmc.loom.api.mappings.layered.spec.LayeredMappingSpecBuilder
+import net.fabricmc.loom.api.mappings.layered.spec.MappingsSpec
+import net.fabricmc.loom.api.mappings.layered.spec.MojangMappingsSpecBuilder
+import net.fabricmc.loom.api.mappings.layered.spec.ParchmentMappingsSpecBuilder
+import net.fabricmc.mappingio.MappingVisitor
+import net.fabricmc.loom.api.mappings.layered.MappingContext
+import net.fabricmc.loom.api.mappings.layered.MappingLayer
+import net.fabricmc.loom.api.mappings.layered.MappingsNamespace
+import net.fabricmc.loom.api.mappings.layered.spec.MappingsSpec
+import net.fabricmc.loom.configuration.providers.mappings.intermediary.IntermediaryMappingLayer
+import net.fabricmc.mappingio.MappingVisitor
+import net.fabricmc.mappingio.tree.MappingTreeView
+import net.fabricmc.mappingio.tree.MemoryMappingTree
+
 plugins {
     id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'maven-publish'
@@ -14,12 +31,17 @@ base {
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraftVersion}"
-    mappings loom.officialMojangMappings()
+    mappings(loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-1.18.2:$parchmentDate@zip")
+        addLayer(new FixGeckoLibSpec())
+    })
     modImplementation "net.fabricmc:fabric-loader:${fabricLoaderVersion}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
     implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
     implementation project(":Common")
     compileOnly(annotationProcessor('com.google.auto.service:auto-service:1.1.1'))
+    modCompileOnly("software.bernie.geckolib:geckolib-fabric-1.18:3.0.80")
 }
 
 loom {
@@ -68,5 +90,43 @@ publishing {
         maven {
             url "file://" + System.getenv("local_maven")
         }
+    }
+}
+class FixGeckoLibSpec implements MappingsSpec<FixGeckoLibLayer> {
+
+    @Override
+    FixGeckoLibLayer createLayer(MappingContext context) {
+        return new FixGeckoLibLayer()
+    }
+}
+
+class FixGeckoLibLayer implements MappingLayer {
+    private final Map METHOD_NAME_MAP = Map.of("getTextureLocation", "_getTextureLocation");
+
+    @Override
+    void visit(MappingVisitor mappingVisitor) throws IOException {
+        MemoryMappingTree memoryMappingTree = (MemoryMappingTree) mappingVisitor
+        var getClasses = MappingTreeView.getDeclaredMethod("getClasses")
+        var getMethods = MappingTreeView.ClassMappingView.getDeclaredMethod("getMethods")
+        var getName = MappingTreeView.ElementMappingView.getDeclaredMethod("getName", String.class)
+        var entryClass = Class.forName("net.fabricmc.mappingio.tree.MemoryMappingTree\$Entry")
+        var srcNameField = entryClass.getDeclaredField("srcName")
+        srcNameField.setAccessible(true)
+        for (final def classEntry in getClasses.invoke(memoryMappingTree)) {
+            for (final def methodEntry in getMethods.invoke(classEntry)) {
+                var it = METHOD_NAME_MAP.get(getName.invoke(methodEntry, MappingsNamespace.NAMED.toString()))
+                if (it != null) srcNameField.set(methodEntry, it)
+            }
+        }
+    }
+
+    @Override
+    MappingsNamespace getSourceNamespace() {
+        return MappingsNamespace.NAMED;
+    }
+
+    @Override
+    List<Class<? extends MappingLayer>> dependsOn() {
+        return List.of(IntermediaryMappingLayer.class)
     }
 }
