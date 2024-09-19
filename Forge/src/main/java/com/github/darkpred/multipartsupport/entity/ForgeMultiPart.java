@@ -1,5 +1,6 @@
 package com.github.darkpred.multipartsupport.entity;
 
+import com.google.auto.service.AutoService;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.world.InteractionHand;
@@ -116,7 +117,8 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
         throw new UnsupportedOperationException();
     }
 
-    static class ForgeMultiPartFactory implements MultiPart.Factory {
+    @AutoService(MultiPart.Factory.class)
+    public static class ForgeMultiPartFactory implements MultiPart.Factory {
 
         @Override
         public <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, EntityHitboxManager.HitboxData hitboxData) {

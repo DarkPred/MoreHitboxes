@@ -4,9 +4,11 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+
 //TODO: Change license to Mit, add icon
-public class Example extends Mob implements MultiPartEntity<Example> {
+public class Example extends Mob implements GeckoLibMultiPartEntity<Example> {
 
     private final PlaceHolderName<Example> placeHolderName = PlaceHolderName.create(this);
 
@@ -22,5 +24,15 @@ public class Example extends Mob implements MultiPartEntity<Example> {
     @Override
     public boolean partHurt(MultiPart<?> multiPart, @NotNull DamageSource source, float amount) {
         return hurt(source, amount);
+    }
+
+    @Override
+    public void setAnchorPos(String boneName, Vec3 localPos) {
+
+    }
+
+    @Override
+    public boolean canSetAnchorPos(String boneName) {
+        return false;
     }
 }

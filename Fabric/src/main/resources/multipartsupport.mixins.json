@@ -4,12 +4,10 @@
   "package": "com.github.darkpred.multipartsupport.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "ChunkMapMixin", "EntityCallbacksMixin", "EntityHitResultMixin", "EntityMixin", "LevelMixin", "MobMixin", "PlayerMixin",
-    "ProjectileUtilMixin", "ServerGamePacketListenerImplMixin", "ServerLevelMixin", "ServerPlayerMixin", "TransientEntitySectionManagerMixin"
+    "ChunkMapMixin", "EntityCallbacksMixin", "EntityHitResultMixin", "EntityMixin", "LevelMixin", "MobMixin", "PlayerMixin", "ProjectileUtilMixin",
+    "ServerGamePacketListenerImplMixin", "ServerLevelMixin", "ServerPlayerMixin", "TransientEntitySectionManagerMixin"
   ],
-  "client": [
-    "EntityRenderDispatcherMixin", "MinecraftMixin"
-  ],
+  "client": ["EntityRenderDispatcherMixin", "GeoEntityRendererMixin", "MinecraftMixin"],
   "injectors": {
     "defaultRequire": 1
   }

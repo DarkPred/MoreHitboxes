@@ -1,6 +1,4 @@
-package com.github.darkpred.multipartsupport;
-
-import com.github.darkpred.multipartsupport.entity.MultiPart;
+package com.github.darkpred.multipartsupport.entity;
 
 public interface MultiPartEntityHitResult {
 

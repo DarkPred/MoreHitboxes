@@ -1,6 +1,6 @@
 package com.github.darkpred.multipartsupport.mixin;
 
-import com.github.darkpred.multipartsupport.MultiPartEntityHitResult;
+import com.github.darkpred.multipartsupport.entity.MultiPartEntityHitResult;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Minecraft;

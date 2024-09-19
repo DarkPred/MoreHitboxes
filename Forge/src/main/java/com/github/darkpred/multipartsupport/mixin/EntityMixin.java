@@ -1,26 +1,23 @@
 package com.github.darkpred.multipartsupport.mixin;
 
+import com.github.darkpred.multipartsupport.entity.GeckoLibMultiPartEntity;
 import com.github.darkpred.multipartsupport.entity.MultiPart;
 import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
+import com.github.darkpred.multipartsupport.entity.MultiPartGeoEntityRenderer;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.common.extensions.IForgePlayer;
-import net.minecraftforge.entity.PartEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import javax.annotation.Nullable;
-import java.util.List;
 
 @Mixin(Entity.class)
-public abstract class EntityMixin implements IForgePlayer {
+public abstract class EntityMixin {
 
     @Shadow
     public abstract double getX();
@@ -31,7 +28,8 @@ public abstract class EntityMixin implements IForgePlayer {
     @Shadow
     public abstract double getZ();
 
-    @Shadow public abstract void setPos(double x, double y, double z);
+    @Shadow
+    public abstract void setPos(double x, double y, double z);
 
     @Inject(method = "refreshDimensions", at = @At("HEAD"))
     public void saveYPos(CallbackInfo ci, @Share("oldY") LocalDoubleRef oldY) {
@@ -98,6 +96,12 @@ public abstract class EntityMixin implements IForgePlayer {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                 part.getEntity().remove(Entity.RemovalReason.DISCARDED);
+            }
+            if (this instanceof GeckoLibMultiPartEntity<?>) {
+                var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(((Entity) (Object) this));
+                if (renderer instanceof MultiPartGeoEntityRenderer renderer1) {
+                    renderer1.removeTickForEntity(((Entity) (Object) this));
+                }
             }
         }
     }

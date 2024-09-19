@@ -75,6 +75,9 @@ processResources {
 tasks.withType(JavaCompile) {
     source(project(":Common").sourceSets.main.allSource)
 }
+javadoc {
+    failOnError = false
+}
 
 publishing {
     publications {
@@ -92,11 +95,17 @@ publishing {
         }
     }
 }
+
 class FixGeckoLibSpec implements MappingsSpec<FixGeckoLibLayer> {
 
     @Override
     FixGeckoLibLayer createLayer(MappingContext context) {
         return new FixGeckoLibLayer()
+    }
+
+    @Override
+    int hashCode() {
+        return "FixGeckoLibLayer".hashCode()
     }
 }
 

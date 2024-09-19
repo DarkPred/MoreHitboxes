@@ -28,11 +28,12 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
     @Shadow
     protected T animatable;
     @Unique
-    private final Map<Integer, Integer> tickForEntity = new HashMap<>();
+    private final Map<Integer, Integer> multiPartSupport$tickForEntity = new HashMap<>();
 
-    @Inject(method = "renderRecursively", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lsoftware/bernie/geckolib3/renderers/geo/GeoEntityRenderer;renderCube(Lsoftware/bernie/geckolib3/geo/render/built/GeoCube;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"))
+    @Inject(method = "renderRecursively", remap=false, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lsoftware/bernie/geckolib3/renderers/geo/GeoEntityRenderer;renderCube(Lsoftware/bernie/geckolib3/geo/render/built/GeoCube;Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"))
     public void getBonePositions(GeoBone bone, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, CallbackInfo ci) {
         //TODO: Move this into non mixin function for easier debugging
+        System.out.println(blue);
         if (animatable instanceof GeckoLibMultiPartEntity<?> multiPartEntity && entityTickMatchesRenderTick(animatable)) {
             MultiPart<?> part = multiPartEntity.getPlaceHolderName().getCustomPart(bone.name);
             if (part != null) {
@@ -56,18 +57,18 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
     @Unique
     private int getTickForEntity(Entity entity) {
         //TODO: Maybe tickCount without +1
-        return tickForEntity.computeIfAbsent(entity.getId(), integer -> entity.tickCount + 1);
+        return multiPartSupport$tickForEntity.computeIfAbsent(entity.getId(), integer -> entity.tickCount + 1);
     }
 
     @Unique
     public void removeTickForEntity(Entity entity) {
-        tickForEntity.remove(entity.getId());
+        multiPartSupport$tickForEntity.remove(entity.getId());
     }
 
     @Unique
     public void updateTickForEntity(Entity entity) {
         if (getTickForEntity(entity) <= entity.tickCount) {
-            tickForEntity.put(entity.getId(), entity.tickCount);
+            multiPartSupport$tickForEntity.put(entity.getId(), entity.tickCount);
         }
     }
 }
