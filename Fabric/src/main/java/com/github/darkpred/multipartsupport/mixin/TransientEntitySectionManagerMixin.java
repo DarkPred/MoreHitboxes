@@ -38,6 +38,7 @@ public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess>
                 long l = SectionPos.asLong(partEntity.blockPosition());
                 EntitySection<T> section = this.sectionStorage.getOrCreateSection(l);
                 section.add(partEntity);
+                final EntitySectionStorage<T> unmappedSectionStorage = sectionStorage;
                 partEntity.setLevelCallback(new EntityInLevelCallback() {
                     private long currentSectionKey = l;
                     private EntitySection<T> currentSection = section;
@@ -50,7 +51,7 @@ public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess>
                                 CommonClass.LOGGER.warn("MultiPart {} wasn't found in section {} (moving to {})", partEntity, SectionPos.of(currentSectionKey), newSectionKey);
                             }
                             removeSectionIfEmpty(currentSectionKey, currentSection);
-                            EntitySection<T> newSection = sectionStorage.getOrCreateSection(newSectionKey);
+                            EntitySection<T> newSection = unmappedSectionStorage.getOrCreateSection(newSectionKey);
                             newSection.add(partEntity);
                             currentSection = newSection;
                             currentSectionKey = newSectionKey;
