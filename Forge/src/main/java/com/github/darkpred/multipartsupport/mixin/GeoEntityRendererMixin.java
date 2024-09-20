@@ -1,9 +1,7 @@
 package com.github.darkpred.multipartsupport.mixin;
 
-import com.github.darkpred.multipartsupport.entity.AnimationOverride;
-import com.github.darkpred.multipartsupport.entity.GeckoLibMultiPartEntity;
-import com.github.darkpred.multipartsupport.entity.MultiPart;
-import com.github.darkpred.multipartsupport.entity.MultiPartGeoEntityRenderer;
+import com.github.darkpred.multipartsupport.api.IAttackBoxPlaceHolder;
+import com.github.darkpred.multipartsupport.entity.*;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3d;
@@ -32,7 +30,6 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
 
     @Inject(method = "renderRecursively", require = 0, remap = false, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lsoftware/bernie/geckolib3/geo/render/built/GeoBone;cubesAreHidden()Z"))
     public void getBonePositions(GeoBone bone, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, CallbackInfo ci) {
-        //TODO: Move this into non mixin function for easier debugging
         if (animatable instanceof GeckoLibMultiPartEntity<?> multiPartEntity && entityTickMatchesRenderTick(animatable)) {
             MultiPart<?> part = multiPartEntity.getPlaceHolderName().getCustomPart(bone.name);
             if (part != null) {
@@ -43,8 +40,14 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
             } else if (multiPartEntity.canSetAnchorPos(bone.name)) {
                 Vector3d localPos = bone.getLocalPosition();
                 multiPartEntity.setAnchorPos(bone.name, new Vec3(localPos.x, localPos.y, localPos.z));
+            } else {
+                IAttackBoxPlaceHolder placeholder = multiPartEntity.getPlaceHolderName().attackBoxPlaceholder;
+                EntityHitboxManager.HitboxData attackBox = placeholder.getAttackBox(bone.name);
+                if (attackBox != null && placeholder.isAttackBoxActive(attackBox)) {
+                    Vector3d worldPos = bone.getWorldPosition();
+                    multiPartEntity.getPlaceHolderName().attackBoxPlaceholder.moveAttackBox(attackBox, new Vec3(worldPos.x, worldPos.y, worldPos.z));
+                }
             }
-            //TODO: Attackbox stuff
         }
     }
 

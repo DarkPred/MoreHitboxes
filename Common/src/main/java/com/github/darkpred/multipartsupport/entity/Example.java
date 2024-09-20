@@ -22,7 +22,7 @@ public class Example extends Mob implements GeckoLibMultiPartEntity<Example> {
     }
 
     @Override
-    public boolean partHurt(MultiPart<?> multiPart, @NotNull DamageSource source, float amount) {
+    public boolean partHurt(MultiPart<Example> multiPart, @NotNull DamageSource source, float amount) {
         return hurt(source, amount);
     }
 

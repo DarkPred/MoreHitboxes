@@ -22,7 +22,7 @@ import java.util.Map;
  *
  */
 //TODO: Link blockbench plugin or add to repo
-
+//Not API
 public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
     private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
     public static final EntityHitboxManager HITBOX_DATA = new EntityHitboxManager(GSON);
@@ -53,7 +53,9 @@ public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
 
                 JsonElement refElement = elemObject.get("ref");
                 String ref = refElement == null ? "" : refElement.getAsString();
-                boolean isAttack = ref != null && ref.equals("attack_hitbox");
+                //TODO: Update blockbench plugin
+                JsonElement attackElement = elemObject.get("is_attack_box");
+                boolean isAttack = attackElement != null && attackElement.getAsBoolean();
                 listBuilder.add(new HitboxData(elemObject.get("name").getAsString(), new Vec3(pos[0] / 16, pos[1] / 16, pos[2] / 16), width, height, ref, isAttack));
             }
             builder.put(fileEntry.getKey(), listBuilder.build());
@@ -85,6 +87,7 @@ public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
         return entities;
     }
 
+    //API
     public record HitboxData(String name, Vec3 pos, float width, float height, String ref, boolean isAttackBox) {
         public float getFrustumWidthRadius() {
             return (float) Math.max(Math.abs(pos.x) + width / 2, Math.abs(pos.z) + width / 2);
