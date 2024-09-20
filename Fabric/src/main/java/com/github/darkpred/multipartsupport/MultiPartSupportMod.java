@@ -19,13 +19,14 @@ public class MultiPartSupportMod implements ModInitializer {
         ResourceLocation location = new ResourceLocation(CommonClass.MOD_ID, EntityHitboxManager.HITBOX_DATA.getName().toLowerCase());
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> {
             if (joined) {
-                ServerPlayNetworking.send(player, location, EntityHitboxManager.HITBOX_DATA.writeBuf(PacketByteBufs.create()));
-            }//TODO: Client receives empty buf
+                FriendlyByteBuf buf = PacketByteBufs.create();
+                EntityHitboxManager.HITBOX_DATA.writeBuf(buf);
+                ServerPlayNetworking.send(player, location, buf);
+            }
         });
         ClientPlayNetworking.registerGlobalReceiver(location, (client, handler, buf, responseSender) -> {
-            client.execute(() -> {
-                EntityHitboxManager.HITBOX_DATA.replaceData(buf.readMap(HashMap::new, FriendlyByteBuf::readResourceLocation, EntityHitboxManager::readBuf));
-            });
+            var map = buf.readMap(HashMap::new, FriendlyByteBuf::readResourceLocation, EntityHitboxManager::readBuf);
+            client.execute(() -> EntityHitboxManager.HITBOX_DATA.replaceData(map));
         });
     }
 }

@@ -66,7 +66,7 @@ public abstract class EntityMixin {
 
     @Inject(method = "setBoundingBox", at = @At("RETURN"))
     public void updateBounds(AABB aABB, CallbackInfo ci) {
-        if (this instanceof MultiPartEntity<?> multiPartEntity) {
+        if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getPlaceHolderName() != null) {
             multiPartEntity.getPlaceHolderName().makeAttackBounds();
             multiPartEntity.getPlaceHolderName().makeBoundingBoxForCulling();
         }

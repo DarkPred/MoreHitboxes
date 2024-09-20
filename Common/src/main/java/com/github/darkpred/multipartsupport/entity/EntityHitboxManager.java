@@ -66,23 +66,15 @@ public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
     }
 
     public static List<HitboxData> readBuf(FriendlyByteBuf buf) {
-        int size = buf.readInt();
-        ImmutableList.Builder<HitboxData> listBuilder = ImmutableList.builder();
-        for (int i = 0; i < size; i++) {
-            listBuilder.add(HitboxData.readBuf(buf));
-        }
-        return listBuilder.build();
+        return buf.readList(HitboxData::readBuf);
     }
 
     private static void writeBuf(FriendlyByteBuf buf, List<HitboxData> hitboxes) {
-        for (HitboxData hitbox : hitboxes) {
-            HitboxData.writeBuf(buf, hitbox);
-        }
+        buf.writeCollection(hitboxes, HitboxData::writeBuf);
     }
 
-    public FriendlyByteBuf writeBuf(FriendlyByteBuf buf) {
+    public void writeBuf(FriendlyByteBuf buf) {
         buf.writeMap(entities, (buffer, key) -> buf.writeResourceLocation(key), EntityHitboxManager::writeBuf);
-        return buf;
     }
 
     public List<HitboxData> getHitboxes(ResourceLocation entity) {

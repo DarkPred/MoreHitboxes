@@ -101,8 +101,15 @@ javadoc {
     failOnError = false
 }
 
+jar {
+    setArchiveClassifier('slim')
+}
+tasks.jarJar {
+    setArchiveClassifier('')
+}
 
 jar.finalizedBy('reobfJar')
+tasks.jarJar.finalizedBy('reobfJarJar')
 
 publishing {
     publications {
@@ -110,7 +117,15 @@ publishing {
             groupId project.group
             artifactId project.archivesBaseName
             version project.version
-            artifact jar
+            artifact tasks.jarJar
+            from components.java
+            pom.withXml {
+                asNode().dependencies.dependency.each { dep ->
+                    if(dep.artifactId.last().value().last() in ["forge", "mixinextras-forge"]) {
+                        assert dep.parent().remove(dep)
+                    }
+                }
+            }
         }
     }
     repositories {

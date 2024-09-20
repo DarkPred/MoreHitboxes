@@ -30,7 +30,7 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
     @Unique
     private final Map<Integer, Integer> multiPartSupport$tickForEntity = new HashMap<>();
 
-    @Inject(method = "renderRecursively", remap = false, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lsoftware/bernie/geckolib3/geo/render/built/GeoBone;cubesAreHidden()Z"))
+    @Inject(method = "renderRecursively", require = 0, remap = false, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lsoftware/bernie/geckolib3/geo/render/built/GeoBone;cubesAreHidden()Z"))
     public void getBonePositions(GeoBone bone, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, CallbackInfo ci) {
         //TODO: Move this into non mixin function for easier debugging
         if (animatable instanceof GeckoLibMultiPartEntity<?> multiPartEntity && entityTickMatchesRenderTick(animatable)) {
