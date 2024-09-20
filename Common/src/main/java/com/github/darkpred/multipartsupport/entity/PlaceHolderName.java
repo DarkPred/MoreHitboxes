@@ -46,7 +46,7 @@ public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> {
             } else {
                 MultiPart<T> part = Services.MULTI_PART.create(entity, hitboxData);
                 parts.add(part);
-                if (hitboxData.ref() != null) {
+                if (!hitboxData.ref().isBlank()) {
                     partsByRef.put(hitboxData.ref(), part);
                 }
                 //Caching this value might be overkill but this ensures that the entity will be visible even if parts are outside its bounding box
