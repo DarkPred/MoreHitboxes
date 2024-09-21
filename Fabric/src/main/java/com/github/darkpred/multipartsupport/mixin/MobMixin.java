@@ -26,7 +26,7 @@ public abstract class MobMixin extends LivingEntity {
                 part.updatePosition();
             }
             if (level instanceof ClientLevel clientLevel) {
-                multiPartEntity.getPlaceHolderName().attackBoxPlaceholder.clientTick(clientLevel);
+                multiPartEntity.getPlaceHolderName().getAttackBoxPlaceHolder().clientTick(clientLevel);
             }
         }
     }

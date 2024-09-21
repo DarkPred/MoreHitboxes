@@ -1,30 +1,33 @@
 package com.github.darkpred.multipartsupport.entity;
 
 import com.github.darkpred.multipartsupport.api.IAttackBoxPlaceHolder;
+import com.github.darkpred.multipartsupport.api.IPlaceHolderName;
 import com.github.darkpred.multipartsupport.client.AttackBoxPlaceholder;
 import com.github.darkpred.multipartsupport.platform.Services;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-//Not API
-public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> {
+
+@ApiStatus.Internal
+public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> implements IPlaceHolderName<T> {
     private final List<MultiPart<T>> parts = new ArrayList<>();
     private final Map<String, MultiPart<T>> partsByRef = new HashMap<>();
     private final T entity;
-    public final IAttackBoxPlaceHolder attackBoxPlaceholder;
-    public final boolean fixPosOnRefresh;
-    public final boolean usesAttackBounds;
+    private final IAttackBoxPlaceHolder attackBoxPlaceholder;
+    private final boolean fixPosOnRefresh;
+    private final boolean usesAttackBounds;
     private AABB attackBounds = new AABB(0, 0, 0, 0, 0, 0);
     private AABB cullingBounds = new AABB(0, 0, 0, 0, 0, 0);
     private float headRadius;
     private float frustumWidthRadius;
-    private float frustumHeightRadius;
+    private float frustumHeight;
 
     public PlaceHolderName(T entity, boolean fixPosOnRefresh, boolean usesAttackBounds) {
         this.entity = entity;
@@ -41,7 +44,8 @@ public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> {
 
     private void spawnHitBoxes(List<EntityHitboxManager.HitboxData> hitboxesData) {
         float maxFrustumWidthRadius = 0;
-        float maxFrustumHeightRadius = 0;
+        float maxFrustumHeight = 0;
+        //TODO: Clean up
         for (EntityHitboxManager.HitboxData hitboxData : hitboxesData) {
             if (hitboxData.isAttackBox()) {
                 attackBoxPlaceholder.addAttackBox(hitboxData.ref(), hitboxData);
@@ -58,75 +62,70 @@ public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> {
                 if (w > maxFrustumWidthRadius) {
                     maxFrustumWidthRadius = w;
                 }
-                float h = hitboxData.getFrustumHeightRadius();
-                if (h > maxFrustumHeightRadius) {
-                    maxFrustumHeightRadius = h;
+                float h = hitboxData.getFrustumHeight();
+                if (h > maxFrustumHeight) {
+                    maxFrustumHeight = h;
                 }
             }
         }
         frustumWidthRadius = maxFrustumWidthRadius;
-        frustumHeightRadius = maxFrustumHeightRadius;
+        frustumHeight = maxFrustumHeight;
     }
 
+    @Override
+    public IAttackBoxPlaceHolder getAttackBoxPlaceHolder() {
+        return attackBoxPlaceholder;
+    }
+
+    @Override
     public void makeBoundingBoxForCulling() {
         if (hasCustomParts()) {
-            cullingBounds = entity.makeBoundingBoxForCulling(frustumWidthRadius, frustumHeightRadius);
+            cullingBounds = entity.makeBoundingBoxForCulling(frustumWidthRadius, frustumHeight);
         } else {
             cullingBounds = entity.getBoundingBoxForCulling();
         }
     }
 
+    @Override
     public AABB getCullingBounds() {
         return cullingBounds;
     }
 
+    @Override
     public void makeAttackBounds() {
         if (!usesAttackBounds) {
             return;
         }
-        attackBounds = entity.makeAttackBox(getHeadRadius());
+        attackBounds = entity.makeAttackBoundingBox(getHeadRadius() * entity.getScale());
     }
 
+    @Override
     public AABB getAttackBounds() {
         return attackBounds;
     }
 
+    @Override
     public float getHeadRadius() {
-        return headRadius * entity.getScale();
+        return headRadius;
     }
 
-    //TODO: Javadoc
-
-    /**
-     * Returns {@code true} if
-     *
-     * @return {@code true} if
-     */
+    @Override
     public boolean hasCustomParts() {
         return !parts.isEmpty();
     }
 
-    /**
-     * @return The hitbox parts of this entity.
-     */
+    @Override
     public List<MultiPart<T>> getCustomParts() {
         return parts;
     }
 
-    /**
-     * @param ref the name of the bone the hitbox part is attached to
-     * @return the hitbox part attached to the given bone
-     */
-    @Nullable
-    public MultiPart<T> getCustomPart(String ref) {
+    @Override
+    public @Nullable MultiPart<T> getCustomPart(String ref) {
         return partsByRef.get(ref);
     }
 
-    public static <T extends Mob & MultiPartEntity<T>> PlaceHolderName<T> create(T entity, boolean fixPosOnRefresh, boolean usesAttackBounds) {
-        return new PlaceHolderName<>(entity, fixPosOnRefresh, usesAttackBounds);
-    }
-
-    public static <T extends Mob & MultiPartEntity<T>> PlaceHolderName<T> create(T entity) {
-        return create(entity, true, true);
+    @Override
+    public boolean fixPosOnRefresh() {
+        return fixPosOnRefresh;
     }
 }

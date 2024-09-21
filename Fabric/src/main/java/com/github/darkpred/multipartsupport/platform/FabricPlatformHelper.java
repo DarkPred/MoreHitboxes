@@ -3,7 +3,9 @@ package com.github.darkpred.multipartsupport.platform;
 import com.github.darkpred.multipartsupport.platform.services.IPlatformHelper;
 import com.google.auto.service.AutoService;
 import net.fabricmc.loader.api.FabricLoader;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 @AutoService(IPlatformHelper.class)
 public class FabricPlatformHelper implements IPlatformHelper {
 

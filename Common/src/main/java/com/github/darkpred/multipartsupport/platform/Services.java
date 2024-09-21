@@ -4,9 +4,11 @@ import com.github.darkpred.multipartsupport.CommonClass;
 import com.github.darkpred.multipartsupport.ResourcePackRegistry;
 import com.github.darkpred.multipartsupport.entity.MultiPart;
 import com.github.darkpred.multipartsupport.platform.services.IPlatformHelper;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.ServiceLoader;
 
+@ApiStatus.Internal
 public class Services {
 
     public static final IPlatformHelper PLATFORM = load(IPlatformHelper.class);

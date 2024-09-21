@@ -22,7 +22,7 @@ public abstract class EntityHitResultMixin implements MultiPartEntityHitResult {
     }
 
     @Override
-    public MultiPart<?> multiPartSupport$getMultiPart() {
+    public @Nullable MultiPart<?> multiPartSupport$getMultiPart() {
         return multiPartSupport$part;
     }
 }

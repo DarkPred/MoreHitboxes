@@ -42,7 +42,7 @@ public abstract class EntityMixin {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                 part.getEntity().refreshDimensions();
             }
-            if (multiPartEntity.getPlaceHolderName().fixPosOnRefresh) {
+            if (multiPartEntity.getPlaceHolderName().fixPosOnRefresh()) {
                 setPos(getX(), oldY.get(), getZ());
             }
         }

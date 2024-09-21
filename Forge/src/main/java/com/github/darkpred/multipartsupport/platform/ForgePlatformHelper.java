@@ -4,7 +4,9 @@ import com.github.darkpred.multipartsupport.platform.services.IPlatformHelper;
 import com.google.auto.service.AutoService;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 @AutoService(IPlatformHelper.class)
 public class ForgePlatformHelper implements IPlatformHelper {
 

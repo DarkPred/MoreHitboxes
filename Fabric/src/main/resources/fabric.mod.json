@@ -1,34 +1,28 @@
 {
-    "schemaVersion": 1,
-    "id": "multipartsupport",
-    "version": "${version}",
-  
-    "name": "MultiPartSupport",
-    "description": "This is an example description! Tell everyone what your mod is about!",
-    "authors": [
-      "DarkPred"
-    ],
-    "contact": {
-      "homepage": "https://www.curseforge.com/minecraft/mc-mods/nocreativedrift",
-      "sources": "https://github.com/DarkPred/NoCreativeDriftFabric/issues"
-    },
-    "license": "MIT",
-    "icon": "assets/multipartsupport/icon.png",
-    "environment": "*",
-    "entrypoints": {
-      "main": [
-        "com.github.darkpred.multipartsupport.MultiPartSupportMod"
-      ]
-    },
-    "mixins": [
-      "multipartsupport.mixins.json"
-    ],
-  
-    "depends": {
-      "fabricloader": ">=0.13",
-      "fabric": "*",
-      "minecraft": "1.18.x",
-      "java": ">=17"
-    }
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
+  "description": "${mod_description}",
+  "authors": ["${mod_author}"],
+  "contact": {
+  },
+  "license": "${mod_license}",
+  "icon": "assets/multipartsupport/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.github.darkpred.multipartsupport.MultiPartSupportMod"
+    ]
+  },
+  "mixins": [
+    "multipartsupport.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": "~${minecraft_version}",
+    "java": ">=17",
+    "fabric": "*"
   }
+}
   

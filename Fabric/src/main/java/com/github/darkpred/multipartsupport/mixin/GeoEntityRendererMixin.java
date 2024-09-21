@@ -41,11 +41,11 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
                 Vector3d localPos = bone.getLocalPosition();
                 multiPartEntity.setAnchorPos(bone.name, new Vec3(localPos.x, localPos.y, localPos.z));
             } else {
-                IAttackBoxPlaceHolder placeholder = multiPartEntity.getPlaceHolderName().attackBoxPlaceholder;
+                IAttackBoxPlaceHolder placeholder = multiPartEntity.getPlaceHolderName().getAttackBoxPlaceHolder();
                 EntityHitboxManager.HitboxData attackBox = placeholder.getAttackBox(bone.name);
                 if (attackBox != null && placeholder.isAttackBoxActive(attackBox)) {
                     Vector3d worldPos = bone.getWorldPosition();
-                    multiPartEntity.getPlaceHolderName().attackBoxPlaceholder.moveAttackBox(attackBox, new Vec3(worldPos.x, worldPos.y, worldPos.z));
+                    multiPartEntity.getPlaceHolderName().getAttackBoxPlaceHolder().moveActiveAttackBox(attackBox, new Vec3(worldPos.x, worldPos.y, worldPos.z));
                 }
             }
         }

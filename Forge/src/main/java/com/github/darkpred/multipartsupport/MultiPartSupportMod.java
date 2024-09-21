@@ -12,12 +12,14 @@ import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+@ApiStatus.Internal
 @Mod(CommonClass.MOD_ID)
 public class MultiPartSupportMod {
     private static final String PROTOCOL_VERSION = "1";

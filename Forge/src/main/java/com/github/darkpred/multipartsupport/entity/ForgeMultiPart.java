@@ -13,13 +13,15 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.entity.PartEntity;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@ApiStatus.Internal
 public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEntity<T> implements MultiPart<T> {
     private final EntityDimensions size;
     private final Vec3 offset;
-    private final String name;
+    private final String partName;
     @Nullable
     private AnimationOverride animationOverride;
 
@@ -27,7 +29,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
         super(parent);
         this.size = EntityDimensions.scalable(hitboxData.width(), hitboxData.height());
         this.offset = hitboxData.pos();
-        this.name = hitboxData.name();
+        this.partName = hitboxData.name();
         this.refreshDimensions();
     }
 
@@ -70,6 +72,11 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
     @Override
     public boolean shouldBeSaved() {
         return false;
+    }
+
+    @Override
+    public String getPartName() {
+        return partName;
     }
 
     @Override
@@ -117,6 +124,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
         throw new UnsupportedOperationException();
     }
 
+    @ApiStatus.Internal
     @AutoService(MultiPart.Factory.class)
     public static class ForgeMultiPartFactory implements MultiPart.Factory {
 

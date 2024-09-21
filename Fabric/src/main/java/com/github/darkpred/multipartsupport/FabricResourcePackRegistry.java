@@ -8,6 +8,7 @@ import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collection;
@@ -15,13 +16,14 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
+@ApiStatus.Internal
 @AutoService(ResourcePackRegistry.class)
 public class FabricResourcePackRegistry implements ResourcePackRegistry {
     private static final Collection<ResourceLocation> EMPTY = List.of();
 
     @Override
     public void register(PackType type, PreparableReloadListener listener) {
-        var id = new ResourceLocation("multipartsupport:reload_" + listener.getName().toLowerCase());
+        var id = new ResourceLocation(CommonClass.MOD_ID + ":reload_" + listener.getName().toLowerCase());
         ResourceManagerHelper.get(type).registerReloadListener(new IdentifiableResourceReloadListener() {
             @Override
             public ResourceLocation getFabricId() {

@@ -10,6 +10,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -22,7 +23,6 @@ import java.util.Map;
  *
  */
 //TODO: Link blockbench plugin or add to repo
-//Not API
 public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
     private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
     public static final EntityHitboxManager HITBOX_DATA = new EntityHitboxManager(GSON);
@@ -30,6 +30,21 @@ public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
 
     public EntityHitboxManager(Gson gson) {
         super(gson, "hitboxes");
+    }
+
+    /**
+     * @param entity
+     * @return
+     */
+    public List<HitboxData> getHitboxes(ResourceLocation entity) {
+        return entities.get(entity);
+    }
+
+    /**
+     * @return
+     */
+    public Map<ResourceLocation, List<HitboxData>> getEntities() {
+        return entities;
     }
 
     @Override
@@ -63,10 +78,15 @@ public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
         entities = builder.build();
     }
 
+    /**
+     *
+     * @param dataMap
+     */
     public void replaceData(Map<ResourceLocation, List<HitboxData>> dataMap) {
         entities = ImmutableMap.copyOf(dataMap);
     }
 
+    @ApiStatus.Internal
     public static List<HitboxData> readBuf(FriendlyByteBuf buf) {
         return buf.readList(HitboxData::readBuf);
     }
@@ -75,25 +95,27 @@ public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
         buf.writeCollection(hitboxes, HitboxData::writeBuf);
     }
 
+    @ApiStatus.Internal
     public void writeBuf(FriendlyByteBuf buf) {
         buf.writeMap(entities, (buffer, key) -> buf.writeResourceLocation(key), EntityHitboxManager::writeBuf);
     }
 
-    public List<HitboxData> getHitboxes(ResourceLocation entity) {
-        return entities.get(entity);
-    }
+    //TODO: Javadoc
 
-    public Map<ResourceLocation, List<HitboxData>> getEntities() {
-        return entities;
-    }
-
-    //API
+    /**
+     * @param name
+     * @param pos
+     * @param width
+     * @param height
+     * @param ref         unique
+     * @param isAttackBox
+     */
     public record HitboxData(String name, Vec3 pos, float width, float height, String ref, boolean isAttackBox) {
         public float getFrustumWidthRadius() {
             return (float) Math.max(Math.abs(pos.x) + width / 2, Math.abs(pos.z) + width / 2);
         }
 
-        public float getFrustumHeightRadius() {
+        public float getFrustumHeight() {
             return (float) pos.y + height;
         }
 

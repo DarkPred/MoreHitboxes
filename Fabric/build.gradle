@@ -1,13 +1,5 @@
 import net.fabricmc.loom.api.mappings.layered.MappingContext
 import net.fabricmc.loom.api.mappings.layered.MappingLayer
-import net.fabricmc.loom.api.mappings.layered.spec.FileMappingsSpecBuilder
-import net.fabricmc.loom.api.mappings.layered.spec.LayeredMappingSpecBuilder
-import net.fabricmc.loom.api.mappings.layered.spec.MappingsSpec
-import net.fabricmc.loom.api.mappings.layered.spec.MojangMappingsSpecBuilder
-import net.fabricmc.loom.api.mappings.layered.spec.ParchmentMappingsSpecBuilder
-import net.fabricmc.mappingio.MappingVisitor
-import net.fabricmc.loom.api.mappings.layered.MappingContext
-import net.fabricmc.loom.api.mappings.layered.MappingLayer
 import net.fabricmc.loom.api.mappings.layered.MappingsNamespace
 import net.fabricmc.loom.api.mappings.layered.spec.MappingsSpec
 import net.fabricmc.loom.configuration.providers.mappings.intermediary.IntermediaryMappingLayer
@@ -21,25 +13,21 @@ plugins {
     id 'idea'
 }
 
-version = version
-group = group
-
-base {
-    archivesName = "${modName}-fabric-${minecraftVersion}"
-}
+version = mod_version
+group = maven_group
 
 
 dependencies {
-    minecraft "com.mojang:minecraft:${minecraftVersion}"
+    minecraft "com.mojang:minecraft:${minecraft_version}"
     mappings(loom.layered {
         officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-1.18.2:$parchmentDate@zip")
+        parchment("org.parchmentmc.data:parchment-1.18.2:$parchment_date@zip")
         addLayer(new FixGeckoLibSpec())
     })
-    modImplementation "net.fabricmc:fabric-loader:${fabricLoaderVersion}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${fabricApiVersion}"
-    implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.1'
-    implementation project(":Common")
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+
+    compileOnly project(":Common")
     compileOnly(annotationProcessor('com.google.auto.service:auto-service:1.1.1'))
     modCompileOnly("software.bernie.geckolib:geckolib-fabric-1.18:3.0.80")
 }
@@ -59,16 +47,23 @@ loom {
             runDir("run")
         }
     }
-    accessWidenerPath = file("src/main/resources/${modId}.accesswidener")
+    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
 }
 
-
+def properties = [
+        minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+        loader_version   : fabric_loader_version,
+        mod_id           : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+        mod_author       : mod_author, mod_description: mod_description
+]
 processResources {
     from project(":Common").sourceSets.main.resources
-    inputs.property "version", project.version
+    for (final def property in properties) {
+        inputs.property(property.getKey(), property.getValue())
+    }
 
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
+    filesMatching(["fabric.mod.json"]) {
+        expand(properties)
     }
 }
 
@@ -76,15 +71,18 @@ tasks.withType(JavaCompile) {
     source(project(":Common").sourceSets.main.allSource)
 }
 javadoc {
-    failOnError = false
+    source project(":Common").sourceSets.main.allJava
+    source project.sourceSets.main.allJava
+    exclude("**/mixin/**")
+    options.addBooleanOption('-ignore-source-errors', true)
 }
 
 publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
+            artifactId "${archives_name}-${project.name.toLowerCase()}"
+            version "${minecraft_version}-${version}"
             from components.java
         }
     }

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(ProjectileUtil.class)
 public abstract class ProjectileUtilMixin {
 
-    @ModifyReturnValue(method = "getEntityHitResult(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;D)Lnet/minecraft/world/phys/EntityHitResult;", at = @At("RETURN"))
+    @ModifyReturnValue(method = "getEntityHitResult*", at = @At("RETURN"))
     private static EntityHitResult modifyPartEntity(EntityHitResult original) {
         if (original == null) {
             return null;

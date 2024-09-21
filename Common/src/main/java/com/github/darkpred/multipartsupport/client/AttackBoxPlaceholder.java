@@ -13,6 +13,7 @@ import net.minecraft.world.phys.Vec3;
 import java.util.HashMap;
 import java.util.Map;
 
+//TODO: Javadoc
 public class AttackBoxPlaceholder<T extends Mob & MultiPartEntity<T>> implements IAttackBoxPlaceHolder {
     private final Map<String, EntityHitboxManager.HitboxData> attackBoxes = new HashMap<>();
     private final Map<EntityHitboxManager.HitboxData, Vec3> activeAttackBoxes = new HashMap<>();
@@ -34,7 +35,7 @@ public class AttackBoxPlaceholder<T extends Mob & MultiPartEntity<T>> implements
     }
 
     @Override
-    public void moveAttackBox(EntityHitboxManager.HitboxData attackBox, Vec3 worldPos) {
+    public void moveActiveAttackBox(EntityHitboxManager.HitboxData attackBox, Vec3 worldPos) {
         activeAttackBoxes.put(attackBox, worldPos);
     }
 

@@ -6,17 +6,13 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 
-version = version
-group = group
-
-base {
-    archivesName = "${modName}-forge-${minecraftVersion}"
-}
+version = mod_version
+group = maven_group
 
 minecraft {
-    mappings channel: 'official', version: minecraftVersion
-    
-    if (project.hasProperty('forgeAtsEnabled') && project.findProperty('forgeAtsEnabled').toBoolean()) {
+    mappings channel: 'official', version: minecraft_version
+
+    if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
         // This location is hardcoded in Forge and can not be changed.
         // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
         accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
@@ -55,7 +51,7 @@ minecraft {
         data {
             workingDirectory project.file('run')
             ideaModule "${rootProject.name}.${project.name}.main"
-            args '--mod', modId, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
             taskName 'Data'
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
@@ -72,7 +68,7 @@ minecraft {
 sourceSets.main.resources.srcDir 'src/generated/resources'
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraftVersion}-${forgeVersion}"
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
     implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
@@ -85,20 +81,42 @@ dependencies {
 }
 
 mixin {
-    add sourceSets.main, 'mixins.multipartsupport.refmap.json'
-    config 'multipartsupport.mixins.json'
+    add sourceSets.main, "mixins.${mod_id}.refmap.json"
+    config "${mod_id}.mixins.json"
 }
 
 tasks.withType(JavaCompile) {
     source(project(":Common").sourceSets.main.allSource)
 }
 
+def properties = [
+        minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+        loader_version   : forge_loader_version_range, forge_version_range: forge_version_range,
+        mod_id           : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+        mod_author       : mod_author, mod_description: mod_description
+]
 processResources {
     from project(":Common").sourceSets.main.resources
+    for (final def property in properties) {
+        inputs.property(property.getKey(), property.getValue())
+    }
+
+    filesMatching(["META-INF/mods.toml", "pack.mcmeta"]) {
+        expand(properties)
+    }
 }
 
 javadoc {
-    failOnError = false
+    /*classpath = project.sourceSets.main.compileClasspath.filter{
+        if (it.name.contains("gecko")) {
+            return false;
+        }
+        return true;
+    }*/
+    source project(":Common").sourceSets.main.allJava
+    source project.sourceSets.main.allJava
+    exclude("**/mixin/**")
+    options.addBooleanOption('-ignore-source-errors', true)
 }
 
 jar {
@@ -115,8 +133,8 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
+            artifactId "${archives_name}-${project.name.toLowerCase()}"
+            version "${minecraft_version}-${version}"
             artifact tasks.jarJar
             from components.java
             pom.withXml {

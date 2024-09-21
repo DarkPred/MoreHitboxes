@@ -4,8 +4,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
-//API
+
+/**
+ * @param <T>
+ *///TODO: Javadoc(mention PartEntity)
 public interface MultiPart<T extends Mob & MultiPartEntity<T>> {
+
+    String getPartName();
 
     T getParent();
 

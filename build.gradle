@@ -1,34 +1,38 @@
 subprojects {
-    
     apply plugin: 'java'
     
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     java.withSourcesJar()
-    java.withJavadocJar()
+    //java.withJavadocJar()
+
+    base {
+        //Jar name
+        archivesName = "${archives_name}-${project.name.toLowerCase()}-${minecraft_version}"
+    }
         
     jar {
         from(rootProject.file("LICENSE")) {
-            rename { "${it}_${modName}" }
+            rename { "${it}_${mod_name}" }
         }
         manifest {
             attributes([
-                'Specification-Title'     : modName,
-                'Specification-Vendor'    : modAuthor,
+                'Specification-Title'  : mod_name,
+                'Specification-Vendor' : mod_author,
                 'Specification-Version'   : project.jar.archiveVersion,
                 'Implementation-Title'    : project.name,
                 'Implementation-Version'  : project.jar.archiveVersion,
-                'Implementation-Vendor'   : modAuthor,
+                'Implementation-Vendor': mod_author,
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 'Timestampe'              : System.currentTimeMillis(),
                 'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                'Build-On-Minecraft'      : minecraftVersion
+                'Build-On-Minecraft'   : minecraft_version
             ])
         }
     }
 
     sourcesJar {
         from(rootProject.file("LICENSE")) {
-            rename { "${it}_${modName}" }
+            rename { "${it}_${mod_name}" }
         }
     }
 
@@ -55,6 +59,11 @@ subprojects {
     
         it.options.encoding = 'UTF-8'
         it.options.release = 17
+    }
+    tasks.withType(Javadoc).configureEach {
+        options.tags("apiNote:a:API Note:")
+        options.tags("implSpec:a:Implementation Requirements:")
+        options.tags("implNote:a:Implementation Note:")
     }
 
     // Disables Gradle's custom module metadata from being published to maven. The

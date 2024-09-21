@@ -12,14 +12,16 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+@ApiStatus.Internal
 public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity implements MultiPart<T> {
     public final T parent;
     private final EntityDimensions size;
     private final Vec3 offset;
-    private final String name;
+    private final String partName;
     @Nullable
     private AnimationOverride animationOverride;
 
@@ -28,7 +30,7 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity 
         this.parent = parent;
         this.size = EntityDimensions.scalable(hitboxData.width(), hitboxData.height());
         this.offset = hitboxData.pos();
-        this.name = hitboxData.name();
+        this.partName = hitboxData.name();
         this.refreshDimensions();
     }
 
@@ -71,6 +73,11 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity 
     @Override
     public boolean shouldBeSaved() {
         return false;
+    }
+
+    @Override
+    public String getPartName() {
+        return partName;
     }
 
     @Override
@@ -123,6 +130,7 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity 
         throw new UnsupportedOperationException();
     }
 
+    @ApiStatus.Internal
     @AutoService(MultiPart.Factory.class)
     public static class FabricMultiPartFactory implements MultiPart.Factory {
 

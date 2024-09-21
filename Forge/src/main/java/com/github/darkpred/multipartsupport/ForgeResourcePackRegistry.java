@@ -9,9 +9,11 @@ import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.List;
 
+@ApiStatus.Internal
 @Mod.EventBusSubscriber(modid = CommonClass.MOD_ID)
 @AutoService(ResourcePackRegistry.class)
 public class ForgeResourcePackRegistry implements ResourcePackRegistry {
