@@ -7,6 +7,8 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import software.bernie.geckolib3.core.builder.Animation;
 
+import java.util.Map;
+
 /**
  * The container responsible for creating and managing attack boxes. See {@link com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData}
  * for more information
@@ -51,6 +53,9 @@ public interface IAttackBoxPlaceHolder {
 
     @ApiStatus.Internal
     void clientTick(ClientLevel level);
+
+    @ApiStatus.Internal
+    Map<EntityHitboxManager.HitboxData, Vec3> getActiveBoxes();
 
     /**
      * The last tick of the attack

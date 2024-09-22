@@ -40,8 +40,6 @@ processResources {
 publishing {
     publications {
         mavenJava(MavenPublication) {
-            println("HIII")
-            println(project.name)
             groupId project.group
             artifactId "${archives_name}-${project.name.toLowerCase()}"
             version "${minecraft_version}-${version}"

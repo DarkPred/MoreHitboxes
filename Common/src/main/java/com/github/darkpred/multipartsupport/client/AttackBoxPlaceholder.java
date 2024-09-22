@@ -69,6 +69,11 @@ public class AttackBoxPlaceholder<T extends Mob & MultiPartEntity<T>> implements
     }
 
     @Override
+    public Map<EntityHitboxManager.HitboxData, Vec3> getActiveBoxes() {
+        return activeAttackBoxes;
+    }
+
+    @Override
     public long attackBoxEndTime() {
         return attackBoxEndTime;
     }
