@@ -28,6 +28,8 @@ public class MinecraftMixin {
     private void modifyPartEntity(MultiPlayerGameMode gameMode, Player player, Entity targetEntity, Operation<Void> original) {
         if (hitResult instanceof MultiPartEntityHitResult entityHitResult && entityHitResult.multiPartSupport$getMultiPart() != null) {
             original.call(gameMode, player, entityHitResult.multiPartSupport$getMultiPart().getEntity());
+        } else {
+            original.call(gameMode, player, targetEntity);
         }
     }
 }

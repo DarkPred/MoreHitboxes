@@ -2,6 +2,7 @@ package com.github.darkpred.multipartsupport.entity;
 
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -20,5 +21,6 @@ public interface MultiPartEntityHitResult {
      * @return the {@link MultiPart} targeted
      */
     @Nullable
+    @Contract(pure = true)
     MultiPart<?> multiPartSupport$getMultiPart();
 }
