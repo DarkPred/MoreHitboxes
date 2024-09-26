@@ -29,7 +29,9 @@ public class ForgeResourcePackRegistry implements ResourcePackRegistry {
     }
 
     private static void registerClient(PreparableReloadListener listener) {
-        ((ReloadableResourceManager) Minecraft.getInstance().getResourceManager()).registerReloadListener(listener);
+        if (Minecraft.getInstance() != null) {
+            ((ReloadableResourceManager) Minecraft.getInstance().getResourceManager()).registerReloadListener(listener);
+        }
     }
 
     @SubscribeEvent
