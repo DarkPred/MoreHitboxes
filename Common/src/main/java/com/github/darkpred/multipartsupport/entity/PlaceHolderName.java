@@ -81,8 +81,6 @@ public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> implements IPla
     public void makeBoundingBoxForCulling() {
         if (hasCustomParts()) {
             cullingBounds = entity.makeBoundingBoxForCulling(frustumWidthRadius, frustumHeight);
-        } else {
-            cullingBounds = entity.getBoundingBoxForCulling();
         }
     }
 
