@@ -58,7 +58,7 @@ public abstract class EntityMixin {
 
     @ModifyReturnValue(method = "getBoundingBoxForCulling", at = @At("RETURN"))
     public AABB changeCullBox(AABB original) {
-        if (this instanceof MultiPartEntity<?> multiPartEntity) {
+        if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getPlaceHolderName() != null) {
             return multiPartEntity.getPlaceHolderName().getCullingBounds();
         }
         return original;
