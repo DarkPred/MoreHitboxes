@@ -2,7 +2,7 @@ package com.github.darkpred.multipartsupport.entity;
 
 import com.github.darkpred.multipartsupport.api.IAttackBoxPlaceHolder;
 import com.github.darkpred.multipartsupport.api.IPlaceHolderName;
-import com.github.darkpred.multipartsupport.client.AttackBoxPlaceholder;
+import com.github.darkpred.multipartsupport.client.AttackBoxPlaceHolder;
 import com.github.darkpred.multipartsupport.platform.Services;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -20,7 +20,7 @@ public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> implements IPla
     private final List<MultiPart<T>> parts = new ArrayList<>();
     private final Map<String, MultiPart<T>> partsByRef = new HashMap<>();
     private final T entity;
-    private final IAttackBoxPlaceHolder attackBoxPlaceholder;
+    private final IAttackBoxPlaceHolder attackBoxPlaceHolder;
     private final boolean fixPosOnRefresh;
     private final boolean usesAttackBounds;
     private AABB attackBounds = new AABB(0, 0, 0, 0, 0, 0);
@@ -31,7 +31,7 @@ public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> implements IPla
 
     public PlaceHolderName(T entity, boolean fixPosOnRefresh, boolean usesAttackBounds) {
         this.entity = entity;
-        this.attackBoxPlaceholder = new AttackBoxPlaceholder<>(entity);
+        this.attackBoxPlaceHolder = new AttackBoxPlaceHolder<>(entity);
         this.fixPosOnRefresh = fixPosOnRefresh;
         this.usesAttackBounds = usesAttackBounds;
         List<EntityHitboxManager.HitboxData> hitboxData = EntityHitboxManager.HITBOX_DATA.getHitboxes(EntityType.getKey(entity.getType()));
@@ -48,7 +48,7 @@ public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> implements IPla
         //TODO: Clean up
         for (EntityHitboxManager.HitboxData hitboxData : hitboxesData) {
             if (hitboxData.isAttackBox()) {
-                attackBoxPlaceholder.addAttackBox(hitboxData.ref(), hitboxData);
+                attackBoxPlaceHolder.addAttackBox(hitboxData.ref(), hitboxData);
             } else {
                 MultiPart<T> part = Services.MULTI_PART.create(entity, hitboxData);
                 parts.add(part);
@@ -74,7 +74,7 @@ public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> implements IPla
 
     @Override
     public IAttackBoxPlaceHolder getAttackBoxPlaceHolder() {
-        return attackBoxPlaceholder;
+        return attackBoxPlaceHolder;
     }
 
     @Override

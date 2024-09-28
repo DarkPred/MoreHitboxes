@@ -17,6 +17,5 @@ public class CommonClass {
 
     public static void init() {
         Services.RESOURCE_PACK_PROVIDER.register(PackType.SERVER_DATA, EntityHitboxManager.HITBOX_DATA);
-        Services.RESOURCE_PACK_PROVIDER.register(PackType.CLIENT_RESOURCES, EntityHitboxManager.HITBOX_DATA);
     }
 }

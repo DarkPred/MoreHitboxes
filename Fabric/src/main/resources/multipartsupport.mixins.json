@@ -7,7 +7,7 @@
     "ChunkMapMixin", "EntityCallbacksMixin", "EntityHitResultMixin", "EntityMixin", "LevelMixin", "MobMixin", "PlayerMixin", "ProjectileUtilMixin",
     "ServerGamePacketListenerImplMixin", "ServerLevelMixin", "ServerPlayerMixin", "TransientEntitySectionManagerMixin"
   ],
-  "client": ["EntityRenderDispatcherMixin", "GeoEntityRendererMixin", "MinecraftMixin"],
+  "client": ["ClientEntityMixin", "ClientMobMixin", "EntityRenderDispatcherMixin", "GeoEntityRendererMixin", "MinecraftMixin"],
   "injectors": {
     "defaultRequire": 1
   }

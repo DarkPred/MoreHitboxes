@@ -1,9 +1,9 @@
 package com.github.darkpred.multipartsupport.entity;
 
 import com.github.darkpred.multipartsupport.api.IPlaceHolderName;
-import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <T> the type of the mob implementing this interface
  */
+//TODO: Move to api
 public interface MultiPartEntity<T extends Mob & MultiPartEntity<T>> {
     IPlaceHolderName<T> getPlaceHolderName();
 
@@ -69,11 +70,11 @@ public interface MultiPartEntity<T extends Mob & MultiPartEntity<T>> {
      * <p>
      * If {@code true} is returned the attack will be considered done and all active attack boxes cleared to prevent multi hits
      *
-     * @param player the local player and only the pl
+     * @param player the local player
      * @return {@code true} if all active attack boxes should be disabled
      * @implSpec the default implementation has no side effects and returns {@code true}
      */
-    default boolean attackBoxHit(LocalPlayer player) {
+    default boolean attackBoxHit(Player player) {
         return true;
     }
 }

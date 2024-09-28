@@ -3,24 +3,26 @@ package com.github.darkpred.multipartsupport.client;
 import com.github.darkpred.multipartsupport.api.IAttackBoxPlaceHolder;
 import com.github.darkpred.multipartsupport.entity.EntityHitboxManager;
 import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
+import com.github.darkpred.multipartsupport.platform.Services;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.ApiStatus;
 
 import java.util.HashMap;
 import java.util.Map;
 
 //TODO: Javadoc
-public class AttackBoxPlaceholder<T extends Mob & MultiPartEntity<T>> implements IAttackBoxPlaceHolder {
+public class AttackBoxPlaceHolder<T extends Mob & MultiPartEntity<T>> implements IAttackBoxPlaceHolder {
     private final Map<String, EntityHitboxManager.HitboxData> attackBoxes = new HashMap<>();
     private final Map<EntityHitboxManager.HitboxData, Vec3> activeAttackBoxes = new HashMap<>();
     private long attackBoxEndTime;
     private final T entity;
 
-    public AttackBoxPlaceholder(T entity) {
+    public AttackBoxPlaceHolder(T entity) {
         this.entity = entity;
     }
 
@@ -45,13 +47,13 @@ public class AttackBoxPlaceholder<T extends Mob & MultiPartEntity<T>> implements
     }
 
     @Override
-    public void activateAttackBoxes(ClientLevel level, double attackDuration) {
+    public void activateAttackBoxes(Level level, double attackDuration) {
         attackBoxes.values().forEach(hitbox -> activeAttackBoxes.put(hitbox, Vec3.ZERO));
         attackBoxEndTime = (long) (level.getGameTime() + attackDuration);
     }
 
     @Override
-    public void clientTick(ClientLevel level) {
+    public void clientTick(Level level) {
         if (level.getGameTime() > attackBoxEndTime) {
             activeAttackBoxes.clear();
         }
@@ -59,8 +61,9 @@ public class AttackBoxPlaceholder<T extends Mob & MultiPartEntity<T>> implements
             EntityHitboxManager.HitboxData hitbox = entry.getKey();
             EntityDimensions size = EntityDimensions.scalable(hitbox.width(), hitbox.height()).scale(entity.getScale());
             AABB aabb = size.makeBoundingBox(entry.getValue());
-            if (Minecraft.getInstance().player.getBoundingBox().intersects(aabb)) {
-                if (entity.attackBoxHit(Minecraft.getInstance().player)) {
+            Player player = DistUtilFactory.DIST_UTIL.handleIntersect(aabb);
+            if (player != null) {
+                if (entity.attackBoxHit(player)) {
                     activeAttackBoxes.clear();
                 }
                 break;
@@ -76,5 +79,12 @@ public class AttackBoxPlaceholder<T extends Mob & MultiPartEntity<T>> implements
     @Override
     public long attackBoxEndTime() {
         return attackBoxEndTime;
+    }
+
+    @ApiStatus.Internal
+    public interface DistUtilFactory {
+        DistUtilFactory DIST_UTIL = Services.load(DistUtilFactory.class);
+
+        Player handleIntersect(AABB aabb);
     }
 }

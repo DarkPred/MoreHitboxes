@@ -4,6 +4,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * @param <T>
@@ -41,8 +42,8 @@ public interface MultiPart<T extends Mob & MultiPartEntity<T>> {
         entity.setPos(newPos);
     }
 
+    @ApiStatus.Internal
     interface Factory {
-
         <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, EntityHitboxManager.HitboxData hitboxData);
     }
 }

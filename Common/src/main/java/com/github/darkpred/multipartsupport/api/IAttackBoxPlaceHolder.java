@@ -1,8 +1,8 @@
 package com.github.darkpred.multipartsupport.api;
 
 import com.github.darkpred.multipartsupport.entity.EntityHitboxManager;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import software.bernie.geckolib3.core.builder.Animation;
@@ -37,7 +37,7 @@ public interface IAttackBoxPlaceHolder {
     void moveActiveAttackBox(EntityHitboxManager.HitboxData attackBox, Vec3 worldPos);
 
     /**
-     * Returns {@code true} if the given attack box will trigger {@link com.github.darkpred.multipartsupport.entity.MultiPartEntity#attackBoxHit(LocalPlayer) MultiPartEntity#attackBoxHit(LocalPlayer)}
+     * Returns {@code true} if the given attack box will trigger {@link com.github.darkpred.multipartsupport.entity.MultiPartEntity#attackBoxHit(Player) MultiPartEntity#attackBoxHit(Player)}
      */
     boolean isAttackBoxActive(EntityHitboxManager.HitboxData attackBox);
 
@@ -49,10 +49,10 @@ public interface IAttackBoxPlaceHolder {
      *
      * @param attackDuration for how long(in ticks) the attack should be active
      */
-    void activateAttackBoxes(ClientLevel level, double attackDuration);
+    void activateAttackBoxes(Level level, double attackDuration);
 
     @ApiStatus.Internal
-    void clientTick(ClientLevel level);
+    void clientTick(Level level);
 
     @ApiStatus.Internal
     Map<EntityHitboxManager.HitboxData, Vec3> getActiveBoxes();

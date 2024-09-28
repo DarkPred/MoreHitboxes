@@ -2,7 +2,6 @@ package com.github.darkpred.multipartsupport.mixin;
 
 import com.github.darkpred.multipartsupport.entity.MultiPart;
 import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -27,9 +26,6 @@ public abstract class MobMixin extends LivingEntity {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                 part.updatePosition();
-            }
-            if (level instanceof ClientLevel clientLevel) {
-                multiPartEntity.getPlaceHolderName().getAttackBoxPlaceHolder().clientTick(clientLevel);
             }
         }
     }

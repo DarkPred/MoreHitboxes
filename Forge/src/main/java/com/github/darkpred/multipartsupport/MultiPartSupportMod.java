@@ -34,6 +34,7 @@ public class MultiPartSupportMod {
         CommonClass.init();
         MinecraftForge.EVENT_BUS.addListener(this::onDatapackSyncEvent);
         INSTANCE.registerMessage(0, SyncHitboxDataMessage.class, SyncHitboxDataMessage::write, SyncHitboxDataMessage::new, SyncHitboxDataMessage::handle);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ClientInit::clientInit);
     }
 
     public void onDatapackSyncEvent(OnDatapackSyncEvent event) {

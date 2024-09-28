@@ -1,13 +1,10 @@
 package com.github.darkpred.multipartsupport.mixin;
 
-import com.github.darkpred.multipartsupport.entity.GeckoLibMultiPartEntity;
 import com.github.darkpred.multipartsupport.entity.MultiPart;
 import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
-import com.github.darkpred.multipartsupport.entity.MultiPartGeoEntityRenderer;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
-import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.AABB;
 import org.spongepowered.asm.mixin.Mixin;
@@ -87,21 +84,6 @@ public abstract class EntityMixin {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
                 part.getEntity().remove(removalReason);
-            }
-        }
-    }
-
-    @Inject(method = "onClientRemoval", at = @At("RETURN"))
-    public void removePartsOnClientRemoval(CallbackInfo ci) {
-        if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
-                part.getEntity().remove(Entity.RemovalReason.DISCARDED);
-            }
-            if (this instanceof GeckoLibMultiPartEntity<?>) {
-                var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(((Entity) (Object) this));
-                if (renderer instanceof MultiPartGeoEntityRenderer renderer1) {
-                    renderer1.removeTickForEntity(((Entity) (Object) this));
-                }
             }
         }
     }
