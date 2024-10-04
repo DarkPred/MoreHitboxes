@@ -9,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * @param <T>
  *///TODO: Javadoc(mention PartEntity)
-public interface MultiPart<T extends Mob & MultiPartEntity<T>> {
+public interface MultiPart<T extends Mob & com.github.darkpred.multipartsupport.entity.MultiPartEntity<T>> {
 
     String getPartName();
 
@@ -19,12 +19,13 @@ public interface MultiPart<T extends Mob & MultiPartEntity<T>> {
 
     Vec3 getOffset();
 
-    void setOverride(AnimationOverride animationOverride);
+    void setOverride(com.github.darkpred.multipartsupport.entity.AnimationOverride animationOverride);
 
-    AnimationOverride getOverride();
+    com.github.darkpred.multipartsupport.entity.AnimationOverride getOverride();
 
     default void updatePosition() {
         Entity entity = getEntity();
+        //entity.level.getProfiler().push("MultiPartUpdate");
         entity.xo = entity.getX();
         entity.yo = entity.getY();
         entity.zo = entity.getZ();
@@ -32,7 +33,7 @@ public interface MultiPart<T extends Mob & MultiPartEntity<T>> {
         entity.yOld = entity.yo;
         entity.zOld = entity.zo;
         Vec3 offset = getOffset();
-        AnimationOverride animationOverride = getOverride();
+        com.github.darkpred.multipartsupport.entity.AnimationOverride animationOverride = getOverride();
         Vec3 newPos;
         if (animationOverride != null) {
             newPos = getParent().position().add(animationOverride.localPos());
@@ -40,10 +41,11 @@ public interface MultiPart<T extends Mob & MultiPartEntity<T>> {
             newPos = getParent().position().add(new Vec3(offset.x, offset.y, offset.z).yRot(-getParent().yBodyRot * Mth.DEG_TO_RAD).scale(getParent().getScale()));
         }
         entity.setPos(newPos);
+        //entity.level.getProfiler().pop();
     }
 
     @ApiStatus.Internal
     interface Factory {
-        <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, EntityHitboxManager.HitboxData hitboxData);
+        <T extends Mob & com.github.darkpred.multipartsupport.entity.MultiPartEntity<T>> MultiPart<T> create(T parent, com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData hitboxData);
     }
 }

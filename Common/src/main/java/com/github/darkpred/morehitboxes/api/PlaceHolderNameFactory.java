@@ -14,25 +14,25 @@ public class PlaceHolderNameFactory {
     }
 
     /**
-     * Creates a new {@link IPlaceHolderName} for the given entity
+     * Creates a new {@link com.github.darkpred.multipartsupport.api.IPlaceHolderName} for the given entity
      *
      * @param entity           the entity
      * @param fixPosOnRefresh  if {@code true} the entities y position will be saved before and applied after a {@link Entity#refreshDimensions() refreshDimensions} call.
      *                         This can prevent odd displacement in certain scenarios
      * @param usesAttackBounds whether {@link MultiPartEntity#makeAttackBoundingBox(float)} should be called
-     * @return a new {@link IPlaceHolderName} instance
+     * @return a new {@link com.github.darkpred.multipartsupport.api.IPlaceHolderName} instance
      */
-    public static <T extends Mob & MultiPartEntity<T>> IPlaceHolderName<T> create(T entity, boolean fixPosOnRefresh, boolean usesAttackBounds) {
+    public static <T extends Mob & MultiPartEntity<T>> com.github.darkpred.multipartsupport.api.IPlaceHolderName<T> create(T entity, boolean fixPosOnRefresh, boolean usesAttackBounds) {
         return new PlaceHolderName<>(entity, fixPosOnRefresh, usesAttackBounds);
     }
 
     /**
-     * Creates a new {@link IPlaceHolderName} for the given entity with attack bounds and fixPosOnRefresh enabled
+     * Creates a new {@link com.github.darkpred.multipartsupport.api.IPlaceHolderName} for the given entity with attack bounds and fixPosOnRefresh enabled
      *
      * @param entity the entity
-     * @return a new {@link IPlaceHolderName} instance
+     * @return a new {@link com.github.darkpred.multipartsupport.api.IPlaceHolderName} instance
      */
-    public static <T extends Mob & MultiPartEntity<T>> IPlaceHolderName<T> create(T entity) {
+    public static <T extends Mob & MultiPartEntity<T>> com.github.darkpred.multipartsupport.api.IPlaceHolderName<T> create(T entity) {
         return create(entity, true, true);
     }
 }

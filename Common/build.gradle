@@ -4,9 +4,6 @@ plugins {
     id 'maven-publish'
 }
 
-version = mod_version
-group = maven_group
-
 minecraft {
     version(minecraft_version)
     runs {

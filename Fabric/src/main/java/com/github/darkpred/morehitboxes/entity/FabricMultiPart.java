@@ -12,21 +12,22 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.PartEntity;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
-public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEntity<T> implements MultiPart<T> {
+public class FabricMultiPart<T extends Mob & com.github.darkpred.multipartsupport.entity.MultiPartEntity<T>> extends Entity implements MultiPart<T> {
+    public final T parent;
     private final EntityDimensions size;
     private final Vec3 offset;
     private final String partName;
     @Nullable
-    private AnimationOverride animationOverride;
+    private com.github.darkpred.multipartsupport.entity.AnimationOverride animationOverride;
 
-    public ForgeMultiPart(T parent, EntityHitboxManager.HitboxData hitboxData) {
-        super(parent);
+    public FabricMultiPart(T parent, com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData hitboxData) {
+        super(parent.getType(), parent.level);
+        this.parent = parent;
         this.size = EntityDimensions.scalable(hitboxData.width(), hitboxData.height());
         this.offset = hitboxData.pos();
         this.partName = hitboxData.name();
@@ -35,7 +36,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
 
     @Override
     public @NotNull InteractionResult interact(@NotNull Player player, @NotNull InteractionHand hand) {
-        return getParent().interact(player, hand);
+        return parent.interact(player, hand);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
         if (isInvulnerableTo(source)) {
             return false;
         }
-        return getParent().partHurt(this, source, amount);
+        return parent.partHurt(this, source, amount);
     }
 
     @Override
@@ -58,15 +59,15 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
 
     @Override
     public boolean is(@NotNull Entity entity) {
-        return this == entity || getParent() == entity;
+        return this == entity || parent == entity;
     }
 
     @Override
     public @NotNull EntityDimensions getDimensions(@NotNull Pose pose) {
         if (animationOverride != null) {
-            return size.scale(getParent().getScale()).scale(animationOverride.scaleW(), animationOverride.scaleH());
+            return size.scale(parent.getScale()).scale(animationOverride.scaleW(), animationOverride.scaleH());
         }
-        return size.scale(getParent().getScale());
+        return size.scale(parent.getScale());
     }
 
     @Override
@@ -80,6 +81,11 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
     }
 
     @Override
+    public T getParent() {
+        return parent;
+    }
+
+    @Override
     public Entity getEntity() {
         return this;
     }
@@ -90,7 +96,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
     }
 
     @Override
-    public void setOverride(AnimationOverride newOverride) {
+    public void setOverride(com.github.darkpred.multipartsupport.entity.AnimationOverride newOverride) {
         if (animationOverride != null && (animationOverride.scaleH() != newOverride.scaleH() || animationOverride.scaleW() != newOverride.scaleW())) {
             animationOverride = newOverride;
             refreshDimensions();
@@ -100,7 +106,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
     }
 
     @Override
-    public AnimationOverride getOverride() {
+    public com.github.darkpred.multipartsupport.entity.AnimationOverride getOverride() {
         return animationOverride;
     }
 
@@ -125,12 +131,12 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
     }
 
     @ApiStatus.Internal
-    @AutoService(MultiPart.Factory.class)
-    public static class ForgeMultiPartFactory implements MultiPart.Factory {
+    @AutoService(com.github.darkpred.multipartsupport.entity.MultiPart.Factory.class)
+    public static class FabricMultiPartFactory implements com.github.darkpred.multipartsupport.entity.MultiPart.Factory {
 
         @Override
-        public <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, EntityHitboxManager.HitboxData hitboxData) {
-            return new ForgeMultiPart<>(parent, hitboxData);
+        public <T extends Mob & com.github.darkpred.multipartsupport.entity.MultiPartEntity<T>> MultiPart<T> create(T parent, com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData hitboxData) {
+            return new FabricMultiPart<>(parent, hitboxData);
         }
     }
 }

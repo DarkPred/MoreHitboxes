@@ -1,5 +1,8 @@
 subprojects {
     apply plugin: 'java'
+
+    version = mod_version
+    group = maven_group
     
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     java.withSourcesJar()
@@ -12,7 +15,7 @@ subprojects {
         
     jar {
         from(rootProject.file("LICENSE")) {
-            rename { "${it}_${mod_name}" }
+            //rename { "${it}_${mod_name}" }
         }
         manifest {
             attributes([
@@ -23,7 +26,7 @@ subprojects {
                 'Implementation-Version'  : project.jar.archiveVersion,
                 'Implementation-Vendor': mod_author,
                 'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'Timestampe'              : System.currentTimeMillis(),
+                'Timestamp'              : System.currentTimeMillis(),
                 'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
                 'Build-On-Minecraft'   : minecraft_version
             ])
@@ -32,7 +35,7 @@ subprojects {
 
     sourcesJar {
         from(rootProject.file("LICENSE")) {
-            rename { "${it}_${mod_name}" }
+            //rename { "${it}_${mod_name}" }
         }
     }
 
@@ -56,9 +59,8 @@ subprojects {
     }
 
     tasks.withType(JavaCompile).configureEach {
-    
-        it.options.encoding = 'UTF-8'
-        it.options.release = 17
+        options.encoding = 'UTF-8'
+        options.release = 17
     }
     tasks.withType(Javadoc).configureEach {
         options.tags("apiNote:a:API Note:")

@@ -10,7 +10,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 //TODO: Change license to Mit, add icon
-public class Example extends Mob implements GeckoLibMultiPartEntity<Example> {
+public class Example extends Mob implements com.github.darkpred.multipartsupport.entity.GeckoLibMultiPartEntity<Example> {
 
     private final IPlaceHolderName<Example> placeHolderName = PlaceHolderNameFactory.create(this);
 

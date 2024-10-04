@@ -14,9 +14,9 @@ import org.jetbrains.annotations.ApiStatus;
 import java.util.List;
 
 @ApiStatus.Internal
-@Mod.EventBusSubscriber(modid = CommonClass.MOD_ID)
-@AutoService(ResourcePackRegistry.class)
-public class ForgeResourcePackRegistry implements ResourcePackRegistry {
+@Mod.EventBusSubscriber(modid = com.github.darkpred.multipartsupport.CommonClass.MOD_ID)
+@AutoService(com.github.darkpred.multipartsupport.ResourcePackRegistry.class)
+public class ForgeResourcePackRegistry implements com.github.darkpred.multipartsupport.ResourcePackRegistry {
     private static final List<PreparableReloadListener> serverDataReloadListeners = Lists.newArrayList();
 
     @Override

@@ -22,7 +22,7 @@ public class MinecraftMixin {
     public HitResult hitResult;
 
     /**
-     * Replace target in attack call with the multipart that was saved in {@link ProjectileUtilMixin}
+     * Replace target in attack call with the multipart that was saved in {@link com.github.darkpred.multipartsupport.mixin.ProjectileUtilMixin}
      */
     @WrapOperation(method = "startAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;attack(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/entity/Entity;)V"))
     private void modifyPartEntity(MultiPlayerGameMode gameMode, Player player, Entity targetEntity, Operation<Void> original) {

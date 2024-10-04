@@ -13,9 +13,6 @@ plugins {
     id 'idea'
 }
 
-version = mod_version
-group = maven_group
-
 
 dependencies {
     minecraft "com.mojang:minecraft:${minecraft_version}"

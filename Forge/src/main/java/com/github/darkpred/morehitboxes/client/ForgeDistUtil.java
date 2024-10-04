@@ -7,8 +7,8 @@ import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
-@AutoService(AttackBoxPlaceHolder.DistUtilFactory.class)
-public class ForgeDistUtil implements AttackBoxPlaceHolder.DistUtilFactory {
+@AutoService(com.github.darkpred.multipartsupport.client.AttackBoxPlaceHolder.DistUtilFactory.class)
+public class ForgeDistUtil implements com.github.darkpred.multipartsupport.client.AttackBoxPlaceHolder.DistUtilFactory {
 
     @Override
     public Player handleIntersect(AABB aabb) {

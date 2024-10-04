@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface MultiPartEntityHitResult {
 
-    void multiPartSupport$setMultiPart(MultiPart<?> part);
+    void multiPartSupport$setMultiPart(com.github.darkpred.multipartsupport.entity.MultiPart<?> part);
 
     /**
      * Returns the {@link MultiPart} that was originally the entity of the hit result

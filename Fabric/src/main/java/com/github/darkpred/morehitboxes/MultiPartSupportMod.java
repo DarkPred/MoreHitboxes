@@ -14,8 +14,8 @@ public class MultiPartSupportMod implements ModInitializer {
     
     @Override
     public void onInitialize() {
-        CommonClass.init();
-        ResourceLocation location = new ResourceLocation(CommonClass.MOD_ID, EntityHitboxManager.HITBOX_DATA.getName().toLowerCase());
+        com.github.darkpred.multipartsupport.CommonClass.init();
+        ResourceLocation location = new ResourceLocation(com.github.darkpred.multipartsupport.CommonClass.MOD_ID, EntityHitboxManager.HITBOX_DATA.getName().toLowerCase());
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> {
             if (joined) {
                 FriendlyByteBuf buf = PacketByteBufs.create();

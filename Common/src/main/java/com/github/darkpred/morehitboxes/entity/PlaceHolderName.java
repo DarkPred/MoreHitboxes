@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @ApiStatus.Internal
-public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> implements IPlaceHolderName<T> {
+public class PlaceHolderName<T extends Mob & com.github.darkpred.multipartsupport.entity.MultiPartEntity<T>> implements IPlaceHolderName<T> {
     private final List<MultiPart<T>> parts = new ArrayList<>();
     private final Map<String, MultiPart<T>> partsByRef = new HashMap<>();
     private final T entity;
@@ -34,7 +34,7 @@ public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> implements IPla
         this.attackBoxPlaceHolder = new AttackBoxPlaceHolder<>(entity);
         this.fixPosOnRefresh = fixPosOnRefresh;
         this.usesAttackBounds = usesAttackBounds;
-        List<EntityHitboxManager.HitboxData> hitboxData = EntityHitboxManager.HITBOX_DATA.getHitboxes(EntityType.getKey(entity.getType()));
+        List<com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData> hitboxData = com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HITBOX_DATA.getHitboxes(EntityType.getKey(entity.getType()));
         if (hitboxData != null && !hitboxData.isEmpty()) {
             spawnHitBoxes(hitboxData);
         }
@@ -42,15 +42,15 @@ public class PlaceHolderName<T extends Mob & MultiPartEntity<T>> implements IPla
         makeBoundingBoxForCulling();
     }
 
-    private void spawnHitBoxes(List<EntityHitboxManager.HitboxData> hitboxesData) {
+    private void spawnHitBoxes(List<com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData> hitboxesData) {
         float maxFrustumWidthRadius = 0;
         float maxFrustumHeight = 0;
         //TODO: Clean up
-        for (EntityHitboxManager.HitboxData hitboxData : hitboxesData) {
+        for (com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData hitboxData : hitboxesData) {
             if (hitboxData.isAttackBox()) {
                 attackBoxPlaceHolder.addAttackBox(hitboxData.ref(), hitboxData);
             } else {
-                MultiPart<T> part = Services.MULTI_PART.create(entity, hitboxData);
+                com.github.darkpred.multipartsupport.entity.MultiPart<T> part = Services.MULTI_PART.create(entity, hitboxData);
                 parts.add(part);
                 if (!hitboxData.ref().isBlank()) {
                     partsByRef.put(hitboxData.ref(), part);

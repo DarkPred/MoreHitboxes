@@ -20,21 +20,21 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 @ApiStatus.Internal
-@Mod(CommonClass.MOD_ID)
+@Mod(com.github.darkpred.multipartsupport.CommonClass.MOD_ID)
 public class MultiPartSupportMod {
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(CommonClass.MOD_ID, "main"),
+            new ResourceLocation(com.github.darkpred.multipartsupport.CommonClass.MOD_ID, "main"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
     );
 
     public MultiPartSupportMod() {
-        CommonClass.init();
+        com.github.darkpred.multipartsupport.CommonClass.init();
         MinecraftForge.EVENT_BUS.addListener(this::onDatapackSyncEvent);
         INSTANCE.registerMessage(0, SyncHitboxDataMessage.class, SyncHitboxDataMessage::write, SyncHitboxDataMessage::new, SyncHitboxDataMessage::handle);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> ClientInit::clientInit);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> com.github.darkpred.multipartsupport.ClientInit::clientInit);
     }
 
     public void onDatapackSyncEvent(OnDatapackSyncEvent event) {

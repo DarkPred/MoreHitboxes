@@ -13,13 +13,13 @@ import java.util.List;
 
 /**
  * The container responsible for creating and managing the hitbox parts. Any entity that implements {@link MultiPartEntity}
- * should create an instance of this via {@link PlaceHolderNameFactory}
+ * should create an instance of this via {@link com.github.darkpred.multipartsupport.api.PlaceHolderNameFactory}
  */
 public interface IPlaceHolderName<T extends Mob & MultiPartEntity<T>> {
     /**
      * Returns the container responsible for creating and managing attack boxes
      */
-    IAttackBoxPlaceHolder getAttackBoxPlaceHolder();
+    com.github.darkpred.multipartsupport.api.IAttackBoxPlaceHolder getAttackBoxPlaceHolder();
 
     @ApiStatus.Internal
     void makeBoundingBoxForCulling();

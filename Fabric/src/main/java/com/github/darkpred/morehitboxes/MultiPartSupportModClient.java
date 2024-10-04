@@ -13,8 +13,8 @@ import java.util.HashMap;
 public class MultiPartSupportModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ClientInit.clientInit();
-        ResourceLocation location = new ResourceLocation(CommonClass.MOD_ID, EntityHitboxManager.HITBOX_DATA.getName().toLowerCase());
+        com.github.darkpred.multipartsupport.ClientInit.clientInit();
+        ResourceLocation location = new ResourceLocation(com.github.darkpred.multipartsupport.CommonClass.MOD_ID, EntityHitboxManager.HITBOX_DATA.getName().toLowerCase());
         ClientPlayNetworking.registerGlobalReceiver(location, (client, handler, buf, responseSender) -> {
             var map = buf.readMap(HashMap::new, FriendlyByteBuf::readResourceLocation, EntityHitboxManager::readBuf);
             client.execute(() -> EntityHitboxManager.HITBOX_DATA.replaceData(map));

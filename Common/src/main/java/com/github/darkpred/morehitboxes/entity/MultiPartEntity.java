@@ -25,7 +25,7 @@ import org.jetbrains.annotations.NotNull;
 public interface MultiPartEntity<T extends Mob & MultiPartEntity<T>> {
     IPlaceHolderName<T> getPlaceHolderName();
 
-    boolean partHurt(MultiPart<T> multiPart, @NotNull DamageSource source, float amount);
+    boolean partHurt(com.github.darkpred.multipartsupport.entity.MultiPart<T> multiPart, @NotNull DamageSource source, float amount);
 
     /**
      * The result of this method is not directly used by the library and can instead be accessed and used via {@link IPlaceHolderName#getAttackBounds()}
