@@ -1,8 +1,8 @@
-package com.github.darkpred.multipartsupport.mixin;
+package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.multipartsupport.CommonClass;
-import com.github.darkpred.multipartsupport.entity.MultiPart;
-import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
+import com.github.darkpred.morehitboxes.MoreHitboxesMod;
+import com.github.darkpred.morehitboxes.entity.MultiPart;
+import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
 import net.minecraft.core.SectionPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.entity.*;
@@ -49,7 +49,7 @@ public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess>
                         long newSectionKey = SectionPos.asLong(partEntity.blockPosition());
                         if (newSectionKey != currentSectionKey) {
                             if (!currentSection.remove(partEntity)) {
-                                CommonClass.LOGGER.warn("MultiPart {} wasn't found in section {} (moving to {})", partEntity, SectionPos.of(currentSectionKey), newSectionKey);
+                                MoreHitboxesMod.LOGGER.warn("MultiPart {} wasn't found in section {} (moving to {})", partEntity, SectionPos.of(currentSectionKey), newSectionKey);
                             }
                             removeSectionIfEmpty(currentSectionKey, currentSection);
                             EntitySection<T> newSection = unmappedSectionStorage.getOrCreateSection(newSectionKey);
@@ -62,7 +62,7 @@ public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess>
                     @Override
                     public void onRemove(Entity.RemovalReason reason) {
                         if (!currentSection.remove(partEntity)) {
-                            CommonClass.LOGGER.warn("MultiPart {} wasn't found in section {} (destroying due to {})", partEntity, SectionPos.of(currentSectionKey), reason);
+                            MoreHitboxesMod.LOGGER.warn("MultiPart {} wasn't found in section {} (destroying due to {})", partEntity, SectionPos.of(currentSectionKey), reason);
                         }
                         partEntity.setLevelCallback(NULL);
                         removeSectionIfEmpty(currentSectionKey, currentSection);

@@ -1,4 +1,4 @@
-package com.github.darkpred.multipartsupport;
+package com.github.darkpred.morehitboxes;
 
 import com.google.auto.service.AutoService;
 import com.google.common.collect.Lists;
@@ -14,9 +14,9 @@ import org.jetbrains.annotations.ApiStatus;
 import java.util.List;
 
 @ApiStatus.Internal
-@Mod.EventBusSubscriber(modid = com.github.darkpred.multipartsupport.CommonClass.MOD_ID)
-@AutoService(com.github.darkpred.multipartsupport.ResourcePackRegistry.class)
-public class ForgeResourcePackRegistry implements com.github.darkpred.multipartsupport.ResourcePackRegistry {
+@Mod.EventBusSubscriber(modid = MoreHitboxesMod.MOD_ID)
+@AutoService(com.github.darkpred.morehitboxes.ResourcePackRegistry.class)
+public class ForgeResourcePackRegistry implements com.github.darkpred.morehitboxes.ResourcePackRegistry {
     private static final List<PreparableReloadListener> serverDataReloadListeners = Lists.newArrayList();
 
     @Override

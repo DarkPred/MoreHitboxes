@@ -1,7 +1,7 @@
-package com.github.darkpred.multipartsupport.mixin;
+package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.multipartsupport.entity.MultiPart;
-import com.github.darkpred.multipartsupport.entity.MultiPartEntityHitResult;
+import com.github.darkpred.morehitboxes.entity.MultiPart;
+import com.github.darkpred.morehitboxes.entity.MultiPartEntityHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,15 +14,15 @@ import org.spongepowered.asm.mixin.Unique;
 public abstract class EntityHitResultMixin implements MultiPartEntityHitResult {
     @Unique
     @Nullable
-    private MultiPart<?> multiPartSupport$part;
+    private MultiPart<?> morehitboxes$part;
 
     @Override
-    public void multiPartSupport$setMultiPart(MultiPart<?> part) {
-        this.multiPartSupport$part = part;
+    public void morehitboxes$setMultiPart(MultiPart<?> part) {
+        this.morehitboxes$part = part;
     }
 
     @Override
-    public @Nullable MultiPart<?> multiPartSupport$getMultiPart() {
-        return multiPartSupport$part;
+    public @Nullable MultiPart<?> morehitboxes$getMultiPart() {
+        return morehitboxes$part;
     }
 }

@@ -1,6 +1,6 @@
-package com.github.darkpred.multipartsupport.platform;
+package com.github.darkpred.morehitboxes.platform;
 
-import com.github.darkpred.multipartsupport.platform.services.IPlatformHelper;
+import com.github.darkpred.morehitboxes.platform.services.IPlatformHelper;
 import com.google.auto.service.AutoService;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;

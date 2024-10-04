@@ -1,7 +1,7 @@
-package com.github.darkpred.multipartsupport.mixin;
+package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.multipartsupport.entity.MultiPart;
-import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
+import com.github.darkpred.morehitboxes.entity.MultiPart;
+import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;

@@ -1,9 +1,9 @@
-package com.github.darkpred.multipartsupport.entity;
+package com.github.darkpred.morehitboxes.entity;
 
-import com.github.darkpred.multipartsupport.api.IAttackBoxPlaceHolder;
-import com.github.darkpred.multipartsupport.api.IPlaceHolderName;
-import com.github.darkpred.multipartsupport.client.AttackBoxPlaceHolder;
-import com.github.darkpred.multipartsupport.platform.Services;
+import com.github.darkpred.morehitboxes.api.AttackBoxData;
+import com.github.darkpred.morehitboxes.api.EntityHitboxData;
+import com.github.darkpred.morehitboxes.client.AttackBoxDataInternal;
+import com.github.darkpred.morehitboxes.platform.Services;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.AABB;
@@ -16,11 +16,11 @@ import java.util.List;
 import java.util.Map;
 
 @ApiStatus.Internal
-public class PlaceHolderName<T extends Mob & com.github.darkpred.multipartsupport.entity.MultiPartEntity<T>> implements IPlaceHolderName<T> {
+public class EntityHitboxDataInternal<T extends Mob & MultiPartEntity<T>> implements EntityHitboxData<T> {
     private final List<MultiPart<T>> parts = new ArrayList<>();
     private final Map<String, MultiPart<T>> partsByRef = new HashMap<>();
     private final T entity;
-    private final IAttackBoxPlaceHolder attackBoxPlaceHolder;
+    private final AttackBoxData attackBoxPlaceHolder;
     private final boolean fixPosOnRefresh;
     private final boolean usesAttackBounds;
     private AABB attackBounds = new AABB(0, 0, 0, 0, 0, 0);
@@ -29,12 +29,12 @@ public class PlaceHolderName<T extends Mob & com.github.darkpred.multipartsuppor
     private float frustumWidthRadius;
     private float frustumHeight;
 
-    public PlaceHolderName(T entity, boolean fixPosOnRefresh, boolean usesAttackBounds) {
+    public EntityHitboxDataInternal(T entity, boolean fixPosOnRefresh, boolean usesAttackBounds) {
         this.entity = entity;
-        this.attackBoxPlaceHolder = new AttackBoxPlaceHolder<>(entity);
+        this.attackBoxPlaceHolder = new AttackBoxDataInternal<>(entity);
         this.fixPosOnRefresh = fixPosOnRefresh;
         this.usesAttackBounds = usesAttackBounds;
-        List<com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData> hitboxData = com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HITBOX_DATA.getHitboxes(EntityType.getKey(entity.getType()));
+        List<HitboxDataLoader.HitboxData> hitboxData = HitboxDataLoader.HITBOX_DATA.getHitboxes(EntityType.getKey(entity.getType()));
         if (hitboxData != null && !hitboxData.isEmpty()) {
             spawnHitBoxes(hitboxData);
         }
@@ -42,15 +42,15 @@ public class PlaceHolderName<T extends Mob & com.github.darkpred.multipartsuppor
         makeBoundingBoxForCulling();
     }
 
-    private void spawnHitBoxes(List<com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData> hitboxesData) {
+    private void spawnHitBoxes(List<HitboxDataLoader.HitboxData> hitboxesData) {
         float maxFrustumWidthRadius = 0;
         float maxFrustumHeight = 0;
         //TODO: Clean up
-        for (com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData hitboxData : hitboxesData) {
+        for (HitboxDataLoader.HitboxData hitboxData : hitboxesData) {
             if (hitboxData.isAttackBox()) {
                 attackBoxPlaceHolder.addAttackBox(hitboxData.ref(), hitboxData);
             } else {
-                com.github.darkpred.multipartsupport.entity.MultiPart<T> part = Services.MULTI_PART.create(entity, hitboxData);
+                MultiPart<T> part = Services.MULTI_PART.create(entity, hitboxData);
                 parts.add(part);
                 if (!hitboxData.ref().isBlank()) {
                     partsByRef.put(hitboxData.ref(), part);
@@ -73,7 +73,7 @@ public class PlaceHolderName<T extends Mob & com.github.darkpred.multipartsuppor
     }
 
     @Override
-    public IAttackBoxPlaceHolder getAttackBoxPlaceHolder() {
+    public AttackBoxData getAttackBoxPlaceHolder() {
         return attackBoxPlaceHolder;
     }
 

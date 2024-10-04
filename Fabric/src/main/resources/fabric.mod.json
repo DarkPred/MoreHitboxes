@@ -8,18 +8,18 @@
   "contact": {
   },
   "license": "${mod_license}",
-  "icon": "assets/multipartsupport/icon.png",
+  "icon": "assets/morehitboxes/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.github.darkpred.multipartsupport.MultiPartSupportMod"
+      "com.github.darkpred.morehitboxes.FabricMoreHitboxesMod"
     ],
     "client": [
-      "com.github.darkpred.multipartsupport.MultiPartSupportModClient"
+      "com.github.darkpred.morehitboxes.FabricMoreHitboxesModClient"
     ]
   },
   "mixins": [
-    "multipartsupport.mixins.json"
+    "morehitboxes.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",

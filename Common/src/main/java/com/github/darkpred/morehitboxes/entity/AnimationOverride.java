@@ -1,4 +1,4 @@
-package com.github.darkpred.multipartsupport.entity;
+package com.github.darkpred.morehitboxes.entity;
 
 import net.minecraft.world.phys.Vec3;
 //API

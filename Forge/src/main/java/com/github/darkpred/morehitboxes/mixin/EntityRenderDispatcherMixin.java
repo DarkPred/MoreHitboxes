@@ -1,9 +1,9 @@
-package com.github.darkpred.multipartsupport.mixin;
+package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.multipartsupport.api.IPlaceHolderName;
-import com.github.darkpred.multipartsupport.entity.EntityHitboxManager;
-import com.github.darkpred.multipartsupport.entity.MultiPart;
-import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
+import com.github.darkpred.morehitboxes.api.EntityHitboxData;
+import com.github.darkpred.morehitboxes.entity.HitboxDataLoader;
+import com.github.darkpred.morehitboxes.entity.MultiPart;
+import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
@@ -34,14 +34,14 @@ public abstract class EntityRenderDispatcherMixin {
             double d = -Mth.lerp(partialTicks, entity.xOld, entity.getX());
             double e = -Mth.lerp(partialTicks, entity.yOld, entity.getY());
             double f = -Mth.lerp(partialTicks, entity.zOld, entity.getZ());
-            IPlaceHolderName<?> placeHolderName = multiPartEntity.getPlaceHolderName();
+            EntityHitboxData<?> placeHolderName = multiPartEntity.getPlaceHolderName();
             AABB aABB = entity.getBoundingBoxForCulling().move(-entity.getX(), -entity.getY(), -entity.getZ());
             LevelRenderer.renderLineBox(poseStack, buffer, aABB, 1, 0, 1, 1);
             aABB = placeHolderName.getAttackBounds().move(-entity.getX(), -entity.getY(), -entity.getZ());
             LevelRenderer.renderLineBox(poseStack, buffer, aABB, 0, 0, 1, 1);
-            for (Map.Entry<EntityHitboxManager.HitboxData, Vec3> entry : placeHolderName.getAttackBoxPlaceHolder().getActiveBoxes().entrySet()) {
+            for (Map.Entry<HitboxDataLoader.HitboxData, Vec3> entry : placeHolderName.getAttackBoxPlaceHolder().getActiveBoxes().entrySet()) {
                 Vec3 pos = entry.getValue();
-                EntityHitboxManager.HitboxData hitbox = entry.getKey();
+                HitboxDataLoader.HitboxData hitbox = entry.getKey();
                 EntityDimensions size = EntityDimensions.scalable(hitbox.width(), hitbox.height()).scale(mob.getScale());
                 AABB aabb = size.makeBoundingBox(pos);
                 poseStack.pushPose();

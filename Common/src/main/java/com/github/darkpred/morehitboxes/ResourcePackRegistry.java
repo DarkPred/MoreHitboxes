@@ -1,4 +1,4 @@
-package com.github.darkpred.multipartsupport;
+package com.github.darkpred.morehitboxes;
 
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;

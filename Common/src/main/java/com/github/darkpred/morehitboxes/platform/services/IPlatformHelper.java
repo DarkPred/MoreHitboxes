@@ -1,4 +1,4 @@
-package com.github.darkpred.multipartsupport.platform.services;
+package com.github.darkpred.morehitboxes.platform.services;
 
 import org.jetbrains.annotations.ApiStatus;
 

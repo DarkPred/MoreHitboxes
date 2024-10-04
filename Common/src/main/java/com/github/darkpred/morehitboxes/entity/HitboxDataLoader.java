@@ -1,4 +1,4 @@
-package com.github.darkpred.multipartsupport.entity;
+package com.github.darkpred.morehitboxes.entity;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -23,12 +23,12 @@ import java.util.Map;
  *
  */
 //TODO: Link blockbench plugin or add to repo
-public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
+public class HitboxDataLoader extends SimpleJsonResourceReloadListener {
     private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
-    public static final EntityHitboxManager HITBOX_DATA = new EntityHitboxManager(GSON);
+    public static final HitboxDataLoader HITBOX_DATA = new HitboxDataLoader(GSON);
     private ImmutableMap<ResourceLocation, List<HitboxData>> entities = ImmutableMap.of();
 
-    public EntityHitboxManager(Gson gson) {
+    public HitboxDataLoader(Gson gson) {
         super(gson, "hitboxes");
     }
 
@@ -97,7 +97,7 @@ public class EntityHitboxManager extends SimpleJsonResourceReloadListener {
 
     @ApiStatus.Internal
     public void writeBuf(FriendlyByteBuf buf) {
-        buf.writeMap(entities, (buffer, key) -> buf.writeResourceLocation(key), EntityHitboxManager::writeBuf);
+        buf.writeMap(entities, (buffer, key) -> buf.writeResourceLocation(key), HitboxDataLoader::writeBuf);
     }
 
     //TODO: Javadoc

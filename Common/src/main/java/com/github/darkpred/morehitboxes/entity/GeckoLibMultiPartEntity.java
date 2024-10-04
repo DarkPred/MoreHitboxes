@@ -1,4 +1,4 @@
-package com.github.darkpred.multipartsupport.entity;
+package com.github.darkpred.morehitboxes.entity;
 
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
@@ -8,16 +8,16 @@ import net.minecraft.world.phys.Vec3;
  * <p>
  * Required steps to use:
  * <ol>
- *     <li>Add one or more hitboxes in data/{modId}/hitboxes/{entityTypeKey}.json with {@link com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData#ref()} set to a bone name</li>
- *     <li>Add a geckolib animation controlling the bone. See {@link com.github.darkpred.multipartsupport.entity.AnimationOverride} for supported features</li>
+ *     <li>Add one or more hitboxes in data/{modId}/hitboxes/{entityTypeKey}.json with {@link HitboxDataLoader.HitboxData#ref()} set to a bone name</li>
+ *     <li>Add a geckolib animation controlling the bone. See {@link AnimationOverride} for supported features</li>
  *     <li>Implement this interface</li>
- *     <li>Call and save {@link com.github.darkpred.multipartsupport.api.PlaceHolderNameFactory#create(Mob) PlaceHolderNameFactory#create(Mob)}</li>
- *     <li>See {@link com.github.darkpred.multipartsupport.entity.MultiPartGeoEntityRenderer} </li>
+ *     <li>Call and save {@link com.github.darkpred.morehitboxes.api.PlaceHolderNameFactory#create(Mob) PlaceHolderNameFactory#create(Mob)}</li>
+ *     <li>See {@link MultiPartGeoEntityRenderer} </li>
  * </ol>
  *
  * @param <T> the type of the mob implementing this interface
  */
-public interface GeckoLibMultiPartEntity<T extends Mob & com.github.darkpred.multipartsupport.entity.MultiPartEntity<T>> extends com.github.darkpred.multipartsupport.entity.MultiPartEntity<T> {
+public interface GeckoLibMultiPartEntity<T extends Mob & MultiPartEntity<T>> extends MultiPartEntity<T> {
 
     /**
      * This method will be called if {@link GeckoLibMultiPartEntity#canSetAnchorPos(String)} returned {@code true} and should

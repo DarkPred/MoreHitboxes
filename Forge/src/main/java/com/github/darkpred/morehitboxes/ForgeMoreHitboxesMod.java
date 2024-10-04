@@ -1,6 +1,6 @@
-package com.github.darkpred.multipartsupport;
+package com.github.darkpred.morehitboxes;
 
-import com.github.darkpred.multipartsupport.entity.EntityHitboxManager;
+import com.github.darkpred.morehitboxes.entity.HitboxDataLoader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,45 +20,45 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 @ApiStatus.Internal
-@Mod(com.github.darkpred.multipartsupport.CommonClass.MOD_ID)
-public class MultiPartSupportMod {
+@Mod(MoreHitboxesMod.MOD_ID)
+public class ForgeMoreHitboxesMod {
     private static final String PROTOCOL_VERSION = "1";
     public static final SimpleChannel INSTANCE = NetworkRegistry.newSimpleChannel(
-            new ResourceLocation(com.github.darkpred.multipartsupport.CommonClass.MOD_ID, "main"),
+            new ResourceLocation(MoreHitboxesMod.MOD_ID, "main"),
             () -> PROTOCOL_VERSION,
             PROTOCOL_VERSION::equals,
             PROTOCOL_VERSION::equals
     );
 
-    public MultiPartSupportMod() {
-        com.github.darkpred.multipartsupport.CommonClass.init();
+    public ForgeMoreHitboxesMod() {
+        MoreHitboxesMod.init();
         MinecraftForge.EVENT_BUS.addListener(this::onDatapackSyncEvent);
         INSTANCE.registerMessage(0, SyncHitboxDataMessage.class, SyncHitboxDataMessage::write, SyncHitboxDataMessage::new, SyncHitboxDataMessage::handle);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> com.github.darkpred.multipartsupport.ClientInit::clientInit);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> com.github.darkpred.morehitboxes.ClientInit::clientInit);
     }
 
     public void onDatapackSyncEvent(OnDatapackSyncEvent event) {
-        INSTANCE.send(PacketDistributor.PLAYER.with(event::getPlayer), new SyncHitboxDataMessage(EntityHitboxManager.HITBOX_DATA.getEntities()));
+        INSTANCE.send(PacketDistributor.PLAYER.with(event::getPlayer), new SyncHitboxDataMessage(HitboxDataLoader.HITBOX_DATA.getEntities()));
     }
 
     private static class SyncHitboxDataMessage {
-        private final Map<ResourceLocation, List<EntityHitboxManager.HitboxData>> hitboxes;
+        private final Map<ResourceLocation, List<HitboxDataLoader.HitboxData>> hitboxes;
 
         public SyncHitboxDataMessage(FriendlyByteBuf buf) {
-            this.hitboxes = buf.readMap(HashMap::new, FriendlyByteBuf::readResourceLocation, EntityHitboxManager::readBuf);
+            this.hitboxes = buf.readMap(HashMap::new, FriendlyByteBuf::readResourceLocation, HitboxDataLoader::readBuf);
         }
 
-        public SyncHitboxDataMessage(Map<ResourceLocation, List<EntityHitboxManager.HitboxData>> hitboxes) {
+        public SyncHitboxDataMessage(Map<ResourceLocation, List<HitboxDataLoader.HitboxData>> hitboxes) {
             this.hitboxes = hitboxes;
         }
 
         public void write(FriendlyByteBuf buf) {
-            EntityHitboxManager.HITBOX_DATA.writeBuf(buf);
+            HitboxDataLoader.HITBOX_DATA.writeBuf(buf);
         }
 
         public void handle(Supplier<NetworkEvent.Context> ctx) {
             ctx.get().enqueueWork(() -> DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-                EntityHitboxManager.HITBOX_DATA.replaceData(hitboxes);
+                HitboxDataLoader.HITBOX_DATA.replaceData(hitboxes);
             }));
             ctx.get().setPacketHandled(true);
         }

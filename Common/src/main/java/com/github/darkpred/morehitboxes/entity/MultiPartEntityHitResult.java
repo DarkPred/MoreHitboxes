@@ -1,4 +1,4 @@
-package com.github.darkpred.multipartsupport.entity;
+package com.github.darkpred.morehitboxes.entity;
 
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.ApiStatus;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface MultiPartEntityHitResult {
 
-    void multiPartSupport$setMultiPart(com.github.darkpred.multipartsupport.entity.MultiPart<?> part);
+    void morehitboxes$setMultiPart(MultiPart<?> part);
 
     /**
      * Returns the {@link MultiPart} that was originally the entity of the hit result
@@ -22,5 +22,5 @@ public interface MultiPartEntityHitResult {
      */
     @Nullable
     @Contract(pure = true)
-    MultiPart<?> multiPartSupport$getMultiPart();
+    MultiPart<?> morehitboxes$getMultiPart();
 }

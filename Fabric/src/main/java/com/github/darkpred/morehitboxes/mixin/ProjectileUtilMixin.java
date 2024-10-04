@@ -1,7 +1,7 @@
-package com.github.darkpred.multipartsupport.mixin;
+package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.multipartsupport.entity.MultiPart;
-import com.github.darkpred.multipartsupport.entity.MultiPartEntityHitResult;
+import com.github.darkpred.morehitboxes.entity.MultiPart;
+import com.github.darkpred.morehitboxes.entity.MultiPartEntityHitResult;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.EntityHitResult;
@@ -21,7 +21,7 @@ public abstract class ProjectileUtilMixin {
         }
         if (original.getEntity() instanceof MultiPart<?> part) {
             EntityHitResult hitResult = new EntityHitResult(part.getParent(), original.getLocation());
-            ((MultiPartEntityHitResult) hitResult).multiPartSupport$setMultiPart(part);
+            ((MultiPartEntityHitResult) hitResult).morehitboxes$setMultiPart(part);
             return hitResult;
         }
         return original;

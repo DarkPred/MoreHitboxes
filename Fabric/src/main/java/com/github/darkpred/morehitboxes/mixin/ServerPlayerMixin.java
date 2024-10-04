@@ -1,6 +1,6 @@
-package com.github.darkpred.multipartsupport.mixin;
+package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.multipartsupport.entity.MultiPart;
+import com.github.darkpred.morehitboxes.entity.MultiPart;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import org.objectweb.asm.Opcodes;

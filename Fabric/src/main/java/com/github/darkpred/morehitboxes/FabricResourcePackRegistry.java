@@ -1,4 +1,4 @@
-package com.github.darkpred.multipartsupport;
+package com.github.darkpred.morehitboxes;
 
 import com.google.auto.service.AutoService;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
@@ -17,13 +17,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 @ApiStatus.Internal
-@AutoService(com.github.darkpred.multipartsupport.ResourcePackRegistry.class)
-public class FabricResourcePackRegistry implements com.github.darkpred.multipartsupport.ResourcePackRegistry {
+@AutoService(com.github.darkpred.morehitboxes.ResourcePackRegistry.class)
+public class FabricResourcePackRegistry implements com.github.darkpred.morehitboxes.ResourcePackRegistry {
     private static final Collection<ResourceLocation> EMPTY = List.of();
 
     @Override
     public void register(PackType type, PreparableReloadListener listener) {
-        var id = new ResourceLocation(com.github.darkpred.multipartsupport.CommonClass.MOD_ID + ":reload_" + listener.getName().toLowerCase());
+        var id = new ResourceLocation(MoreHitboxesMod.MOD_ID + ":reload_" + listener.getName().toLowerCase());
         ResourceManagerHelper.get(type).registerReloadListener(new IdentifiableResourceReloadListener() {
             @Override
             public ResourceLocation getFabricId() {

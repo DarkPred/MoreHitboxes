@@ -1,6 +1,6 @@
-package com.github.darkpred.multipartsupport.mixin;
+package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.multipartsupport.MultiPartServerLevel;
+import com.github.darkpred.morehitboxes.MultiPartServerLevel;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.server.level.ServerLevel;
@@ -27,17 +27,17 @@ public abstract class ServerLevelMixin implements MultiPartServerLevel {
     protected abstract LevelEntityGetter<Entity> getEntities();
 
     @Override
-    public Collection<Entity> multiPartSupport$getMultiParts() {
+    public Collection<Entity> morehitboxes$getMultiParts() {
         return multiParts.values();
     }
 
     @Override
-    public void multiPartSupport$addMultiPart(Entity part) {
+    public void morehitboxes$addMultiPart(Entity part) {
         multiParts.put(part.getId(), part);
     }
 
     @Override
-    public void multiPartSupport$removeMultiPart(Entity part) {
+    public void morehitboxes$removeMultiPart(Entity part) {
         multiParts.remove(part.getId());
     }
 

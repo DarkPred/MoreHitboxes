@@ -1,4 +1,4 @@
-package com.github.darkpred.multipartsupport.entity;
+package com.github.darkpred.morehitboxes.entity;
 
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * @param <T>
  *///TODO: Javadoc(mention PartEntity)
-public interface MultiPart<T extends Mob & com.github.darkpred.multipartsupport.entity.MultiPartEntity<T>> {
+public interface MultiPart<T extends Mob & MultiPartEntity<T>> {
 
     String getPartName();
 
@@ -19,9 +19,9 @@ public interface MultiPart<T extends Mob & com.github.darkpred.multipartsupport.
 
     Vec3 getOffset();
 
-    void setOverride(com.github.darkpred.multipartsupport.entity.AnimationOverride animationOverride);
+    void setOverride(AnimationOverride animationOverride);
 
-    com.github.darkpred.multipartsupport.entity.AnimationOverride getOverride();
+    AnimationOverride getOverride();
 
     default void updatePosition() {
         Entity entity = getEntity();
@@ -33,7 +33,7 @@ public interface MultiPart<T extends Mob & com.github.darkpred.multipartsupport.
         entity.yOld = entity.yo;
         entity.zOld = entity.zo;
         Vec3 offset = getOffset();
-        com.github.darkpred.multipartsupport.entity.AnimationOverride animationOverride = getOverride();
+        AnimationOverride animationOverride = getOverride();
         Vec3 newPos;
         if (animationOverride != null) {
             newPos = getParent().position().add(animationOverride.localPos());
@@ -46,6 +46,6 @@ public interface MultiPart<T extends Mob & com.github.darkpred.multipartsupport.
 
     @ApiStatus.Internal
     interface Factory {
-        <T extends Mob & com.github.darkpred.multipartsupport.entity.MultiPartEntity<T>> MultiPart<T> create(T parent, com.github.darkpred.multipartsupport.entity.EntityHitboxManager.HitboxData hitboxData);
+        <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, HitboxDataLoader.HitboxData hitboxData);
     }
 }

@@ -1,9 +1,9 @@
-package com.github.darkpred.multipartsupport.mixin;
+package com.github.darkpred.morehitboxes.mixin;
 
 
-import com.github.darkpred.multipartsupport.MultiPartServerLevel;
-import com.github.darkpred.multipartsupport.entity.MultiPart;
-import com.github.darkpred.multipartsupport.entity.MultiPartEntity;
+import com.github.darkpred.morehitboxes.MultiPartServerLevel;
+import com.github.darkpred.morehitboxes.entity.MultiPart;
+import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Final;
@@ -28,7 +28,7 @@ public abstract class EntityCallbacksMixin {
     public void addMultiPartOnTrackingStart(Entity entity, CallbackInfo ci) {
         if (entity instanceof MultiPartEntity<?> multiPartEntity) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
-                ((MultiPartServerLevel) field_26936).multiPartSupport$addMultiPart(part.getEntity());
+                ((MultiPartServerLevel) field_26936).morehitboxes$addMultiPart(part.getEntity());
             }
         }
     }
@@ -37,7 +37,7 @@ public abstract class EntityCallbacksMixin {
     public void removeMultiPartOnTrackingEnd(Entity entity, CallbackInfo ci) {
         if (entity instanceof MultiPartEntity<?> multiPartEntity) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
-                ((MultiPartServerLevel) field_26936).multiPartSupport$removeMultiPart(part.getEntity());
+                ((MultiPartServerLevel) field_26936).morehitboxes$removeMultiPart(part.getEntity());
             }
         }
     }
