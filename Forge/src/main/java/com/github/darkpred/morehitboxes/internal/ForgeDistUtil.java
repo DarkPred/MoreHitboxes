@@ -1,4 +1,4 @@
-package com.github.darkpred.morehitboxes.client;
+package com.github.darkpred.morehitboxes.internal;
 
 import com.google.auto.service.AutoService;
 import net.minecraft.client.Minecraft;

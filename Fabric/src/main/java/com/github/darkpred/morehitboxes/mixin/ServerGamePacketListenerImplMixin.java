@@ -1,7 +1,7 @@
 package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.morehitboxes.entity.MultiPart;
-import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
+import com.github.darkpred.morehitboxes.api.MultiPart;
+import com.github.darkpred.morehitboxes.api.MultiPartEntity;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;

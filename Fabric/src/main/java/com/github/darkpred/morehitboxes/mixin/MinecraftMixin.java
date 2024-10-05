@@ -1,6 +1,6 @@
 package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.morehitboxes.entity.MultiPartEntityHitResult;
+import com.github.darkpred.morehitboxes.internal.MultiPartEntityHitResult;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Minecraft;

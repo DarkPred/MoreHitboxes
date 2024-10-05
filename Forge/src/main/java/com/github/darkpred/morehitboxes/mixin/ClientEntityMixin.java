@@ -1,9 +1,9 @@
 package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.morehitboxes.entity.GeckoLibMultiPartEntity;
-import com.github.darkpred.morehitboxes.entity.MultiPart;
-import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
-import com.github.darkpred.morehitboxes.entity.MultiPartGeoEntityRenderer;
+import com.github.darkpred.morehitboxes.api.GeckoLibMultiPartEntity;
+import com.github.darkpred.morehitboxes.api.MultiPart;
+import com.github.darkpred.morehitboxes.api.MultiPartEntity;
+import com.github.darkpred.morehitboxes.internal.MultiPartGeoEntityRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;

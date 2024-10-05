@@ -1,8 +1,5 @@
-package com.github.darkpred.morehitboxes.entity;
+package com.github.darkpred.morehitboxes.api;
 
-import com.github.darkpred.morehitboxes.api.AttackBoxData;
-import com.github.darkpred.morehitboxes.api.EntityHitboxData;
-import com.github.darkpred.morehitboxes.api.EntityHitboxDataFactory;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -29,7 +26,6 @@ import org.jetbrains.annotations.NotNull;
  * @see MultiPart
  * @see AnimationOverride
  */
-//TODO: Move to api
 public interface MultiPartEntity<T extends Mob & MultiPartEntity<T>> {
     EntityHitboxData<T> getPlaceHolderName();
 

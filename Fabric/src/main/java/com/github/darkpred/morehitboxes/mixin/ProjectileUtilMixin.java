@@ -1,7 +1,7 @@
 package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.morehitboxes.entity.MultiPart;
-import com.github.darkpred.morehitboxes.entity.MultiPartEntityHitResult;
+import com.github.darkpred.morehitboxes.api.MultiPart;
+import com.github.darkpred.morehitboxes.internal.MultiPartEntityHitResult;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.phys.EntityHitResult;

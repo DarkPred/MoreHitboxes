@@ -1,6 +1,6 @@
 package com.github.darkpred.morehitboxes;
 
-import com.github.darkpred.morehitboxes.entity.HitboxDataLoader;
+import com.github.darkpred.morehitboxes.internal.HitboxDataLoader;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;

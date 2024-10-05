@@ -37,7 +37,7 @@ public interface AttackBoxData {
     void moveActiveAttackBox(HitboxData attackBox, Vec3 worldPos);
 
     /**
-     * Returns {@code true} if the given attack box will trigger {@link com.github.darkpred.morehitboxes.entity.MultiPartEntity#attackBoxHit(Player) MultiPartEntity#attackBoxHit(Player)}
+     * Returns {@code true} if the given attack box will trigger {@link MultiPartEntity#attackBoxHit(Player) MultiPartEntity#attackBoxHit(Player)}
      */
     boolean isAttackBoxActive(HitboxData attackBox);
 

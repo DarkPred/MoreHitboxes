@@ -1,7 +1,6 @@
-package com.github.darkpred.morehitboxes.entity;
+package com.github.darkpred.morehitboxes.api;
 
-import com.github.darkpred.morehitboxes.api.EntityHitboxDataFactory;
-import com.github.darkpred.morehitboxes.api.HitboxData;
+import com.github.darkpred.morehitboxes.internal.MultiPartGeoEntityRenderer;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
 

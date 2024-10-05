@@ -1,7 +1,7 @@
 package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.morehitboxes.entity.MultiPart;
-import com.github.darkpred.morehitboxes.entity.MultiPartEntityHitResult;
+import com.github.darkpred.morehitboxes.api.MultiPart;
+import com.github.darkpred.morehitboxes.internal.MultiPartEntityHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;

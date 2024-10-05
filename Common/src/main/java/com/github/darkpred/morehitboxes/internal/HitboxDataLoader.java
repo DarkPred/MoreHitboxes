@@ -1,4 +1,4 @@
-package com.github.darkpred.morehitboxes.entity;
+package com.github.darkpred.morehitboxes.internal;
 
 import com.github.darkpred.morehitboxes.api.HitboxData;
 import com.google.common.collect.ImmutableList;

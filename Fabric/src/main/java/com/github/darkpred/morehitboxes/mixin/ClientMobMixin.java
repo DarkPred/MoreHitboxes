@@ -1,6 +1,6 @@
 package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
+import com.github.darkpred.morehitboxes.api.MultiPartEntity;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

@@ -2,10 +2,10 @@ package com.github.darkpred.morehitboxes.mixin;
 
 import com.github.darkpred.morehitboxes.api.AttackBoxData;
 import com.github.darkpred.morehitboxes.api.HitboxData;
-import com.github.darkpred.morehitboxes.entity.AnimationOverride;
-import com.github.darkpred.morehitboxes.entity.GeckoLibMultiPartEntity;
-import com.github.darkpred.morehitboxes.entity.MultiPart;
-import com.github.darkpred.morehitboxes.entity.MultiPartGeoEntityRenderer;
+import com.github.darkpred.morehitboxes.api.AnimationOverride;
+import com.github.darkpred.morehitboxes.api.GeckoLibMultiPartEntity;
+import com.github.darkpred.morehitboxes.api.MultiPart;
+import com.github.darkpred.morehitboxes.internal.MultiPartGeoEntityRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3d;

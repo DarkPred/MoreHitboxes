@@ -1,8 +1,8 @@
-package com.github.darkpred.morehitboxes.client;
+package com.github.darkpred.morehitboxes.internal;
 
 import com.github.darkpred.morehitboxes.api.AttackBoxData;
 import com.github.darkpred.morehitboxes.api.HitboxData;
-import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
+import com.github.darkpred.morehitboxes.api.MultiPartEntity;
 import com.github.darkpred.morehitboxes.platform.Services;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Mob;

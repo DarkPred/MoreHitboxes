@@ -1,6 +1,5 @@
-package com.github.darkpred.morehitboxes.entity;
+package com.github.darkpred.morehitboxes.api;
 
-import com.github.darkpred.morehitboxes.api.HitboxData;
 import net.minecraft.world.phys.Vec3;
 
 /**
@@ -14,5 +13,6 @@ import net.minecraft.world.phys.Vec3;
  * @param scaleH   the y scale of the bone
  */
 //TODO: Link blockbench plugin or add to repo
+//TODO: add icon
 public record AnimationOverride(Vec3 localPos, float scaleW, float scaleH) {
 }

@@ -1,5 +1,6 @@
-package com.github.darkpred.morehitboxes.entity;
+package com.github.darkpred.morehitboxes.internal;
 
+import com.github.darkpred.morehitboxes.api.MultiPart;
 import net.minecraft.world.phys.EntityHitResult;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Contract;

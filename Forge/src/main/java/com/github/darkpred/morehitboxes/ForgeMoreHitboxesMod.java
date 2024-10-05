@@ -1,7 +1,7 @@
 package com.github.darkpred.morehitboxes;
 
 import com.github.darkpred.morehitboxes.api.HitboxData;
-import com.github.darkpred.morehitboxes.entity.HitboxDataLoader;
+import com.github.darkpred.morehitboxes.internal.HitboxDataLoader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;

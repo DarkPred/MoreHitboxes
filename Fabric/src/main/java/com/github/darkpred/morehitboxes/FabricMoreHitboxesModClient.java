@@ -1,6 +1,6 @@
 package com.github.darkpred.morehitboxes;
 
-import com.github.darkpred.morehitboxes.entity.HitboxDataLoader;
+import com.github.darkpred.morehitboxes.internal.HitboxDataLoader;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;

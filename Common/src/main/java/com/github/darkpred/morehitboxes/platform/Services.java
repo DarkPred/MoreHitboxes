@@ -2,7 +2,7 @@ package com.github.darkpred.morehitboxes.platform;
 
 import com.github.darkpred.morehitboxes.MoreHitboxesMod;
 import com.github.darkpred.morehitboxes.ResourcePackRegistry;
-import com.github.darkpred.morehitboxes.entity.MultiPart;
+import com.github.darkpred.morehitboxes.api.MultiPart;
 import com.github.darkpred.morehitboxes.platform.services.IPlatformHelper;
 import org.jetbrains.annotations.ApiStatus;
 
