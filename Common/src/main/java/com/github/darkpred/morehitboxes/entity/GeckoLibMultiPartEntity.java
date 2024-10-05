@@ -1,5 +1,7 @@
 package com.github.darkpred.morehitboxes.entity;
 
+import com.github.darkpred.morehitboxes.api.EntityHitboxDataFactory;
+import com.github.darkpred.morehitboxes.api.HitboxData;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
 
@@ -8,10 +10,10 @@ import net.minecraft.world.phys.Vec3;
  * <p>
  * Required steps to use:
  * <ol>
- *     <li>Add one or more hitboxes in data/{modId}/hitboxes/{entityTypeKey}.json with {@link HitboxDataLoader.HitboxData#ref()} set to a bone name</li>
+ *     <li>Add one or more hitboxes in data/{modId}/hitboxes/{entityTypeKey}.json with {@link HitboxData#ref()} set to a bone name</li>
  *     <li>Add a geckolib animation controlling the bone. See {@link AnimationOverride} for supported features</li>
  *     <li>Implement this interface</li>
- *     <li>Call and save {@link com.github.darkpred.morehitboxes.api.PlaceHolderNameFactory#create(Mob) PlaceHolderNameFactory#create(Mob)}</li>
+ *     <li>Call and save {@link EntityHitboxDataFactory#create(Mob) PlaceHolderNameFactory#create(Mob)}</li>
  *     <li>See {@link MultiPartGeoEntityRenderer} </li>
  * </ol>
  *

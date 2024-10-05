@@ -1,5 +1,6 @@
 package com.github.darkpred.morehitboxes.entity;
 
+import com.github.darkpred.morehitboxes.api.HitboxData;
 import com.google.auto.service.AutoService;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -25,7 +26,7 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity 
     @Nullable
     private AnimationOverride animationOverride;
 
-    public FabricMultiPart(T parent, HitboxDataLoader.HitboxData hitboxData) {
+    public FabricMultiPart(T parent, HitboxData hitboxData) {
         super(parent.getType(), parent.level);
         this.parent = parent;
         this.size = EntityDimensions.scalable(hitboxData.width(), hitboxData.height());
@@ -135,7 +136,7 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity 
     public static class FabricMultiPartFactory implements MultiPart.Factory {
 
         @Override
-        public <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, HitboxDataLoader.HitboxData hitboxData) {
+        public <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, HitboxData hitboxData) {
             return new FabricMultiPart<>(parent, hitboxData);
         }
     }

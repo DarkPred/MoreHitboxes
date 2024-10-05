@@ -8,8 +8,8 @@ import net.minecraft.world.entity.Mob;
 /**
  * @see MultiPartEntity
  */
-public class PlaceHolderNameFactory {
-    private PlaceHolderNameFactory() {
+public class EntityHitboxDataFactory {
+    private EntityHitboxDataFactory() {
 
     }
 

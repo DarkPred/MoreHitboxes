@@ -1,9 +1,12 @@
 package com.github.darkpred.morehitboxes.entity;
 
+import com.github.darkpred.morehitboxes.api.AttackBoxData;
 import com.github.darkpred.morehitboxes.api.EntityHitboxData;
+import com.github.darkpred.morehitboxes.api.EntityHitboxDataFactory;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -16,10 +19,15 @@ import org.jetbrains.annotations.NotNull;
  * <ol>
  *     <li>Add one or more hitboxes in data/{modId}/hitboxes/{entityTypeKey}.json </li>
  *     <li>Implement this interface or a child interface </li>
- *     <li>Call and save {@link com.github.darkpred.morehitboxes.api.PlaceHolderNameFactory#create(Mob) PlaceHolderNameFactory#create(Mob)}</li>
+ *     <li>Call and save {@link EntityHitboxDataFactory#create(Mob) PlaceHolderNameFactory#create(Mob)}</li>
+ *     <li>(Optional): Call {@link AttackBoxData#activateAttackBoxes(Level, double)} whenever you want to activate an attack box</li>
  * </ol>
  *
  * @param <T> the type of the mob implementing this interface
+ * @see EntityHitboxData
+ * @see AttackBoxData
+ * @see MultiPart
+ * @see AnimationOverride
  */
 //TODO: Move to api
 public interface MultiPartEntity<T extends Mob & MultiPartEntity<T>> {

@@ -1,7 +1,7 @@
 package com.github.darkpred.morehitboxes.entity;
 
 import com.github.darkpred.morehitboxes.api.EntityHitboxData;
-import com.github.darkpred.morehitboxes.api.PlaceHolderNameFactory;
+import com.github.darkpred.morehitboxes.api.EntityHitboxDataFactory;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -9,10 +9,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
-//TODO: Change license to Mit, add icon
+//TODO: add icon
 public class Example extends Mob implements GeckoLibMultiPartEntity<Example> {
 
-    private final EntityHitboxData<Example> placeHolderName = PlaceHolderNameFactory.create(this);
+    private final EntityHitboxData<Example> placeHolderName = EntityHitboxDataFactory.create(this);
 
     protected Example(EntityType<? extends Example> entityType, Level level) {
         super(entityType, level);

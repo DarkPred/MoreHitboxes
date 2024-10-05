@@ -1,6 +1,5 @@
 package com.github.darkpred.morehitboxes.api;
 
-import com.github.darkpred.morehitboxes.entity.HitboxDataLoader;
 import com.github.darkpred.morehitboxes.entity.MultiPart;
 import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
 import net.minecraft.world.entity.Entity;
@@ -13,7 +12,7 @@ import java.util.List;
 
 /**
  * The container responsible for creating and managing the hitbox parts. Any entity that implements {@link MultiPartEntity}
- * should create an instance of this via {@link PlaceHolderNameFactory}
+ * should create an instance of this via {@link EntityHitboxDataFactory}
  */
 public interface EntityHitboxData<T extends Mob & MultiPartEntity<T>> {
     /**
@@ -67,7 +66,7 @@ public interface EntityHitboxData<T extends Mob & MultiPartEntity<T>> {
     List<MultiPart<T>> getCustomParts();
 
     /**
-     * Returns a hitbox part if the given name was linked in {@link HitboxDataLoader.HitboxData#ref()}
+     * Returns a hitbox part if the given name was linked in {@link HitboxData#ref()}
      *
      * @param ref the name of the bone the hitbox part is attached to
      * @return the hitbox part attached to the given bone or {@code null} if no part like that was added

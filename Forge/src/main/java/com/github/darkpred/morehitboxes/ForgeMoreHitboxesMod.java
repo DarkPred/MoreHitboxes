@@ -1,5 +1,6 @@
 package com.github.darkpred.morehitboxes;
 
+import com.github.darkpred.morehitboxes.api.HitboxData;
 import com.github.darkpred.morehitboxes.entity.HitboxDataLoader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -38,17 +39,17 @@ public class ForgeMoreHitboxesMod {
     }
 
     public void onDatapackSyncEvent(OnDatapackSyncEvent event) {
-        INSTANCE.send(PacketDistributor.PLAYER.with(event::getPlayer), new SyncHitboxDataMessage(HitboxDataLoader.HITBOX_DATA.getEntities()));
+        INSTANCE.send(PacketDistributor.PLAYER.with(event::getPlayer), new SyncHitboxDataMessage(HitboxDataLoader.HITBOX_DATA.getHitboxData()));
     }
 
     private static class SyncHitboxDataMessage {
-        private final Map<ResourceLocation, List<HitboxDataLoader.HitboxData>> hitboxes;
+        private final Map<ResourceLocation, List<HitboxData>> hitboxes;
 
         public SyncHitboxDataMessage(FriendlyByteBuf buf) {
             this.hitboxes = buf.readMap(HashMap::new, FriendlyByteBuf::readResourceLocation, HitboxDataLoader::readBuf);
         }
 
-        public SyncHitboxDataMessage(Map<ResourceLocation, List<HitboxDataLoader.HitboxData>> hitboxes) {
+        public SyncHitboxDataMessage(Map<ResourceLocation, List<HitboxData>> hitboxes) {
             this.hitboxes = hitboxes;
         }
 

@@ -1,5 +1,6 @@
 package com.github.darkpred.morehitboxes.entity;
 
+import com.github.darkpred.morehitboxes.api.HitboxData;
 import com.google.auto.service.AutoService;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -25,7 +26,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
     @Nullable
     private AnimationOverride animationOverride;
 
-    public ForgeMultiPart(T parent, HitboxDataLoader.HitboxData hitboxData) {
+    public ForgeMultiPart(T parent, HitboxData hitboxData) {
         super(parent);
         this.size = EntityDimensions.scalable(hitboxData.width(), hitboxData.height());
         this.offset = hitboxData.pos();
@@ -129,7 +130,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
     public static class ForgeMultiPartFactory implements MultiPart.Factory {
 
         @Override
-        public <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, HitboxDataLoader.HitboxData hitboxData) {
+        public <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, HitboxData hitboxData) {
             return new ForgeMultiPart<>(parent, hitboxData);
         }
     }

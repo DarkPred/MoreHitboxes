@@ -1,5 +1,6 @@
 package com.github.darkpred.morehitboxes.entity;
 
+import com.github.darkpred.morehitboxes.api.HitboxData;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.*;
@@ -9,6 +10,7 @@ import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
@@ -16,35 +18,28 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-
-//TODO: Hitbox system explanation
-
-/**
- *
- */
-//TODO: Link blockbench plugin or add to repo
+@ApiStatus.Internal
 public class HitboxDataLoader extends SimpleJsonResourceReloadListener {
     private static final Gson GSON = new GsonBuilder().disableHtmlEscaping().create();
     public static final HitboxDataLoader HITBOX_DATA = new HitboxDataLoader(GSON);
-    private ImmutableMap<ResourceLocation, List<HitboxData>> entities = ImmutableMap.of();
+    private ImmutableMap<ResourceLocation, List<HitboxData>> hitboxData = ImmutableMap.of();
 
     public HitboxDataLoader(Gson gson) {
         super(gson, "hitboxes");
     }
 
     /**
-     * @param entity
-     * @return
+     * Returns a list of the hitbox data that was loaded from data/hitboxes
+     *
+     * @param entityLocation the {@link EntityType#getKey} for the mob
+     * @return a list of the mobs hitbox data
      */
-    public List<HitboxData> getHitboxes(ResourceLocation entity) {
-        return entities.get(entity);
+    public List<HitboxData> getHitboxes(ResourceLocation entityLocation) {
+        return hitboxData.get(entityLocation);
     }
 
-    /**
-     * @return
-     */
-    public Map<ResourceLocation, List<HitboxData>> getEntities() {
-        return entities;
+    public Map<ResourceLocation, List<HitboxData>> getHitboxData() {
+        return hitboxData;
     }
 
     @Override
@@ -75,18 +70,18 @@ public class HitboxDataLoader extends SimpleJsonResourceReloadListener {
             }
             builder.put(fileEntry.getKey(), listBuilder.build());
         }
-        entities = builder.build();
+        hitboxData = builder.build();
     }
 
     /**
+     * Replaces all hitbox data with a copy of the given map
      *
-     * @param dataMap
+     * @param dataMap the new hitbox data
      */
     public void replaceData(Map<ResourceLocation, List<HitboxData>> dataMap) {
-        entities = ImmutableMap.copyOf(dataMap);
+        hitboxData = ImmutableMap.copyOf(dataMap);
     }
 
-    @ApiStatus.Internal
     public static List<HitboxData> readBuf(FriendlyByteBuf buf) {
         return buf.readList(HitboxData::readBuf);
     }
@@ -95,43 +90,7 @@ public class HitboxDataLoader extends SimpleJsonResourceReloadListener {
         buf.writeCollection(hitboxes, HitboxData::writeBuf);
     }
 
-    @ApiStatus.Internal
     public void writeBuf(FriendlyByteBuf buf) {
-        buf.writeMap(entities, (buffer, key) -> buf.writeResourceLocation(key), HitboxDataLoader::writeBuf);
-    }
-
-    //TODO: Javadoc
-
-    /**
-     * @param name
-     * @param pos
-     * @param width
-     * @param height
-     * @param ref         unique
-     * @param isAttackBox
-     */
-    public record HitboxData(String name, Vec3 pos, float width, float height, String ref, boolean isAttackBox) {
-        public float getFrustumWidthRadius() {
-            return (float) Math.max(Math.abs(pos.x) + width / 2, Math.abs(pos.z) + width / 2);
-        }
-
-        public float getFrustumHeight() {
-            return (float) pos.y + height;
-        }
-
-        public static HitboxData readBuf(FriendlyByteBuf buf) {
-            return new HitboxData(buf.readUtf(), new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()), buf.readFloat(), buf.readFloat(), buf.readUtf(), buf.readBoolean());
-        }
-
-        public static void writeBuf(FriendlyByteBuf buf, HitboxData hitbox) {
-            buf.writeUtf(hitbox.name);
-            buf.writeDouble(hitbox.pos.x);
-            buf.writeDouble(hitbox.pos.y);
-            buf.writeDouble(hitbox.pos.z);
-            buf.writeFloat(hitbox.width);
-            buf.writeFloat(hitbox.height);
-            buf.writeUtf(hitbox.ref);
-            buf.writeBoolean(hitbox.isAttackBox);
-        }
+        buf.writeMap(hitboxData, (buffer, key) -> buf.writeResourceLocation(key), HitboxDataLoader::writeBuf);
     }
 }

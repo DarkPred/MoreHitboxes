@@ -1,7 +1,11 @@
 package com.github.darkpred.morehitboxes.mixin;
 
 import com.github.darkpred.morehitboxes.api.AttackBoxData;
-import com.github.darkpred.morehitboxes.entity.*;
+import com.github.darkpred.morehitboxes.api.HitboxData;
+import com.github.darkpred.morehitboxes.entity.AnimationOverride;
+import com.github.darkpred.morehitboxes.entity.GeckoLibMultiPartEntity;
+import com.github.darkpred.morehitboxes.entity.MultiPart;
+import com.github.darkpred.morehitboxes.entity.MultiPartGeoEntityRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3d;
@@ -42,7 +46,7 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
                 multiPartEntity.setAnchorPos(bone.name, new Vec3(localPos.x, localPos.y, localPos.z));
             } else {
                 AttackBoxData placeholder = multiPartEntity.getPlaceHolderName().getAttackBoxPlaceHolder();
-                HitboxDataLoader.HitboxData attackBox = placeholder.getAttackBox(bone.name);
+                HitboxData attackBox = placeholder.getAttackBox(bone.name);
                 if (attackBox != null && placeholder.isAttackBoxActive(attackBox)) {
                     Vector3d worldPos = bone.getWorldPosition();
                     multiPartEntity.getPlaceHolderName().getAttackBoxPlaceHolder().moveActiveAttackBox(attackBox, new Vec3(worldPos.x, worldPos.y, worldPos.z));

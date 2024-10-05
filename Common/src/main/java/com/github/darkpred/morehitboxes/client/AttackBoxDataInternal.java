@@ -1,7 +1,7 @@
 package com.github.darkpred.morehitboxes.client;
 
 import com.github.darkpred.morehitboxes.api.AttackBoxData;
-import com.github.darkpred.morehitboxes.entity.HitboxDataLoader;
+import com.github.darkpred.morehitboxes.api.HitboxData;
 import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
 import com.github.darkpred.morehitboxes.platform.Services;
 import net.minecraft.world.entity.EntityDimensions;
@@ -15,10 +15,9 @@ import org.jetbrains.annotations.ApiStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-//TODO: Javadoc
 public class AttackBoxDataInternal<T extends Mob & MultiPartEntity<T>> implements AttackBoxData {
-    private final Map<String, HitboxDataLoader.HitboxData> attackBoxes = new HashMap<>();
-    private final Map<HitboxDataLoader.HitboxData, Vec3> activeAttackBoxes = new HashMap<>();
+    private final Map<String, HitboxData> attackBoxes = new HashMap<>();
+    private final Map<HitboxData, Vec3> activeAttackBoxes = new HashMap<>();
     private long attackBoxEndTime;
     private final T entity;
 
@@ -27,22 +26,22 @@ public class AttackBoxDataInternal<T extends Mob & MultiPartEntity<T>> implement
     }
 
     @Override
-    public void addAttackBox(String ref, HitboxDataLoader.HitboxData hitboxData) {
+    public void addAttackBox(String ref, HitboxData hitboxData) {
         attackBoxes.put(ref, hitboxData);
     }
 
     @Override
-    public HitboxDataLoader.HitboxData getAttackBox(String ref) {
+    public HitboxData getAttackBox(String ref) {
         return attackBoxes.get(ref);
     }
 
     @Override
-    public void moveActiveAttackBox(HitboxDataLoader.HitboxData attackBox, Vec3 worldPos) {
+    public void moveActiveAttackBox(HitboxData attackBox, Vec3 worldPos) {
         activeAttackBoxes.put(attackBox, worldPos);
     }
 
     @Override
-    public boolean isAttackBoxActive(HitboxDataLoader.HitboxData attackBox) {
+    public boolean isAttackBoxActive(HitboxData attackBox) {
         return activeAttackBoxes.containsKey(attackBox);
     }
 
@@ -57,8 +56,8 @@ public class AttackBoxDataInternal<T extends Mob & MultiPartEntity<T>> implement
         if (level.getGameTime() > attackBoxEndTime) {
             activeAttackBoxes.clear();
         }
-        for (Map.Entry<HitboxDataLoader.HitboxData, Vec3> entry : activeAttackBoxes.entrySet()) {
-            HitboxDataLoader.HitboxData hitbox = entry.getKey();
+        for (Map.Entry<HitboxData, Vec3> entry : activeAttackBoxes.entrySet()) {
+            HitboxData hitbox = entry.getKey();
             EntityDimensions size = EntityDimensions.scalable(hitbox.width(), hitbox.height()).scale(entity.getScale());
             AABB aabb = size.makeBoundingBox(entry.getValue());
             Player player = DistUtilFactory.DIST_UTIL.handleIntersect(aabb);
@@ -72,7 +71,7 @@ public class AttackBoxDataInternal<T extends Mob & MultiPartEntity<T>> implement
     }
 
     @Override
-    public Map<HitboxDataLoader.HitboxData, Vec3> getActiveBoxes() {
+    public Map<HitboxData, Vec3> getActiveBoxes() {
         return activeAttackBoxes;
     }
 

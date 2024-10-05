@@ -1,6 +1,5 @@
 package com.github.darkpred.morehitboxes.api;
 
-import com.github.darkpred.morehitboxes.entity.HitboxDataLoader;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -10,36 +9,38 @@ import software.bernie.geckolib3.core.builder.Animation;
 import java.util.Map;
 
 /**
- * The container responsible for creating and managing attack boxes. See {@link HitboxDataLoader.HitboxData}
- * for more information
+ * The container responsible for creating and managing attack boxes. Each hitbox that has {@link HitboxData#isAttackBox()}
+ * set will be activated when {@link #activateAttackBoxes(Level, double)} is called.
+ * <p>
+ * For now this is entirely client side
  */
 public interface AttackBoxData {
 
     @ApiStatus.Internal
-    void addAttackBox(String ref, HitboxDataLoader.HitboxData hitboxData);
+    void addAttackBox(String ref, HitboxData hitboxData);
 
     /**
-     * Returns a hitbox part if the given name was linked in {@link HitboxDataLoader.HitboxData#ref()}.
+     * Returns a hitbox part if the given name was linked in {@link HitboxData#ref()}.
      * <p>
      * Used by the library to provide optional GeckoLib support
      *
      * @param ref the name of the bone the hitbox part is attached to
      * @return the hitbox part attached to the given bone
      */
-    HitboxDataLoader.HitboxData getAttackBox(String ref);
+    HitboxData getAttackBox(String ref);
 
     /**
-     * Sets the position of a currently active attack box
+     * Sets the position of a currently active attack box. Will be called by the library if GeckoLib is installed
      *
      * @param attackBox the attack box to be moved
      * @param worldPos  the new position relative to the world
      */
-    void moveActiveAttackBox(HitboxDataLoader.HitboxData attackBox, Vec3 worldPos);
+    void moveActiveAttackBox(HitboxData attackBox, Vec3 worldPos);
 
     /**
      * Returns {@code true} if the given attack box will trigger {@link com.github.darkpred.morehitboxes.entity.MultiPartEntity#attackBoxHit(Player) MultiPartEntity#attackBoxHit(Player)}
      */
-    boolean isAttackBoxActive(HitboxDataLoader.HitboxData attackBox);
+    boolean isAttackBoxActive(HitboxData attackBox);
 
     /**
      * Activates all attack boxes for a given duration
@@ -55,7 +56,7 @@ public interface AttackBoxData {
     void clientTick(Level level);
 
     @ApiStatus.Internal
-    Map<HitboxDataLoader.HitboxData, Vec3> getActiveBoxes();
+    Map<HitboxData, Vec3> getActiveBoxes();
 
     /**
      * The last tick of the attack

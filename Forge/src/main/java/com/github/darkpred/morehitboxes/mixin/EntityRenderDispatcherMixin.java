@@ -1,7 +1,7 @@
 package com.github.darkpred.morehitboxes.mixin;
 
 import com.github.darkpred.morehitboxes.api.EntityHitboxData;
-import com.github.darkpred.morehitboxes.entity.HitboxDataLoader;
+import com.github.darkpred.morehitboxes.api.HitboxData;
 import com.github.darkpred.morehitboxes.entity.MultiPart;
 import com.github.darkpred.morehitboxes.entity.MultiPartEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -39,9 +39,9 @@ public abstract class EntityRenderDispatcherMixin {
             LevelRenderer.renderLineBox(poseStack, buffer, aABB, 1, 0, 1, 1);
             aABB = placeHolderName.getAttackBounds().move(-entity.getX(), -entity.getY(), -entity.getZ());
             LevelRenderer.renderLineBox(poseStack, buffer, aABB, 0, 0, 1, 1);
-            for (Map.Entry<HitboxDataLoader.HitboxData, Vec3> entry : placeHolderName.getAttackBoxPlaceHolder().getActiveBoxes().entrySet()) {
+            for (Map.Entry<HitboxData, Vec3> entry : placeHolderName.getAttackBoxPlaceHolder().getActiveBoxes().entrySet()) {
                 Vec3 pos = entry.getValue();
-                HitboxDataLoader.HitboxData hitbox = entry.getKey();
+                HitboxData hitbox = entry.getKey();
                 EntityDimensions size = EntityDimensions.scalable(hitbox.width(), hitbox.height()).scale(mob.getScale());
                 AABB aabb = size.makeBoundingBox(pos);
                 poseStack.pushPose();

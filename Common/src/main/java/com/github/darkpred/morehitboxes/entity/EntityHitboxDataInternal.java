@@ -2,6 +2,7 @@ package com.github.darkpred.morehitboxes.entity;
 
 import com.github.darkpred.morehitboxes.api.AttackBoxData;
 import com.github.darkpred.morehitboxes.api.EntityHitboxData;
+import com.github.darkpred.morehitboxes.api.HitboxData;
 import com.github.darkpred.morehitboxes.client.AttackBoxDataInternal;
 import com.github.darkpred.morehitboxes.platform.Services;
 import net.minecraft.world.entity.EntityType;
@@ -34,7 +35,7 @@ public class EntityHitboxDataInternal<T extends Mob & MultiPartEntity<T>> implem
         this.attackBoxPlaceHolder = new AttackBoxDataInternal<>(entity);
         this.fixPosOnRefresh = fixPosOnRefresh;
         this.usesAttackBounds = usesAttackBounds;
-        List<HitboxDataLoader.HitboxData> hitboxData = HitboxDataLoader.HITBOX_DATA.getHitboxes(EntityType.getKey(entity.getType()));
+        List<HitboxData> hitboxData = HitboxDataLoader.HITBOX_DATA.getHitboxes(EntityType.getKey(entity.getType()));
         if (hitboxData != null && !hitboxData.isEmpty()) {
             spawnHitBoxes(hitboxData);
         }
@@ -42,11 +43,11 @@ public class EntityHitboxDataInternal<T extends Mob & MultiPartEntity<T>> implem
         makeBoundingBoxForCulling();
     }
 
-    private void spawnHitBoxes(List<HitboxDataLoader.HitboxData> hitboxesData) {
+    private void spawnHitBoxes(List<HitboxData> hitboxesData) {
         float maxFrustumWidthRadius = 0;
         float maxFrustumHeight = 0;
         //TODO: Clean up
-        for (HitboxDataLoader.HitboxData hitboxData : hitboxesData) {
+        for (HitboxData hitboxData : hitboxesData) {
             if (hitboxData.isAttackBox()) {
                 attackBoxPlaceHolder.addAttackBox(hitboxData.ref(), hitboxData);
             } else {
