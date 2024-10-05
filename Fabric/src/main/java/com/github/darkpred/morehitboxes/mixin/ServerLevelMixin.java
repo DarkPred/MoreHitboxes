@@ -27,17 +27,17 @@ public abstract class ServerLevelMixin implements MultiPartServerLevel {
     protected abstract LevelEntityGetter<Entity> getEntities();
 
     @Override
-    public Collection<Entity> morehitboxes$getMultiParts() {
+    public Collection<Entity> moreHitboxes$getMultiParts() {
         return multiParts.values();
     }
 
     @Override
-    public void morehitboxes$addMultiPart(Entity part) {
+    public void moreHitboxes$addMultiPart(Entity part) {
         multiParts.put(part.getId(), part);
     }
 
     @Override
-    public void morehitboxes$removeMultiPart(Entity part) {
+    public void moreHitboxes$removeMultiPart(Entity part) {
         multiParts.remove(part.getId());
     }
 

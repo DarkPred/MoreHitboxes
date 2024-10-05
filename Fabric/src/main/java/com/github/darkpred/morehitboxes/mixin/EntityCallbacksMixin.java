@@ -28,7 +28,7 @@ public abstract class EntityCallbacksMixin {
     public void addMultiPartOnTrackingStart(Entity entity, CallbackInfo ci) {
         if (entity instanceof MultiPartEntity<?> multiPartEntity) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
-                ((MultiPartServerLevel) field_26936).morehitboxes$addMultiPart(part.getEntity());
+                ((MultiPartServerLevel) field_26936).moreHitboxes$addMultiPart(part.getEntity());
             }
         }
     }
@@ -37,7 +37,7 @@ public abstract class EntityCallbacksMixin {
     public void removeMultiPartOnTrackingEnd(Entity entity, CallbackInfo ci) {
         if (entity instanceof MultiPartEntity<?> multiPartEntity) {
             for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
-                ((MultiPartServerLevel) field_26936).morehitboxes$removeMultiPart(part.getEntity());
+                ((MultiPartServerLevel) field_26936).moreHitboxes$removeMultiPart(part.getEntity());
             }
         }
     }

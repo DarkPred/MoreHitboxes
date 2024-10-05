@@ -4,7 +4,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
-import software.bernie.geckolib3.core.builder.Animation;
 
 import java.util.Map;
 
@@ -45,7 +44,7 @@ public interface AttackBoxData {
     /**
      * Activates all attack boxes for a given duration
      * <p>
-     * If GeckoLib is enabled, call this function at the beginning of an attack with {@link Animation#animationLength}
+     * If GeckoLib is enabled, call this function at the beginning of an attack with {@link software.bernie.geckolib3.core.builder.Animation#animationLength}
      * as the duration
      *
      * @param attackDuration for how long(in ticks) the attack should be active

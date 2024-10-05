@@ -21,7 +21,7 @@ public abstract class ProjectileUtilMixin {
         }
         if (original.getEntity() instanceof MultiPart<?> part) {
             EntityHitResult hitResult = new EntityHitResult(part.getParent(), original.getLocation());
-            ((MultiPartEntityHitResult) hitResult).morehitboxes$setMultiPart(part);
+            ((MultiPartEntityHitResult) hitResult).moreHitboxes$setMultiPart(part);
             return hitResult;
         }
         return original;

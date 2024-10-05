@@ -14,15 +14,15 @@ import org.spongepowered.asm.mixin.Unique;
 public abstract class EntityHitResultMixin implements MultiPartEntityHitResult {
     @Unique
     @Nullable
-    private MultiPart<?> morehitboxes$part;
+    private MultiPart<?> moreHitboxes$part;
 
     @Override
-    public void morehitboxes$setMultiPart(MultiPart<?> part) {
-        this.morehitboxes$part = part;
+    public void moreHitboxes$setMultiPart(MultiPart<?> part) {
+        this.moreHitboxes$part = part;
     }
 
     @Override
-    public @Nullable MultiPart<?> morehitboxes$getMultiPart() {
-        return morehitboxes$part;
+    public @Nullable MultiPart<?> moreHitboxes$getMultiPart() {
+        return moreHitboxes$part;
     }
 }

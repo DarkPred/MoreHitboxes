@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface MultiPartEntityHitResult {
 
-    void morehitboxes$setMultiPart(MultiPart<?> part);
+    void moreHitboxes$setMultiPart(MultiPart<?> part);
 
     /**
      * Returns the {@link MultiPart} that was originally the entity of the hit result
@@ -22,5 +22,5 @@ public interface MultiPartEntityHitResult {
      */
     @Nullable
     @Contract(pure = true)
-    MultiPart<?> morehitboxes$getMultiPart();
+    MultiPart<?> moreHitboxes$getMultiPart();
 }

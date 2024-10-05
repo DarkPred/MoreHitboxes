@@ -26,8 +26,8 @@ public class MinecraftMixin {
      */
     @WrapOperation(method = "startAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;attack(Lnet/minecraft/world/entity/player/Player;Lnet/minecraft/world/entity/Entity;)V"))
     private void modifyPartEntity(MultiPlayerGameMode gameMode, Player player, Entity targetEntity, Operation<Void> original) {
-        if (hitResult instanceof MultiPartEntityHitResult entityHitResult && entityHitResult.morehitboxes$getMultiPart() != null) {
-            original.call(gameMode, player, entityHitResult.morehitboxes$getMultiPart().getEntity());
+        if (hitResult instanceof MultiPartEntityHitResult entityHitResult && entityHitResult.moreHitboxes$getMultiPart() != null) {
+            original.call(gameMode, player, entityHitResult.moreHitboxes$getMultiPart().getEntity());
         } else {
             original.call(gameMode, player, targetEntity);
         }

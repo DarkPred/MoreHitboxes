@@ -7,9 +7,9 @@ import java.util.Collection;
 
 @ApiStatus.Internal
 public interface MultiPartServerLevel {
-    Collection<Entity> morehitboxes$getMultiParts();
+    Collection<Entity> moreHitboxes$getMultiParts();
 
-    void morehitboxes$addMultiPart(Entity part);
+    void moreHitboxes$addMultiPart(Entity part);
 
-    void morehitboxes$removeMultiPart(Entity part);
+    void moreHitboxes$removeMultiPart(Entity part);
 }

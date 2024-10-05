@@ -30,7 +30,7 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
     @Shadow
     protected T animatable;
     @Unique
-    private final Map<Integer, Integer> morehitboxes$tickForEntity = new HashMap<>();
+    private final Map<Integer, Integer> moreHitboxes$tickForEntity = new HashMap<>();
 
     @Inject(method = "renderRecursively", require = 0, remap = false, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lsoftware/bernie/geckolib3/geo/render/built/GeoBone;cubesAreHidden()Z"))
     public void getBonePositions(GeoBone bone, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, CallbackInfo ci) {
@@ -63,18 +63,18 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
     @Unique
     private int getTickForEntity(Entity entity) {
         //TODO: Maybe tickCount without +1
-        return morehitboxes$tickForEntity.computeIfAbsent(entity.getId(), integer -> entity.tickCount + 1);
+        return moreHitboxes$tickForEntity.computeIfAbsent(entity.getId(), integer -> entity.tickCount + 1);
     }
 
     @Unique
     public void removeTickForEntity(Entity entity) {
-        morehitboxes$tickForEntity.remove(entity.getId());
+        moreHitboxes$tickForEntity.remove(entity.getId());
     }
 
     @Unique
     public void updateTickForEntity(Entity entity) {
         if (getTickForEntity(entity) <= entity.tickCount) {
-            morehitboxes$tickForEntity.put(entity.getId(), entity.tickCount);
+            moreHitboxes$tickForEntity.put(entity.getId(), entity.tickCount);
         }
     }
 }
