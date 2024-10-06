@@ -32,7 +32,7 @@ public interface MultiPartEntity<T extends Mob & MultiPartEntity<T>> {
     boolean partHurt(MultiPart<T> multiPart, @NotNull DamageSource source, float amount);
 
     /**
-     * The result of this method is not directly used by the library and can instead be accessed and used via {@link EntityHitboxData#getAttackBounds()}
+     * The result of this method is used by the library to calculate {@link EntityHitboxData#getAttackBounds()}
      *
      * @param scaledHeadRadius {@link EntityHitboxData#getHeadRadius()} multiplied by {@link Mob#getScale()}
      * @apiNote the resulting box can be seen in a blue outline with the F3+B debug view
@@ -49,7 +49,7 @@ public interface MultiPartEntity<T extends Mob & MultiPartEntity<T>> {
     }
 
     /**
-     * It might make sense to override this method if the custom parts do not cover all of the mobs model
+     * It might make sense to override this method if the custom parts do not cover all of the mob's model
      *
      * @param frustumWidthRadius the horizontal distance from the farthest part to the center of the mob
      * @param frustumHeight      the vertical distance from the farthest part to the bottom of the mob

@@ -1,10 +1,6 @@
 package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.morehitboxes.api.AttackBoxData;
-import com.github.darkpred.morehitboxes.api.HitboxData;
-import com.github.darkpred.morehitboxes.api.AnimationOverride;
-import com.github.darkpred.morehitboxes.api.GeckoLibMultiPartEntity;
-import com.github.darkpred.morehitboxes.api.MultiPart;
+import com.github.darkpred.morehitboxes.api.*;
 import com.github.darkpred.morehitboxes.internal.MultiPartGeoEntityRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -34,7 +30,7 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
 
     @Inject(method = "renderRecursively", require = 0, remap = false, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lsoftware/bernie/geckolib3/geo/render/built/GeoBone;cubesAreHidden()Z"))
     public void getBonePositions(GeoBone bone, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, CallbackInfo ci) {
-        if (animatable instanceof GeckoLibMultiPartEntity<?> multiPartEntity && entityTickMatchesRenderTick(animatable)) {
+        if (animatable instanceof GeckoLibMultiPartEntity<?> multiPartEntity && moreHitboxes$entityTickMatchesRenderTick(animatable)) {
             MultiPart<?> part = multiPartEntity.getPlaceHolderName().getCustomPart(bone.name);
             if (part != null) {
                 //Tick hitboxes
@@ -56,14 +52,13 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
     }
 
     @Unique
-    private boolean entityTickMatchesRenderTick(T animatable) {
-        return getTickForEntity(animatable) == animatable.tickCount;
+    private boolean moreHitboxes$entityTickMatchesRenderTick(T animatable) {
+        return moreHitboxes$getTickForEntity(animatable) == animatable.tickCount;
     }
 
     @Unique
-    private int getTickForEntity(Entity entity) {
-        //TODO: Maybe tickCount without +1
-        return moreHitboxes$tickForEntity.computeIfAbsent(entity.getId(), integer -> entity.tickCount + 1);
+    private int moreHitboxes$getTickForEntity(Entity entity) {
+        return moreHitboxes$tickForEntity.computeIfAbsent(entity.getId(), integer -> entity.tickCount);
     }
 
     @Unique
@@ -73,7 +68,7 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
 
     @Unique
     public void updateTickForEntity(Entity entity) {
-        if (getTickForEntity(entity) <= entity.tickCount) {
+        if (moreHitboxes$getTickForEntity(entity) < entity.tickCount) {
             moreHitboxes$tickForEntity.put(entity.getId(), entity.tickCount);
         }
     }

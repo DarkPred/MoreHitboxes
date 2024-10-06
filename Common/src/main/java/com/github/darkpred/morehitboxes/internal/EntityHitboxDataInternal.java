@@ -43,7 +43,6 @@ public class EntityHitboxDataInternal<T extends Mob & MultiPartEntity<T>> implem
     private void spawnHitBoxes(List<HitboxData> hitboxesData) {
         float maxFrustumWidthRadius = 0;
         float maxFrustumHeight = 0;
-        //TODO: Clean up
         for (HitboxData hitboxData : hitboxesData) {
             if (hitboxData.isAttackBox()) {
                 attackBoxPlaceHolder.addAttackBox(hitboxData.ref(), hitboxData);
