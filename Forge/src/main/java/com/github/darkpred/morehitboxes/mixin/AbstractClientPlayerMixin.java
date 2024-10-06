@@ -23,7 +23,7 @@ public abstract class AbstractClientPlayerMixin extends Player {
             return true;
         }
         if (entity instanceof MultiPartEntity<?> multiPartEntity) {
-            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
+            for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
                 if (isCloseEnough(part.getEntity(), dist)) {
                     return true;
                 }

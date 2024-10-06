@@ -34,12 +34,12 @@ public abstract class EntityRenderDispatcherMixin {
             double d = -Mth.lerp(partialTicks, entity.xOld, entity.getX());
             double e = -Mth.lerp(partialTicks, entity.yOld, entity.getY());
             double f = -Mth.lerp(partialTicks, entity.zOld, entity.getZ());
-            EntityHitboxData<?> placeHolderName = multiPartEntity.getPlaceHolderName();
+            EntityHitboxData<?> hitboxData = multiPartEntity.getEntityHitboxData();
             AABB aABB = entity.getBoundingBoxForCulling().move(-entity.getX(), -entity.getY(), -entity.getZ());
             LevelRenderer.renderLineBox(poseStack, buffer, aABB, 1, 0, 1, 1);
-            aABB = placeHolderName.getAttackBounds().move(-entity.getX(), -entity.getY(), -entity.getZ());
+            aABB = hitboxData.getAttackBounds().move(-entity.getX(), -entity.getY(), -entity.getZ());
             LevelRenderer.renderLineBox(poseStack, buffer, aABB, 0, 0, 1, 1);
-            for (Map.Entry<HitboxData, Vec3> entry : placeHolderName.getAttackBoxPlaceHolder().getActiveBoxes().entrySet()) {
+            for (Map.Entry<HitboxData, Vec3> entry : hitboxData.getAttackBoxData().getActiveBoxes().entrySet()) {
                 Vec3 pos = entry.getValue();
                 HitboxData hitbox = entry.getKey();
                 EntityDimensions size = EntityDimensions.scalable(hitbox.width(), hitbox.height()).scale(mob.getScale());
@@ -56,7 +56,7 @@ public abstract class EntityRenderDispatcherMixin {
                 }
                 poseStack.popPose();
             }
-            for (MultiPart<?> multiPart : placeHolderName.getCustomParts()) {
+            for (MultiPart<?> multiPart : hitboxData.getCustomParts()) {
                 Entity part = multiPart.getEntity();
                 poseStack.pushPose();
                 double g = d + Mth.lerp(partialTicks, part.xOld, part.getX());

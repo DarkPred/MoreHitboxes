@@ -31,7 +31,7 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
     @Inject(method = "renderRecursively", require = 0, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lsoftware/bernie/geckolib3/geo/render/built/GeoBone;cubesAreHidden()Z"))
     public void getBonePositions(GeoBone bone, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, CallbackInfo ci) {
         if (animatable instanceof GeckoLibMultiPartEntity<?> multiPartEntity && moreHitboxes$entityTickMatchesRenderTick(animatable)) {
-            MultiPart<?> part = multiPartEntity.getPlaceHolderName().getCustomPart(bone.name);
+            MultiPart<?> part = multiPartEntity.getEntityHitboxData().getCustomPart(bone.name);
             if (part != null) {
                 //Tick hitboxes
                 Vector3d localPos = bone.getLocalPosition();
@@ -41,11 +41,11 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
                 Vector3d localPos = bone.getLocalPosition();
                 multiPartEntity.setAnchorPos(bone.name, new Vec3(localPos.x, localPos.y, localPos.z));
             } else {
-                AttackBoxData placeholder = multiPartEntity.getPlaceHolderName().getAttackBoxPlaceHolder();
-                HitboxData attackBox = placeholder.getAttackBox(bone.name);
-                if (attackBox != null && placeholder.isAttackBoxActive(attackBox)) {
+                AttackBoxData attackBoxData = multiPartEntity.getEntityHitboxData().getAttackBoxData();
+                HitboxData attackBox = attackBoxData.getAttackBox(bone.name);
+                if (attackBox != null && attackBoxData.isAttackBoxActive(attackBox)) {
                     Vector3d worldPos = bone.getWorldPosition();
-                    multiPartEntity.getPlaceHolderName().getAttackBoxPlaceHolder().moveActiveAttackBox(attackBox, new Vec3(worldPos.x, worldPos.y, worldPos.z));
+                    multiPartEntity.getEntityHitboxData().getAttackBoxData().moveActiveAttackBox(attackBox, new Vec3(worldPos.x, worldPos.y, worldPos.z));
                 }
             }
         }

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.NotNull;
  * <ol>
  *     <li>Add one or more hitboxes in data/{modId}/hitboxes/{entityTypeKey}.json </li>
  *     <li>Implement this interface or a child interface </li>
- *     <li>Call and save {@link EntityHitboxDataFactory#create(Mob) PlaceHolderNameFactory#create(Mob)}</li>
+ *     <li>Call and save {@link EntityHitboxDataFactory#create(Mob) EntityHitboxDataFactory#create(Mob)}</li>
  *     <li>(Optional): Call {@link AttackBoxData#activateAttackBoxes(Level, double)} whenever you want to activate an attack box</li>
  * </ol>
  *
@@ -27,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
  * @see AnimationOverride
  */
 public interface MultiPartEntity<T extends Mob & MultiPartEntity<T>> {
-    EntityHitboxData<T> getPlaceHolderName();
+    EntityHitboxData<T> getEntityHitboxData();
 
     boolean partHurt(MultiPart<T> multiPart, @NotNull DamageSource source, float amount);
 

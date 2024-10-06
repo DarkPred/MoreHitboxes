@@ -16,7 +16,7 @@ public interface EntityHitboxData<T extends Mob & MultiPartEntity<T>> {
     /**
      * Returns the container responsible for creating and managing attack boxes
      */
-    AttackBoxData getAttackBoxPlaceHolder();
+    AttackBoxData getAttackBoxData();
 
     @ApiStatus.Internal
     void makeBoundingBoxForCulling();

@@ -22,7 +22,7 @@ public abstract class ClientMobMixin extends LivingEntity {
     public void tickCustomParts(CallbackInfo ci) {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
             if (level instanceof ClientLevel clientLevel) {
-                multiPartEntity.getPlaceHolderName().getAttackBoxPlaceHolder().clientTick(clientLevel);
+                multiPartEntity.getEntityHitboxData().getAttackBoxData().clientTick(clientLevel);
             }
         }
     }

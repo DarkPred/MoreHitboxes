@@ -24,7 +24,7 @@ public abstract class MobMixin extends LivingEntity {
     @Inject(method = "aiStep", at = @At("RETURN"))
     public void tickCustomParts(CallbackInfo ci) {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
+            for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
                 part.updatePosition();
             }
         }
@@ -33,7 +33,7 @@ public abstract class MobMixin extends LivingEntity {
     @Override
     public PartEntity<?>[] getParts() {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            List<? extends MultiPart<?>> parts = multiPartEntity.getPlaceHolderName().getCustomParts();
+            List<? extends MultiPart<?>> parts = multiPartEntity.getEntityHitboxData().getCustomParts();
             PartEntity<?>[] ret = new PartEntity[parts.size()];
             for (int i = 0; i < parts.size(); i++) {
                 ret[i] = (PartEntity<?>) parts.get(i).getEntity();
@@ -46,7 +46,7 @@ public abstract class MobMixin extends LivingEntity {
     @Override
     public boolean isMultipartEntity() {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            return multiPartEntity.getPlaceHolderName().hasCustomParts();
+            return multiPartEntity.getEntityHitboxData().hasCustomParts();
         }
         return super.isMultipartEntity();
     }

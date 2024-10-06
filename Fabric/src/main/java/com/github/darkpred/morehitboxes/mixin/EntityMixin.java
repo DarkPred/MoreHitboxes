@@ -36,10 +36,10 @@ public abstract class EntityMixin {
     @Inject(method = "refreshDimensions", at = @At("RETURN"))
     public void refreshDimensionsForParts(CallbackInfo ci, @Share("oldY") LocalDoubleRef oldY) {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
+            for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
                 part.getEntity().refreshDimensions();
             }
-            if (multiPartEntity.getPlaceHolderName().fixPosOnRefresh()) {
+            if (multiPartEntity.getEntityHitboxData().fixPosOnRefresh()) {
                 setPos(getX(), oldY.get(), getZ());
             }
         }
@@ -47,7 +47,7 @@ public abstract class EntityMixin {
 
     @ModifyReturnValue(method = "isPickable", at = @At("RETURN"))
     public boolean preventPickable(boolean original) {
-        if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getPlaceHolderName().hasCustomParts()) {
+        if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getEntityHitboxData().hasCustomParts()) {
             return false;
         }
         return original;
@@ -55,24 +55,24 @@ public abstract class EntityMixin {
 
     @ModifyReturnValue(method = "getBoundingBoxForCulling", at = @At("RETURN"))
     public AABB changeCullBox(AABB original) {
-        if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getPlaceHolderName() != null && multiPartEntity.getPlaceHolderName().hasCustomParts()) {
-            return multiPartEntity.getPlaceHolderName().getCullingBounds();
+        if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getEntityHitboxData() != null && multiPartEntity.getEntityHitboxData().hasCustomParts()) {
+            return multiPartEntity.getEntityHitboxData().getCullingBounds();
         }
         return original;
     }
 
     @Inject(method = "setBoundingBox", at = @At("RETURN"))
     public void updateBounds(AABB aABB, CallbackInfo ci) {
-        if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getPlaceHolderName() != null) {
-            multiPartEntity.getPlaceHolderName().makeAttackBounds();
-            multiPartEntity.getPlaceHolderName().makeBoundingBoxForCulling();
+        if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getEntityHitboxData() != null) {
+            multiPartEntity.getEntityHitboxData().makeAttackBounds();
+            multiPartEntity.getEntityHitboxData().makeBoundingBoxForCulling();
         }
     }
 
     @Inject(method = "setId", at = @At("RETURN"))
     public void setPartIds(int id, CallbackInfo ci) {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            var list = multiPartEntity.getPlaceHolderName().getCustomParts();
+            var list = multiPartEntity.getEntityHitboxData().getCustomParts();
             for (int i = 0; i < list.size(); i++) {
                 list.get(i).getEntity().setId(id + i + 1);
             }
@@ -82,7 +82,7 @@ public abstract class EntityMixin {
     @Inject(method = "remove", at = @At("RETURN"))
     public void callRemoveCallback(Entity.RemovalReason removalReason, CallbackInfo ci) {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
+            for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
                 part.getEntity().remove(removalReason);
             }
         }

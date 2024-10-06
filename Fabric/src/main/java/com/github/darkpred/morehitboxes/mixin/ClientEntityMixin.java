@@ -17,7 +17,7 @@ public abstract class ClientEntityMixin {
     @Inject(method = "onClientRemoval", at = @At("RETURN"))
     public void removePartsOnClientRemoval(CallbackInfo ci) {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
+            for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
                 part.getEntity().remove(Entity.RemovalReason.DISCARDED);
             }
             if (this instanceof GeckoLibMultiPartEntity<?>) {

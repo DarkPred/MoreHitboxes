@@ -29,7 +29,7 @@ public abstract class LevelMixin {
     private void addMultiPartsToEntityQuery(Entity entity, AABB area, Predicate<? super Entity> predicate, CallbackInfoReturnable<List<Entity>> cir) {
         getEntities().get(area, entity2 -> {
             if (entity2 instanceof MultiPartEntity<?> multiPartEntity) {
-                for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
+                for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
                     Entity partEntity = part.getEntity();
                     if (partEntity == entity || !partEntity.getBoundingBox().intersects(area) || !predicate.test(partEntity)) continue;
                     cir.getReturnValue().add(partEntity);
@@ -43,7 +43,7 @@ public abstract class LevelMixin {
                                                                CallbackInfoReturnable<List<T>> cir) {
         getEntities().get(entityTypeTest, area, entity -> {
             if (entity instanceof MultiPartEntity<?> multiPartEntity) {
-                for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
+                for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
                     Entity partEntity = part.getEntity();
                     T entity2 = entityTypeTest.tryCast(partEntity);
                     if (entity2 == null || !predicate.test(entity2)) continue;

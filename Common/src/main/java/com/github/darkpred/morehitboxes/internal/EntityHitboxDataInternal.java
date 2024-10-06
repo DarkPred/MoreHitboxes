@@ -18,7 +18,7 @@ public class EntityHitboxDataInternal<T extends Mob & MultiPartEntity<T>> implem
     private final List<MultiPart<T>> parts = new ArrayList<>();
     private final Map<String, MultiPart<T>> partsByRef = new HashMap<>();
     private final T entity;
-    private final AttackBoxData attackBoxPlaceHolder;
+    private final AttackBoxData attackBoxData;
     private final boolean fixPosOnRefresh;
     private final boolean usesAttackBounds;
     private AABB attackBounds = new AABB(0, 0, 0, 0, 0, 0);
@@ -29,7 +29,7 @@ public class EntityHitboxDataInternal<T extends Mob & MultiPartEntity<T>> implem
 
     public EntityHitboxDataInternal(T entity, boolean fixPosOnRefresh, boolean usesAttackBounds) {
         this.entity = entity;
-        this.attackBoxPlaceHolder = new AttackBoxDataInternal<>(entity);
+        this.attackBoxData = new AttackBoxDataInternal<>(entity);
         this.fixPosOnRefresh = fixPosOnRefresh;
         this.usesAttackBounds = usesAttackBounds;
         List<HitboxData> hitboxData = HitboxDataLoader.HITBOX_DATA.getHitboxes(EntityType.getKey(entity.getType()));
@@ -45,7 +45,7 @@ public class EntityHitboxDataInternal<T extends Mob & MultiPartEntity<T>> implem
         float maxFrustumHeight = 0;
         for (HitboxData hitboxData : hitboxesData) {
             if (hitboxData.isAttackBox()) {
-                attackBoxPlaceHolder.addAttackBox(hitboxData.ref(), hitboxData);
+                attackBoxData.addAttackBox(hitboxData.ref(), hitboxData);
             } else {
                 MultiPart<T> part = Services.MULTI_PART.create(entity, hitboxData);
                 parts.add(part);
@@ -70,8 +70,8 @@ public class EntityHitboxDataInternal<T extends Mob & MultiPartEntity<T>> implem
     }
 
     @Override
-    public AttackBoxData getAttackBoxPlaceHolder() {
-        return attackBoxPlaceHolder;
+    public AttackBoxData getAttackBoxData() {
+        return attackBoxData;
     }
 
     @Override

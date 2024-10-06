@@ -14,7 +14,7 @@ public abstract class MobMixin {
     @Inject(method = "aiStep", at = @At("RETURN"))
     public void tickCustomParts(CallbackInfo ci) {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            for (MultiPart<?> part : multiPartEntity.getPlaceHolderName().getCustomParts()) {
+            for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
                 part.updatePosition();
             }
         }
