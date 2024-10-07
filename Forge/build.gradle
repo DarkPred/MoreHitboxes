@@ -130,8 +130,8 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
-            artifactId "${archives_name}-${project.name.toLowerCase()}"
-            version "${minecraft_version}-${version}"
+            artifactId "${archives_name}-${project.name.toLowerCase()}-${minecraft_version}"
+            version version
             artifact tasks.jarJar
             from components.java
             pom.withXml {
@@ -143,9 +143,19 @@ publishing {
             }
         }
     }
+
     repositories {
-        maven {
-            url "file://" + System.getenv("local_maven")
+        if (project.hasProperty("cloudsmith_username") && project.hasProperty("cloudsmith_token")) {
+            maven {
+                name = "Cloudsmith"
+                url = "https://maven.cloudsmith.io/darkpred-mods/more-hitboxes/"
+                credentials {
+                    username = project.property("cloudsmith_username")
+                    password = project.property("cloudsmith_token")
+                }
+            }
+        } else {
+            mavenLocal()
         }
     }
 }

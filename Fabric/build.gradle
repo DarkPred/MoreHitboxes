@@ -29,8 +29,9 @@ dependencies {
             "fabric-networking-api-v1"
     ]
     apiModules.forEach {
-        include(modImplementation(fabricApi.module(it, fabric_api_version)))
+        modImplementation(fabricApi.module(it, fabric_api_version))
     }
+    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
 
     compileOnly project(":Common")
     compileOnly(annotationProcessor('com.google.auto.service:auto-service:1.1.1'))
@@ -86,15 +87,24 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
-            artifactId "${archives_name}-${project.name.toLowerCase()}"
-            version "${minecraft_version}-${version}"
+            artifactId "${archives_name}-${project.name.toLowerCase()}-${minecraft_version}"
+            version version
             from components.java
         }
     }
 
     repositories {
-        maven {
-            url "file://" + System.getenv("local_maven")
+        if (project.hasProperty("cloudsmith_username") && project.hasProperty("cloudsmith_token")) {
+            maven {
+                name = "Cloudsmith"
+                url = "https://maven.cloudsmith.io/darkpred-mods/more-hitboxes/"
+                credentials {
+                    username = project.property("cloudsmith_username")
+                    password = project.property("cloudsmith_token")
+                }
+            }
+        } else {
+            mavenLocal()
         }
     }
 }
