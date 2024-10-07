@@ -22,7 +22,15 @@ dependencies {
         addLayer(new FixGeckoLibSpec())
     })
     modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${fabric_api_version}"
+    Set<String> apiModules = [
+            "fabric-api-base",
+            "fabric-lifecycle-events-v1",
+            "fabric-resource-loader-v0",
+            "fabric-networking-api-v1"
+    ]
+    apiModules.forEach {
+        include(modImplementation(fabricApi.module(it, fabric_api_version)))
+    }
 
     compileOnly project(":Common")
     compileOnly(annotationProcessor('com.google.auto.service:auto-service:1.1.1'))

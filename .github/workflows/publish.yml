@@ -27,7 +27,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
-          java-version: 17
+          java-version: ${{env.JAVA_VERSION}}
 
       - name: Make Gradle Wrapper Executable
         if: ${{ runner.os != 'Windows' }}
