@@ -51,7 +51,11 @@ jobs:
 
           #modrinth-id: 1q2w3e4r
           #modrinth-token: "${{env.MODRINTH_TOKEN}}"
-
+          files: |
+            Fabric/build/libs/!(*-@(javadoc|sources)).jar
+            Fabric/build/libs/*-@(javadoc|sources).jar
+            
+          github-generate-changelog: true
           github-tag: fabric-${{env.minecraft_version}}-${{env.mod_version}}
           github-token: ${{env.GITHUB_TOKEN}}
 
