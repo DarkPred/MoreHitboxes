@@ -33,7 +33,7 @@ dependencies {
     }
     modRuntimeOnly("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
 
-    compileOnly project(":Common")
+    compileOnly project(":common")
     compileOnly(annotationProcessor('com.google.auto.service:auto-service:1.1.1'))
     modCompileOnly("software.bernie.geckolib:geckolib-fabric-1.18:3.0.80")
 }
@@ -63,7 +63,7 @@ def properties = [
         mod_author       : mod_author, mod_description: mod_description
 ]
 processResources {
-    from project(":Common").sourceSets.main.resources
+    from project(":common").sourceSets.main.resources
     for (final def property in properties) {
         inputs.property(property.getKey(), property.getValue())
     }
@@ -74,10 +74,10 @@ processResources {
 }
 
 tasks.withType(JavaCompile) {
-    source(project(":Common").sourceSets.main.allSource)
+    source(project(":common").sourceSets.main.allSource)
 }
 javadoc {
-    source project(":Common").sourceSets.main.allJava
+    source project(":common").sourceSets.main.allJava
     source project.sourceSets.main.allJava
     exclude("**/mixin/**")
     options.addBooleanOption('-ignore-source-errors', true)
@@ -87,7 +87,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
-            artifactId "${archives_name}-${project.name.toLowerCase()}-${minecraft_version}"
+            artifactId "${archives_name}-${project.name}-${minecraft_version}"
             version version
             from components.java
         }

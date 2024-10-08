@@ -1,4 +1,4 @@
-name: Publish on GitHub, CurseForge & Modrinth
+name: Publish on GitHub, CurseForge, Modrinth & Cloudsmith
 
 on: [ pull_request, workflow_dispatch ]
 
@@ -48,14 +48,14 @@ jobs:
       - name: Publish Fabric (CurseForge/Modrinth/GitHub)
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
-          #curseforge-id: 973456
-          #curseforge-token: "${{secrets.CURSEFORGE_TOKEN}}"
+          curseforge-id: ${{vars.CURSEFORGE_ID}}
+          curseforge-token: ${{env.CURSEFORGE_TOKEN}}
 
-          modrinth-id: BOVAW87Z
-          modrinth-token: "${{env.MODRINTH_TOKEN}}"
+          modrinth-id: ${{vars.MODRINTH_ID}}
+          modrinth-token: ${{env.MODRINTH_TOKEN}}
           files: |
-            Fabric/build/libs/!(*-sources).jar
-            Fabric/build/libs/*-sources.jar
+            fabric/build/libs/!(*-sources).jar
+            fabric/build/libs/*-sources.jar
 
           github-tag: fabric-${{env.minecraft_version}}-${{env.mod_version}}
           github-token: ${{env.GITHUB_TOKEN}}
@@ -71,14 +71,14 @@ jobs:
       - name: Publish Forge (CurseForge/Modrinth/GitHub)
         uses: Kir-Antipov/mc-publish@v3.3.0
         with:
-          #curseforge-id: 973456
-          #curseforge-token: "${{secrets.CURSEFORGE_TOKEN}}"
+          curseforge-id: ${{vars.CURSEFORGE_ID}}
+          curseforge-token: ${{env.CURSEFORGE_TOKEN}}
 
-          modrinth-id: BOVAW87Z
-          modrinth-token: "${{env.MODRINTH_TOKEN}}"
+          modrinth-id:  ${{vars.MODRINTH_ID}}
+          modrinth-token: ${{env.MODRINTH_TOKEN}}
           files: |
-            Forge/build/libs/!(*-sources|*-slim).jar
-            Forge/build/libs/*-sources.jar
+            forge/build/libs/!(*-sources|*-slim).jar
+            forge/build/libs/*-sources.jar
 
           github-tag: forge-${{env.minecraft_version}}-${{env.mod_version}}
           github-token: ${{env.GITHUB_TOKEN}}

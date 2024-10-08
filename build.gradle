@@ -10,7 +10,7 @@ subprojects {
 
     base {
         //Jar name
-        archivesName = "${archives_name}-${project.name.toLowerCase()}-${minecraft_version}"
+        archivesName = "${archives_name}-${project.name}-${minecraft_version}"
     }
         
     jar {

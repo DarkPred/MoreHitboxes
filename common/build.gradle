@@ -38,7 +38,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
-            artifactId "${archives_name}-${project.name.toLowerCase()}-${minecraft_version}"
+            artifactId "${archives_name}-${project.name}-${minecraft_version}"
             version version
             from components.java
         }
