@@ -77,8 +77,8 @@ jobs:
           modrinth-id: BOVAW87Z
           modrinth-token: "${{env.MODRINTH_TOKEN}}"
           files: |
-            Fabric/build/libs/!(*-@(javadoc|sources)).jar
-            Fabric/build/libs/*-@(javadoc|sources).jar
+            Forge/build/libs/!(*-@(javadoc|sources)).jar
+            Forge/build/libs/*-@(javadoc|sources).jar
 
           github-tag: forge-${{env.minecraft_version}}-${{env.mod_version}}
           github-token: ${{env.GITHUB_TOKEN}}
