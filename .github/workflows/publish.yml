@@ -50,24 +50,45 @@ jobs:
         with:
           #curseforge-id: 973456
           #curseforge-token: "${{secrets.CURSEFORGE_TOKEN}}"
-          game-versions: ${{env.minecraft_version_range}}
 
-          #modrinth-id: 1q2w3e4r
-          #modrinth-token: "${{env.MODRINTH_TOKEN}}"
+          modrinth-id: BOVAW87Z
+          modrinth-token: "${{env.MODRINTH_TOKEN}}"
           files: |
             Fabric/build/libs/!(*-@(javadoc|sources)).jar
             Fabric/build/libs/*-@(javadoc|sources).jar
-            
-          github-generate-changelog: true
+
           github-tag: fabric-${{env.minecraft_version}}-${{env.mod_version}}
           github-token: ${{env.GITHUB_TOKEN}}
 
-          name: More Hitboxes ${{env.mod_version}} for Minecraft ${{env.minecraft_version}}
+          name: ${{env.mod_version}} for Minecraft Fabric ${{env.minecraft_version}}
+          game-versions: ${{env.minecraft_version_range}}
           version: ${{env.mod_version}}
-          #version-type: release
-          #changelog-file: CHANGELOG.md                                      #The file in which the changes of your new update are specified (the path starts at your project root)
+          changelog-file: CHANGELOG.md
 
           loaders: fabric
+          java: ${{env.JAVA_VERSION}}
+
+      - name: Publish Forge (CurseForge/Modrinth/GitHub)
+        uses: Kir-Antipov/mc-publish@v3.3.0
+        with:
+          #curseforge-id: 973456
+          #curseforge-token: "${{secrets.CURSEFORGE_TOKEN}}"
+
+          modrinth-id: BOVAW87Z
+          modrinth-token: "${{env.MODRINTH_TOKEN}}"
+          files: |
+            Fabric/build/libs/!(*-@(javadoc|sources)).jar
+            Fabric/build/libs/*-@(javadoc|sources).jar
+
+          github-tag: forge-${{env.minecraft_version}}-${{env.mod_version}}
+          github-token: ${{env.GITHUB_TOKEN}}
+
+          name: ${{env.mod_version}} for Minecraft Forge ${{env.minecraft_version}}
+          game-versions: ${{env.minecraft_version_range}}
+          version: ${{env.mod_version}}
+          changelog-file: CHANGELOG.md
+
+          loaders: forge
           java: ${{env.JAVA_VERSION}}
 
       - name: Publish Cloudsmith
