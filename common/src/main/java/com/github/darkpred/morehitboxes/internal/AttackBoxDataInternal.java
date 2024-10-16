@@ -15,6 +15,7 @@ import org.jetbrains.annotations.ApiStatus;
 import java.util.HashMap;
 import java.util.Map;
 
+@ApiStatus.Internal
 public class AttackBoxDataInternal<T extends Mob & MultiPartEntity<T>> implements AttackBoxData {
     private final Map<String, HitboxData> attackBoxes = new HashMap<>();
     private final Map<HitboxData, Vec3> activeAttackBoxes = new HashMap<>();
