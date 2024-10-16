@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "${loader_version}"
+loaderVersion = "${forge_loader_version_range}"
 license = "${mod_license}"
 #issueTrackerURL="https://github.com/DarkPred/Extended-Structure-Blocks/issues"
 
@@ -13,27 +13,27 @@ license = "${mod_license}"
     authors = "${mod_author}" #optional
     description = '''${mod_description}'''
 
-[[dependencies."${mod_id}"]]
+[[dependencies.${mod_id}]]
     modId = "forge"
     mandatory = true
     versionRange = "${forge_version_range}"
     ordering = "NONE"
     side = "BOTH"
 
-[[dependencies."${mod_id}"]]
+[[dependencies.${mod_id}]]
     modId = "minecraft"
     mandatory = true
-    versionRange = "${minecraft_version_range}"
+    versionRange = "[${minecraft_version_range_lower},${minecraft_version_range_upper})"
     ordering = "NONE"
     side = "BOTH"
 
-[[dependencies."${mod_id}"]]
+[[dependencies.${mod_id}]]
     modId = "geckolib3"
     mandatory = false
     versionRange = "[3.0.57,)"
     ordering = "AFTER"
     side = "BOTH"
-    [dependencies."${mod_id}".mc-publish]
+    [dependencies.${mod_id}.mc-publish]
         modrinth="geckolib"
         curseforge="geckolib"
 

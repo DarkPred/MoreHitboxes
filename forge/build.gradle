@@ -1,5 +1,4 @@
 plugins {
-    id 'eclipse'
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
@@ -8,13 +7,6 @@ plugins {
 
 minecraft {
     mappings channel: 'official', version: minecraft_version
-
-    if (project.hasProperty('forge_ats_enabled') && project.findProperty('forge_ats_enabled').toBoolean()) {
-        // This location is hardcoded in Forge and can not be changed.
-        // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
-        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-        project.logger.debug('Forge Access Transformers are enabled for this project.')
-    }
 
     runs {
         client {
@@ -62,19 +54,20 @@ minecraft {
     }
 }
 
-sourceSets.main.resources.srcDir 'src/generated/resources'
+sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    minecraft "net.minecraftforge:forge:$minecraft_version-$forge_version"
+
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1"))
-    implementation(jarJar("io.github.llamalad7:mixinextras-forge:0.4.1")) {
+    compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1")
+    implementation jarJar("io.github.llamalad7:mixinextras-forge:0.4.1") {
         jarJar.ranged(it, "[0.4.1,)")
     }
 
     compileOnly project(":common")
-    compileOnly(annotationProcessor('com.google.auto.service:auto-service:1.1.1'))
-    compileOnly(fg.deobf("software.bernie.geckolib:geckolib-forge-1.18:3.0.57"))
+    compileOnly annotationProcessor('com.google.auto.service:auto-service:1.1.1')
+    compileOnly fg.deobf("software.bernie.geckolib:geckolib-forge-1.18:3.0.57")
 }
 
 mixin {
@@ -82,15 +75,16 @@ mixin {
     config "${mod_id}.mixins.json"
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
     source(project(":common").sourceSets.main.allSource)
 }
 
 def properties = [
-        minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
-        loader_version   : forge_loader_version_range, forge_version_range: forge_version_range,
-        mod_id           : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-        mod_author       : mod_author, mod_description: mod_description
+        minecraft_version: minecraft_version, minecraft_version_range_lower: minecraft_version_range_lower,
+        minecraft_version_range_upper: minecraft_version_range_upper,
+        forge_loader_version_range: forge_loader_version_range, forge_version_range: forge_version_range,
+        mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+        mod_author: mod_author, mod_description: mod_description
 ]
 processResources {
     from project(":common").sourceSets.main.resources
@@ -130,7 +124,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             groupId project.group
-            artifactId "${archives_name}-${project.name}-${minecraft_version}"
+            artifactId "$archives_name-${project.name}-$minecraft_version"
             version version
             artifact tasks.jarJar
             from components.java

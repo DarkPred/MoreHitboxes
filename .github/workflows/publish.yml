@@ -43,7 +43,7 @@ jobs:
         run: |
           echo "$(cat $GITHUB_WORKSPACE/gradle.properties | grep mod_version=)" >> "$GITHUB_ENV"
           echo "$(cat $GITHUB_WORKSPACE/gradle.properties | grep minecraft_version=)" >> "$GITHUB_ENV"
-          echo "$(cat $GITHUB_WORKSPACE/gradle.properties | grep minecraft_version_range=)" >> "$GITHUB_ENV"
+          echo "$(cat $GITHUB_WORKSPACE/gradle.properties | grep game_versions=)" >> "$GITHUB_ENV"
 
       - name: Publish Fabric (CurseForge/Modrinth/GitHub)
         uses: Kir-Antipov/mc-publish@v3.3.0
@@ -60,8 +60,8 @@ jobs:
           github-tag: fabric-${{env.minecraft_version}}-${{env.mod_version}}
           github-token: ${{env.GITHUB_TOKEN}}
 
-          name: ${{env.mod_version}} for Minecraft Fabric ${{env.minecraft_version}}
-          game-versions: ${{env.minecraft_version_range}}
+          name: ${{env.mod_version}} for Fabric ${{env.minecraft_version}}
+          game-versions: ${{env.game_versions}}
           version: ${{env.mod_version}}
           changelog-file: CHANGELOG.md
 
@@ -83,8 +83,8 @@ jobs:
           github-tag: forge-${{env.minecraft_version}}-${{env.mod_version}}
           github-token: ${{env.GITHUB_TOKEN}}
 
-          name: ${{env.mod_version}} for Minecraft Forge ${{env.minecraft_version}}
-          game-versions: ${{env.minecraft_version_range}}
+          name: ${{env.mod_version}} for Forge ${{env.minecraft_version}}
+          game-versions: ${{env.game_versions}}
           version: ${{env.mod_version}}
           changelog-file: CHANGELOG.md
 

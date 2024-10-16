@@ -3,39 +3,39 @@ subprojects {
 
     version = mod_version
     group = maven_group
-    
-    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+    java.toolchain.languageVersion = JavaLanguageVersion.of(java_version)
     java.withSourcesJar()
     //java.withJavadocJar()
 
     base {
         //Jar name
-        archivesName = "${archives_name}-${project.name}-${minecraft_version}"
+        archivesName = "$archives_name-${project.name}-$minecraft_version"
     }
-        
+
     jar {
         from(rootProject.file("LICENSE")) {
-            //rename { "${it}_${mod_name}" }
+            rename { "${it}_$mod_name" }
         }
         manifest {
             attributes([
-                'Specification-Title'  : mod_name,
-                'Specification-Vendor' : mod_author,
-                'Specification-Version'   : project.jar.archiveVersion,
-                'Implementation-Title'    : project.name,
-                'Implementation-Version'  : project.jar.archiveVersion,
-                'Implementation-Vendor': mod_author,
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                'Timestamp'              : System.currentTimeMillis(),
-                'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                'Build-On-Minecraft'   : minecraft_version
+                    'Specification-Title'     : mod_name,
+                    'Specification-Vendor'    : mod_author,
+                    'Specification-Version'   : project.jar.archiveVersion,
+                    'Implementation-Title'    : project.name,
+                    'Implementation-Version'  : project.jar.archiveVersion,
+                    'Implementation-Vendor'   : mod_author,
+                    'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                    'Timestamp'               : System.currentTimeMillis(),
+                    'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
+                    'Build-On-Minecraft'      : minecraft_version
             ])
         }
     }
 
     sourcesJar {
         from(rootProject.file("LICENSE")) {
-            //rename { "${it}_${mod_name}" }
+            rename { "${it}_$mod_name" }
         }
     }
 
@@ -60,7 +60,7 @@ subprojects {
 
     tasks.withType(JavaCompile).configureEach {
         options.encoding = 'UTF-8'
-        options.release = 17
+        options.release = java_version.toInteger()
     }
     tasks.withType(Javadoc).configureEach {
         options.tags("apiNote:a:API Note:")

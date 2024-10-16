@@ -25,7 +25,6 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
     @Inject(method = "renderRecursively", require = 0, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lsoftware/bernie/geckolib3/geo/render/built/GeoBone;cubesAreHidden()Z"))
     public void getBonePositions(GeoBone bone, PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha, CallbackInfo ci) {
         if (animatable instanceof GeckoLibMultiPartEntity<?> multiPartEntity) {
-            System.out.println("Matches render tick: " + bone.name);
             if (animatable instanceof GeckoLibMultiPartMob multiPartMob && !multiPartMob.moreHitboxes$isNewRenderTick()) {
                 return;
             }
