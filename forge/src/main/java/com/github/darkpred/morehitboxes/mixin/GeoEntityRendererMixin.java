@@ -5,6 +5,7 @@ import com.github.darkpred.morehitboxes.internal.MultiPartGeoEntityRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3d;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -50,6 +51,13 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
             }
         }
     }
+    @Inject(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            require = 0, remap = false, at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lsoftware/bernie/geckolib3/renderers/geo/GeoEntityRenderer;render(Lsoftware/bernie/geckolib3/geo/render/built/GeoModel;Ljava/lang/Object;FLnet/minecraft/client/renderer/RenderType;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;Lcom/mojang/blaze3d/vertex/VertexConsumer;IIFFFF)V"))
+    public void updateTick(T animatable, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CallbackInfo ci) {
+        if (moreHitboxes$getTickForEntity(animatable) < animatable.tickCount) {
+            moreHitboxes$tickForEntity.put(animatable.getId(), animatable.tickCount);
+        }
+    }
 
     @Unique
     private boolean moreHitboxes$entityTickMatchesRenderTick(T animatable) {
@@ -62,14 +70,7 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
     }
 
     @Unique
-    public void removeTickForEntity(Entity entity) {
+    public void moreHitboxes$removeTickForEntity(Entity entity) {
         moreHitboxes$tickForEntity.remove(entity.getId());
-    }
-
-    @Unique
-    public void updateTickForEntity(Entity entity) {
-        if (moreHitboxes$getTickForEntity(entity) < entity.tickCount) {
-            moreHitboxes$tickForEntity.put(entity.getId(), entity.tickCount);
-        }
     }
 }

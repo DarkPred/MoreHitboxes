@@ -1,6 +1,5 @@
 package com.github.darkpred.morehitboxes.api;
 
-import com.github.darkpred.morehitboxes.internal.MultiPartGeoEntityRenderer;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.phys.Vec3;
 
@@ -13,7 +12,6 @@ import net.minecraft.world.phys.Vec3;
  *     <li>Add a geckolib animation controlling the bone. See {@link AnimationOverride} for supported features</li>
  *     <li>Implement this interface</li>
  *     <li>Call and save {@link EntityHitboxDataFactory#create(Mob) EntityHitboxDataFactory#create(Mob)}</li>
- *     <li>See {@link MultiPartGeoEntityRenderer} </li>
  * </ol>
  *
  * @param <T> the type of the mob implementing this interface

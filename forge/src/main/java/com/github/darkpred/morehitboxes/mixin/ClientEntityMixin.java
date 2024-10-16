@@ -23,7 +23,7 @@ public abstract class ClientEntityMixin {
             if (this instanceof GeckoLibMultiPartEntity<?>) {
                 var renderer = Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(((Entity) (Object) this));
                 if (renderer instanceof MultiPartGeoEntityRenderer renderer1) {
-                    renderer1.removeTickForEntity(((Entity) (Object) this));
+                    renderer1.moreHitboxes$removeTickForEntity(((Entity) (Object) this));
                 }
             }
         }
