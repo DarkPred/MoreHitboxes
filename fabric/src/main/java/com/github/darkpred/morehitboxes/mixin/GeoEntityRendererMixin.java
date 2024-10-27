@@ -32,11 +32,6 @@ public abstract class GeoEntityRendererMixin<T extends LivingEntity & IAnimatabl
             if (part != null) {
                 //Tick hitboxes
                 Vector3d localPos = bone.getLocalPosition();
-                if (new AnimationOverride(new Vec3(localPos.x, localPos.y, localPos.z), bone.getScaleX(), bone.getScaleY()).equals(part.getOverride())) {
-                    System.out.println("newInfo");
-                } else {
-                    System.out.println("oldInfo");
-                }
                 part.setOverride(new AnimationOverride(new Vec3(localPos.x, localPos.y, localPos.z), bone.getScaleX(), bone.getScaleY()));
                 //TODO: Could also update the position of the part directly but that would make separating the library from geckolib more tedious
             } else if (multiPartEntity.canSetAnchorPos(bone.name)) {

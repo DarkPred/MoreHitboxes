@@ -53,7 +53,7 @@ loom {
             runDir("run")
         }
     }
-    accessWidenerPath = file("src/main/resources/$mod_id.accesswidener")
+    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
 }
 
 def properties = [
