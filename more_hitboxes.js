@@ -105,18 +105,27 @@
         var output;
         var group = findGroup("hitboxes");
         var elements = [];
-        for (var i = 0; i < group.children.length; i++) {
-            var cube = group.children[i];
-            let size = [cube.to[0] - cube.from[0], cube.to[1] - cube.from[1], cube.to[2] - cube.from[2]];
-            //invert offset to match minecraft rotation system
-            let offset = [-(cube.from[0] + size[0] / 2), cube.from[1], -(cube.from[2] + size[2] / 2)];
-			let element  = {name: cube.name, pos: [offset[0], offset[1], offset[2]], width: size[0], height: size[1]};
-			let ref = findGroup(cube.name + "_hitbox");
-			if (typeof ref !== 'undefined') {
-				element["ref"] = ref.name;
-			}
-            elements.push(element);
+        if (group !== undefined) {
+            for (var i = 0; i < group.children.length; i++) {
+                var cube = group.children[i];
+                let size = [cube.to[0] - cube.from[0], cube.to[1] - cube.from[1], cube.to[2] - cube.from[2]];
+                //invert offset to match minecraft rotation system
+                let offset = [-(cube.from[0] + size[0] / 2), cube.from[1], -(cube.from[2] + size[2] / 2)];
+                let element  = {name: cube.name, pos: [offset[0], offset[1], offset[2]], width: size[0], height: size[1]};
+                let ref = findGroup(cube.name + "_hitbox");
+                if (ref !== undefined) {
+                    element["ref"] = ref.name;
+                }
+                elements.push(element);
+            }
         }
+        var addAnchor = (group) => {
+            if (group !== undefined) {
+                elements.push({name: group.name, pos: group.origin, ref: group.name, is_anchor: true});
+            }
+        }
+        addAnchor(findGroup("rider_pos"));
+        addAnchor(findGroup("grab_pos"));
 		output = {elements: elements};
 
         Blockbench.export({
@@ -141,7 +150,7 @@
         icon: 'fa-cubes',
         description: 'Allows creating and exporting Hitboxes',
         tags: ["Minecraft: Java Edition"],
-        version: '2.0.0',
+        version: '2.3.0',
         variant: 'desktop',
     
         onload() {

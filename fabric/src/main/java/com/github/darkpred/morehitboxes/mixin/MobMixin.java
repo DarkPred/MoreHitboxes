@@ -17,6 +17,7 @@ public abstract class MobMixin {
             for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
                 part.updatePosition();
             }
+            multiPartEntity.getEntityHitboxData().getAnchorData().updatePositions();
         }
     }
 }

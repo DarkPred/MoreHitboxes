@@ -13,9 +13,11 @@ import org.jetbrains.annotations.ApiStatus;
  * @param width       the x and z width of the hitbox
  * @param height      the height of the hitbox
  * @param ref         the name of the GeckoLib bone this should be attached to or "" if none
- * @param isAttackBox whether the mob can use this hitbox to hit player
+ * @param isAttackBox whether the mob can use this hitbox to hit players
+ * @param isAnchor    an anchor is a hitbox with 0 width and height
  */
-public record HitboxData(String name, Vec3 pos, float width, float height, String ref, boolean isAttackBox) {
+public record HitboxData(String name, Vec3 pos, float width, float height, String ref, boolean isAttackBox,
+                         boolean isAnchor) {
 
     @ApiStatus.Internal
     public float getFrustumWidthRadius() {
@@ -29,7 +31,7 @@ public record HitboxData(String name, Vec3 pos, float width, float height, Strin
 
     @ApiStatus.Internal
     public static HitboxData readBuf(FriendlyByteBuf buf) {
-        return new HitboxData(buf.readUtf(), new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()), buf.readFloat(), buf.readFloat(), buf.readUtf(), buf.readBoolean());
+        return new HitboxData(buf.readUtf(), new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()), buf.readFloat(), buf.readFloat(), buf.readUtf(), buf.readBoolean(), buf.readBoolean());
     }
 
     @ApiStatus.Internal
@@ -42,5 +44,6 @@ public record HitboxData(String name, Vec3 pos, float width, float height, Strin
         buf.writeFloat(hitbox.height);
         buf.writeUtf(hitbox.ref);
         buf.writeBoolean(hitbox.isAttackBox);
+        buf.writeBoolean(hitbox.isAnchor);
     }
 }

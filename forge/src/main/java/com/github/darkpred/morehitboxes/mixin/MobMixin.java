@@ -27,6 +27,7 @@ public abstract class MobMixin extends LivingEntity {
             for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
                 part.updatePosition();
             }
+            multiPartEntity.getEntityHitboxData().getAnchorData().updatePositions();
         }
     }
 

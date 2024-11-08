@@ -4,6 +4,7 @@ import com.github.darkpred.morehitboxes.api.AttackBoxData;
 import com.github.darkpred.morehitboxes.api.HitboxData;
 import com.github.darkpred.morehitboxes.api.MultiPartEntity;
 import com.github.darkpred.morehitboxes.platform.Services;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
@@ -17,8 +18,8 @@ import java.util.Map;
 
 @ApiStatus.Internal
 public class AttackBoxDataInternal<T extends Mob & MultiPartEntity<T>> implements AttackBoxData {
-    private final Map<String, HitboxData> attackBoxes = new HashMap<>();
-    private final Map<HitboxData, Vec3> activeAttackBoxes = new HashMap<>();
+    private final Map<String, HitboxData> attackBoxes = new Object2ObjectOpenHashMap<>();
+    private final Map<HitboxData, Vec3> activeAttackBoxes = new Object2ObjectOpenHashMap<>();
     private long attackBoxEndTime;
     private final T entity;
 

@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
  *     <li>Implement this interface or a child interface </li>
  *     <li>Call and save {@link EntityHitboxDataFactory#create(Mob) EntityHitboxDataFactory#create(Mob)}</li>
  *     <li>(Optional): Call {@link AttackBoxData#activateAttackBoxes(Level, double)} whenever you want to activate an attack box</li>
+ *     <li>(Optional): Use {@link AnchorData#getAnchorPos(String)} to access an anchors position</li>
  * </ol>
  *
  * @param <T> the type of the mob implementing this interface

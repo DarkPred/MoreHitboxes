@@ -55,18 +55,21 @@ public class HitboxDataLoader extends SimpleJsonResourceReloadListener {
                 JsonObject elemObject = element.getAsJsonObject();
                 double[] pos = new double[3];
                 JsonArray posArray = GsonHelper.getAsJsonArray(elemObject, "pos");
+                JsonElement refElement = elemObject.get("ref");
+                String ref = refElement == null ? "" : refElement.getAsString();
                 for (int i = 0; i < pos.length; ++i) {
                     pos[i] = GsonHelper.convertToDouble(posArray.get(i), "pos[" + i + "]");
                 }
-                float width = GsonHelper.getAsFloat(elemObject, "width") / 16;
-                float height = GsonHelper.getAsFloat(elemObject, "height") / 16;
+                if (elemObject.has("is_anchor") && GsonHelper.getAsBoolean(elemObject, "is_anchor")) {
+                    listBuilder.add(new HitboxData(elemObject.get("name").getAsString(), new Vec3(pos[0] / 16, pos[1] / 16, pos[2] / 16), 0, 0, ref, false, true));
+                } else {
+                    float width = GsonHelper.getAsFloat(elemObject, "width") / 16;
+                    float height = GsonHelper.getAsFloat(elemObject, "height") / 16;
 
-                JsonElement refElement = elemObject.get("ref");
-                String ref = refElement == null ? "" : refElement.getAsString();
-                //TODO: Update blockbench plugin
-                JsonElement attackElement = elemObject.get("is_attack_box");
-                boolean isAttack = attackElement != null && attackElement.getAsBoolean();
-                listBuilder.add(new HitboxData(elemObject.get("name").getAsString(), new Vec3(pos[0] / 16, pos[1] / 16, pos[2] / 16), width, height, ref, isAttack));
+                    JsonElement attackElement = elemObject.get("is_attack_box");
+                    boolean isAttack = attackElement != null && attackElement.getAsBoolean();
+                    listBuilder.add(new HitboxData(elemObject.get("name").getAsString(), new Vec3(pos[0] / 16, pos[1] / 16, pos[2] / 16), width, height, ref, isAttack, false));
+                }
             }
             builder.put(fileEntry.getKey(), listBuilder.build());
         }
