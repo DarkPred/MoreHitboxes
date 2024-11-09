@@ -121,7 +121,7 @@
         }
         var addAnchor = (group) => {
             if (group !== undefined) {
-                elements.push({name: group.name, pos: group.origin, ref: group.name, is_anchor: true});
+                elements.push({name: group.name, pos: [-group.origin[0], group.origin[1], -group.origin[2]], ref: group.name, is_anchor: true});
             }
         }
         addAnchor(findGroup("rider_pos"));
@@ -150,7 +150,7 @@
         icon: 'fa-cubes',
         description: 'Allows creating and exporting Hitboxes',
         tags: ["Minecraft: Java Edition"],
-        version: '2.3.0',
+        version: '2.3.1',
         variant: 'desktop',
     
         onload() {
