@@ -19,6 +19,7 @@ public class AnchorDataInternal<T extends Mob & MultiPartEntity<T>> implements A
     private final Map<String, HitboxData> anchors = new Object2ObjectOpenHashMap<>();
     private final Set<String> anchorOverride = new ObjectArraySet<>();
     private final Map<HitboxData, Vec3> anchorPositions = new Object2ObjectOpenHashMap<>();
+    private final Map<HitboxData, Vec3> anchorPositionBackup = new Object2ObjectOpenHashMap<>();
     private final T entity;
 
     public AnchorDataInternal(T entity) {
@@ -56,7 +57,21 @@ public class AnchorDataInternal<T extends Mob & MultiPartEntity<T>> implements A
 
     @Override
     public void updatePosition(String ref, Vec3 localPos) {
-        anchorPositions.put(anchors.get(ref), entity.position().add(localPos));
+        //Since we are getting the position from geckolib its 1 tick behind which can be really noticeable when using it to position a rider
+        //That's why we try to guess the next position based on the difference to the previous position
+        HitboxData hitbox = anchors.get(ref);
+        Vec3 prevActual = anchorPositionBackup.get(hitbox);
+        Vec3 pos = entity.position().add(localPos);
+        anchorPositionBackup.put(hitbox, pos);
+        if (prevActual != null) {
+            if (prevActual.subtract(anchorPositions.get(hitbox)).length() > 0.05) {
+                //Our previous guess was wrong (probably because the mob stopped moving) so we assume that this one is also wrong
+                pos = pos.add(pos.subtract(prevActual).scale(0.5));
+            } else {
+                pos = pos.add(pos.subtract(prevActual));
+            }
+        }
+        anchorPositions.put(hitbox, pos);
         //Need to override because GeckoLib mixin calls this method after entity tick but before updatePositions
         anchorOverride.add(ref);
     }
