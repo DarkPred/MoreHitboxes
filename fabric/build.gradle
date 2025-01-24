@@ -1,3 +1,4 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
 import net.fabricmc.loom.api.mappings.layered.MappingContext
 import net.fabricmc.loom.api.mappings.layered.MappingLayer
 import net.fabricmc.loom.api.mappings.layered.MappingsNamespace
@@ -11,6 +12,8 @@ plugins {
     id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'maven-publish'
     id 'idea'
+    id "com.modrinth.minotaur" version "2.+"
+    id "net.darkhax.curseforgegradle" version "1.1.25"
 }
 
 
@@ -57,11 +60,11 @@ loom {
 }
 
 def properties = [
-        minecraft_version: minecraft_version, minecraft_version_range_lower: minecraft_version_range_lower,
+        minecraft_version    : minecraft_version, minecraft_version_range_lower: minecraft_version_range_lower,
         fabric_loader_version: fabric_loader_version, fabric_loader_version_range: fabric_loader_version_range,
-        java_version: java_version,
-        mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-        mod_author: mod_author, mod_description: mod_description
+        java_version         : java_version,
+        mod_id               : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+        mod_author           : mod_author, mod_description: mod_description
 ]
 processResources {
     from project(":common").sourceSets.main.resources
@@ -82,6 +85,37 @@ javadoc {
     source project.sourceSets.main.allJava
     exclude("**/mixin/**")
     options.addBooleanOption('-ignore-source-errors', true)
+}
+
+modrinth {
+    token = "${project.property("MODRINTH_TOKEN")}" ?: "no value"
+    projectId = "BOVAW87Z"
+    versionNumber.set("$minecraft_version-$mod_version-${project.name}")
+    versionType.set("release")
+    uploadFile.set(tasks.remapJar)
+    versionName = "$mod_version for Fabric $minecraft_version"
+    gameVersions = game_versions.split(",").toList()
+    debugMode = true
+    dependencies {
+        optional.project("geckolib")
+    }
+    changelog.set(rootProject.file("CHANGELOG.md").text)
+}
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    group = "publishing"
+    description = "Publishes jar to CurseForge"
+    apiToken = project.property("CURSEFORGE_TOKEN") ?: "no value"
+    debugMode = true
+    var mainFile = upload(1115989, tasks.remapJar)
+    mainFile.addGameVersion(game_versions.split(","))
+    mainFile.changelog = rootProject.file("CHANGELOG.md").text
+    mainFile.changelogType = "markdown"
+    mainFile.releaseType = "release"
+    mainFile.addOptional("geckolib")
+}
+
+tasks.named("publish") {
+    finalizedBy("modrinth", "publishCurseForge")
 }
 
 publishing {

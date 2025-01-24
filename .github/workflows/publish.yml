@@ -1,6 +1,6 @@
 name: Publish on GitHub, CurseForge, Modrinth & Cloudsmith
 
-on: [ pull_request, workflow_dispatch ]
+#on: [ pull_request, workflow_dispatch ]
 
 env:
   JAVA_VERSION: 17

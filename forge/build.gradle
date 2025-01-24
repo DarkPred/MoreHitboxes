@@ -1,8 +1,12 @@
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
+
 plugins {
     id 'idea'
     id 'maven-publish'
     id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.spongepowered.mixin' version '0.7.+'
+    id 'com.modrinth.minotaur' version '2.+'
+    id 'net.darkhax.curseforgegradle' version '1.1.25'
 }
 
 minecraft {
@@ -119,6 +123,37 @@ tasks.jarJar {
 
 jar.finalizedBy('reobfJar')
 tasks.jarJar.finalizedBy('reobfJarJar')
+
+modrinth {
+    token = "${project.property("MODRINTH_TOKEN")}" ?: "no value"
+    projectId = "BOVAW87Z"
+    versionNumber.set("$minecraft_version-$mod_version-${project.name}")
+    versionType.set("release")
+    uploadFile.set(tasks.jarJar)
+    versionName = "$mod_version for Forge $minecraft_version"
+    gameVersions = game_versions.split(",").toList()
+    debugMode = true
+    dependencies {
+        optional.project("geckolib")
+    }
+    changelog.set(rootProject.file("CHANGELOG.md").text)
+}
+tasks.register('publishCurseForge', TaskPublishCurseForge) {
+    group = "publishing"
+    description = "Publishes jar to CurseForge"
+    apiToken = project.property("CURSEFORGE_TOKEN") ?: "no value"
+    debugMode = true
+    var mainFile = upload(1115989, tasks.jarJar)
+    mainFile.addGameVersion(game_versions.split(","))
+    mainFile.changelog = rootProject.file("CHANGELOG.md").text
+    mainFile.changelogType = "markdown"
+    mainFile.releaseType = "release"
+    mainFile.addOptional("geckolib")
+}
+
+tasks.named("publish") {
+    finalizedBy("modrinth", "publishCurseForge")
+}
 
 publishing {
     publications {
