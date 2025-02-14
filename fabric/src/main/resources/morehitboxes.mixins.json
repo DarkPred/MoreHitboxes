@@ -4,10 +4,13 @@
   "package": "com.github.darkpred.morehitboxes.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "ChunkMapMixin", "EntityCallbacksMixin", "EntityHitResultMixin", "EntityMixin", "LevelMixin", "MobMixin", "PlayerMixin", "ProjectileUtilMixin",
+    "ChunkMapMixin", "EntityHitResultMixin", "EntityMixin", "LevelMixin", "MobMixin", "PlayerMixin", "ProjectileUtilMixin", "ServerEntityCallbacksMixin",
     "ServerGamePacketListenerImplMixin", "ServerLevelMixin", "ServerPlayerMixin", "TransientEntitySectionManagerMixin"
   ],
-  "client": ["ClientEntityMixin", "ClientMobMixin", "EntityRenderDispatcherMixin", "GeckoLibMobMixin", "GeoEntityRendererMixin", "MinecraftMixin"],
+  "client": [
+    "ClientEntityCallbacksMixin", "ClientEntityMixin", "ClientLevelMixin", "ClientMobMixin", "EntityRenderDispatcherMixin", "GeckoLibMobMixin", "GeoEntityRendererMixin",
+    "MinecraftMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }

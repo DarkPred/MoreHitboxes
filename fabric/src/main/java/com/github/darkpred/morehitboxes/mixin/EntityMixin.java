@@ -45,14 +45,6 @@ public abstract class EntityMixin {
         }
     }
 
-    @ModifyReturnValue(method = "isPickable", at = @At("RETURN"))
-    public boolean preventPickable(boolean original) {
-        if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getEntityHitboxData().hasCustomParts()) {
-            return false;
-        }
-        return original;
-    }
-
     @ModifyReturnValue(method = "getBoundingBoxForCulling", at = @At("RETURN"))
     public AABB changeCullBox(AABB original) {
         if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getEntityHitboxData() != null && multiPartEntity.getEntityHitboxData().hasCustomParts()) {
