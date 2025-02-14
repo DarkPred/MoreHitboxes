@@ -21,12 +21,13 @@ import java.util.function.Predicate;
 @Mixin(Level.class)
 public abstract class LevelMixin implements MultiPartLevel {
 
-    @Inject(method = "getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;", at = @At(value = "RETURN"))
+    @Inject(method = "getEntities(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/phys/AABB;Ljava/util/function/Predicate;)Ljava/util/List;",
+            at = @At(value = "RETURN"))
     private void addMultiPartsToEntityQuery(Entity entity, AABB area, Predicate<? super Entity> predicate, CallbackInfoReturnable<List<Entity>> cir, @Local List<Entity> list) {
         for (MultiPart<?> part : moreHitboxes$getMultiParts()) {
             Entity partEntity = part.getEntity();
             Entity parent = part.getParent();
-            if (partEntity != entity && partEntity.getBoundingBox().intersects(area) && predicate.test(partEntity) && predicate.test(parent)) {
+            if (parent != entity && partEntity.getBoundingBox().intersects(area) && predicate.test(partEntity) && predicate.test(parent)) {
                 list.add(partEntity);
             }
         }

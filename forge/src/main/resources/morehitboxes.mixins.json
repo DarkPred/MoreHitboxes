@@ -4,7 +4,7 @@
   "package": "com.github.darkpred.morehitboxes.mixin",
   "refmap": "mixins.morehitboxes.refmap.json",
   "compatibilityLevel": "JAVA_17",
-  "mixins": ["EntityHitResultMixin", "EntityMixin", "MobMixin", "PlayerMixin", "ProjectileUtilMixin", "TransientEntitySectionManagerMixin"],
+  "mixins": ["EntityHitResultMixin", "EntityMixin", "LevelMixin", "MobMixin", "PlayerMixin", "ProjectileUtilMixin", "TransientEntitySectionManagerMixin"],
   "client": ["AbstractClientPlayerMixin", "ClientEntityMixin", "ClientMobMixin", "EntityRenderDispatcherMixin", "GeckoLibMobMixin", "GeoEntityRendererMixin", "MinecraftMixin"],
   "injectors": {
     "defaultRequire": 1
