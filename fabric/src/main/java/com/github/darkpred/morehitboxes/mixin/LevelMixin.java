@@ -38,7 +38,7 @@ public abstract class LevelMixin implements MultiPartLevel {
         for (MultiPart<?> part : moreHitboxes$getMultiParts()) {
             T parent = entityTypeTest.tryCast(part.getParent());
             //No check for the MultiPart entity itself
-            if (parent != null && part.getEntity().getBoundingBox().intersects(area) && predicate.test(parent)) {
+            if (parent != null && !list.contains(parent) && part.getEntity().getBoundingBox().intersects(area) && predicate.test(parent)) {
                 list.add(parent);
             }
         }

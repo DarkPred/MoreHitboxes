@@ -61,7 +61,7 @@ public abstract class LevelMixin implements IForgeLevel {
             if (partEntity instanceof MultiPart<?>) {
                 T parent = entityTypeTest.tryCast(partEntity.getParent());
                 //No check for the MultiPart entity itself since that doesn't make much sense
-                if (parent != null && partEntity.getBoundingBox().intersects(area) && predicate.test(parent)) {
+                if (parent != null && !list.contains(parent) && partEntity.getBoundingBox().intersects(area) && predicate.test(parent)) {
                     list.add(parent);
                 }
             }
