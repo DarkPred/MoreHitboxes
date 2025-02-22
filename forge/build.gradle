@@ -146,6 +146,7 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     debugMode = true
     var mainFile = upload(1115989, tasks.jarJar)
     mainFile.addGameVersion(game_versions.split(","))
+    mainFile.displayName = "$mod_version for Forge $minecraft_version"
     mainFile.changelog = rootProject.file("CHANGELOG.md").text
     mainFile.changelogType = "markdown"
     mainFile.releaseType = "release"

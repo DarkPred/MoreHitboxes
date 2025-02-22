@@ -35,6 +35,7 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity 
         this.size = EntityDimensions.scalable(hitboxData.width(), hitboxData.height());
         this.offset = hitboxData.pos();
         this.partName = hitboxData.name();
+        this.noPhysics = true;
         this.refreshDimensions();
     }
 
