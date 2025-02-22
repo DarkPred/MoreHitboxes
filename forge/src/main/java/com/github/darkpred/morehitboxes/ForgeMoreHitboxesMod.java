@@ -35,7 +35,6 @@ public class ForgeMoreHitboxesMod {
         MoreHitboxesMod.init();
         MinecraftForge.EVENT_BUS.addListener(this::onDatapackSyncEvent);
         INSTANCE.registerMessage(0, SyncHitboxDataMessage.class, SyncHitboxDataMessage::write, SyncHitboxDataMessage::new, SyncHitboxDataMessage::handle);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> com.github.darkpred.morehitboxes.ClientInit::clientInit);
     }
 
     public void onDatapackSyncEvent(OnDatapackSyncEvent event) {

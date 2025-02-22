@@ -13,7 +13,6 @@ import java.util.HashMap;
 public class FabricMoreHitboxesModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        com.github.darkpred.morehitboxes.ClientInit.clientInit();
         ResourceLocation location = new ResourceLocation(MoreHitboxesMod.MOD_ID, HitboxDataLoader.HITBOX_DATA.getName().toLowerCase());
         ClientPlayNetworking.registerGlobalReceiver(location, (client, handler, buf, responseSender) -> {
             var map = buf.readMap(HashMap::new, FriendlyByteBuf::readResourceLocation, HitboxDataLoader::readBuf);
