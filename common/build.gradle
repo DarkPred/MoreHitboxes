@@ -21,7 +21,7 @@ minecraft {
 
 dependencies {
     compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
-    compileOnly("software.bernie.geckolib:geckolib-forge-1.18:3.0.57")
+    compileOnly("software.bernie.geckolib:geckolib-forge-1.19:$gecko_lib_version")
 }
 
 processResources {
@@ -29,7 +29,6 @@ processResources {
     def buildProps = project.properties.clone()
 
     filesMatching(['pack.mcmeta']) {
-
         expand buildProps
     }
 }

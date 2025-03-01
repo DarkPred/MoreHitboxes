@@ -32,13 +32,13 @@ dependencies {
             "fabric-networking-api-v1"
     ]
     apiModules.forEach {
-        modImplementation(fabricApi.module(it, fabric_api_version))
+        modImplementation(fabricApi.module(it, "$fabric_api_version+$minecraft_version"))
     }
-    modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:$fabric_api_version"
+    modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:$fabric_api_version+$minecraft_version"
 
     compileOnly project(":common")
     compileOnly annotationProcessor('com.google.auto.service:auto-service:1.1.1')
-    modCompileOnly "software.bernie.geckolib:geckolib-fabric-1.18:3.0.80"
+    modCompileOnly "software.bernie.geckolib:geckolib-fabric-1.19:$gecko_lib_version"
 }
 
 loom {
@@ -57,24 +57,6 @@ loom {
         }
     }
     accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
-}
-
-def properties = [
-        minecraft_version    : minecraft_version, minecraft_version_range_lower: minecraft_version_range_lower,
-        fabric_loader_version: fabric_loader_version, fabric_loader_version_range: fabric_loader_version_range,
-        java_version         : java_version,
-        mod_id               : mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
-        mod_author           : mod_author, mod_description: mod_description
-]
-processResources {
-    from project(":common").sourceSets.main.resources
-    for (final def property in properties) {
-        inputs.property(property.getKey(), property.getValue())
-    }
-
-    filesMatching(["fabric.mod.json"]) {
-        expand(properties)
-    }
 }
 
 tasks.withType(JavaCompile) {

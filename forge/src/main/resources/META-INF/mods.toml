@@ -30,7 +30,7 @@ issueTrackerURL="https://github.com/DarkPred/MoreHitboxes/issues"
 [[dependencies.${mod_id}]]
     modId = "geckolib3"
     mandatory = false
-    versionRange = "[3.0.57,)"
+    versionRange = "[3.1.15,)"
     ordering = "AFTER"
     side = "BOTH"
 

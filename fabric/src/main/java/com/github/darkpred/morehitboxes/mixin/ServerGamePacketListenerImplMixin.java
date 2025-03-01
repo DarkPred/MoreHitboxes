@@ -28,7 +28,7 @@ public abstract class ServerGamePacketListenerImplMixin {
     @Shadow
     public ServerPlayer player;
 
-    @Inject(method = "handleInteract", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;distanceToSqr(Lnet/minecraft/world/entity/Entity;)D"))
+    @Inject(method = "handleInteract", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;distanceToSqr(Lnet/minecraft/world/phys/Vec3;)D"))
     private void replaceHurtEntity(ServerboundInteractPacket packet, CallbackInfo ci, @Local Entity target) {
         if (!(target instanceof MultiPartEntity) && !(target instanceof MultiPart<?>)) {
             return;

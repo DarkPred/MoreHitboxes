@@ -15,7 +15,6 @@ import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import org.jetbrains.annotations.ApiStatus;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -45,7 +44,7 @@ public class ForgeMoreHitboxesMod {
         private final Map<ResourceLocation, List<HitboxData>> hitboxes;
 
         public SyncHitboxDataMessage(FriendlyByteBuf buf) {
-            this.hitboxes = buf.readMap(HashMap::new, FriendlyByteBuf::readResourceLocation, HitboxDataLoader::readBuf);
+            this.hitboxes = buf.readMap(FriendlyByteBuf::readResourceLocation, HitboxDataLoader::readBuf);
         }
 
         public SyncHitboxDataMessage(Map<ResourceLocation, List<HitboxData>> hitboxes) {

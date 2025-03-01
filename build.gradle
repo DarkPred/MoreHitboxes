@@ -12,6 +12,32 @@ subprojects {
         //Jar name
         archivesName = "$archives_name-${project.name}-$minecraft_version"
     }
+    processResources {
+        def expandProps = [
+                "mod_version"                  : mod_version,
+                "group"                        : project.group, //Else we target the task's group.
+                "minecraft_version"            : minecraft_version,
+                "minecraft_version_range_lower": minecraft_version_range_lower,
+                "minecraft_version_range_upper": minecraft_version_range_upper,
+                "fabric_version"               : fabric_api_version,
+                "fabric_loader_version"        : fabric_loader_version,
+                "fabric_loader_version_range"  : fabric_loader_version_range,
+                "mod_name"                     : mod_name,
+                "mod_author"                   : mod_author,
+                "mod_id"                       : mod_id,
+                "mod_license"                  : mod_license,
+                "mod_description"              : mod_description,
+                "forge_version_range"          : forge_version_range,
+                "forge_loader_version_range"   : forge_loader_version_range,
+                "java_version"                 : java_version
+        ]
+        from project(":common").sourceSets.main.resources
+
+        inputs.properties(expandProps)
+        filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml']) {
+            expand expandProps
+        }
+    }
 
     jar {
         from(rootProject.file("LICENSE")) {
@@ -40,14 +66,12 @@ subprojects {
     }
 
     repositories {
-
         mavenCentral()
 
         maven {
             name = 'Sponge / Mixin'
             url = 'https://repo.spongepowered.org/repository/maven-public/'
         }
-
         maven {
             name = 'BlameJared Maven (CrT / Bookshelf)'
             url = 'https://maven.blamejared.com'
