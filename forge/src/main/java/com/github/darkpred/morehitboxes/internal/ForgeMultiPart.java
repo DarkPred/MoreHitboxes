@@ -75,6 +75,11 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
     }
 
     @Override
+    public @NotNull Entity getRootVehicle() {
+        return getParent().getRootVehicle();
+    }
+
+    @Override
     public boolean shouldBeSaved() {
         return false;
     }

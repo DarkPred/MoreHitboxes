@@ -76,6 +76,11 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity 
     }
 
     @Override
+    public @NotNull Entity getRootVehicle() {
+        return getParent().getRootVehicle();
+    }
+
+    @Override
     public boolean shouldBeSaved() {
         return false;
     }
