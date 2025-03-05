@@ -1,5 +1,14 @@
 # More Hitboxes
 
+<p align="center">
+    <a href="https://www.curseforge.com/minecraft/mc-mods/more-hitboxes">
+      <img src="http://cf.way2muchnoise.eu/full_1115989_downloads.svg" alt="Curseforge Downloads">
+    </a>
+    <a href="https://modrinth.com/mod/more-hitboxes">
+      <img src="https://img.shields.io/modrinth/dt/BOVAW87Z?style=for-the-badge&label=MODRINTH&color=1BD96A" alt="Modrinth Downloads">
+    </a>
+</p>
+
 This library provides both Fabric and Forge support for multiple hitboxes on mobs. The fabric version adds an Entity 
 similar to Forge's PartEntity while the Forge version expands on the PartEntity.
 

@@ -33,7 +33,4 @@ license = "${mod_license}"
     versionRange = "[3.0.57,)"
     ordering = "AFTER"
     side = "BOTH"
-    [dependencies.${mod_id}.mc-publish]
-        modrinth="geckolib"
-        curseforge="geckolib"
 
