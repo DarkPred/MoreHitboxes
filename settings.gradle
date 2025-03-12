@@ -1,13 +1,28 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven {
-            name = 'Forge'
-            url = 'https://maven.minecraftforge.net/'
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = 'Forge'
+                    url = "https://maven.minecraftforge.net"
+                }
+            }
+            filter {
+                includeGroupAndSubgroups("net.minecraftforge")
+            }
         }
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = 'Fabric'
+                    url = "https://maven.fabricmc.net"
+                }
+            }
+            filter {
+                includeGroup("net.fabricmc")
+                includeGroup("fabric-loom")
+            }
         }
         maven {
             name = 'Sponge Snapshots'

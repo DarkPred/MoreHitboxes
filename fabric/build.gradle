@@ -1,9 +1,8 @@
 import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
+    id 'multiloader-loader'
     id 'fabric-loom' version '1.7-SNAPSHOT'
-    id 'maven-publish'
-    id 'idea'
     id "com.modrinth.minotaur" version "2.+"
     id "net.darkhax.curseforgegradle" version "1.1.25"
 }
@@ -27,38 +26,34 @@ dependencies {
     }
     modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:$fabric_api_version+$minecraft_version"
 
-    compileOnly project(":common")
-    compileOnly annotationProcessor('com.google.auto.service:auto-service:1.1.1')
     modCompileOnly "software.bernie.geckolib:geckolib-fabric-$minecraft_version:$gecko_lib_version"
     compileOnly "com.eliotlash.mclib:mclib:20"
+
+    compileOnly annotationProcessor('com.google.auto.service:auto-service:1.1.1')
 }
 
 loom {
+    def aw = project(":common").file("src/main/resources/${mod_id}.accesswidener")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+    }
+    mixin {
+        defaultRefmapName.set("${mod_id}.refmap.json")
+    }
     runs {
         client {
             client()
             setConfigName("Fabric Client")
             ideConfigGenerated(true)
-            runDir("run")
+            runDir("runs/client")
         }
         server {
             server()
             setConfigName("Fabric Server")
             ideConfigGenerated(true)
-            runDir("run")
+            runDir("runs/server")
         }
     }
-    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
-}
-
-tasks.withType(JavaCompile) {
-    source(project(":common").sourceSets.main.allSource)
-}
-javadoc {
-    source project(":common").sourceSets.main.allJava
-    source project.sourceSets.main.allJava
-    exclude("**/mixin/**")
-    options.addBooleanOption('-ignore-source-errors', true)
 }
 
 modrinth {

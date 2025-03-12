@@ -31,7 +31,7 @@
     "fabric": "*"
   },
   "suggests": {
-    "geckolib": ">=4.1.0"
+    "geckolib": ">=4.2.1"
   }
 }
   

@@ -21,7 +21,7 @@ public abstract class ClientMobMixin extends LivingEntity {
     @Inject(method = "aiStep", at = @At("RETURN"))
     public void tickCustomParts(CallbackInfo ci) {
         if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            if (level instanceof ClientLevel clientLevel) {
+            if (level() instanceof ClientLevel clientLevel) {
                 multiPartEntity.getEntityHitboxData().getAttackBoxData().clientTick(clientLevel);
             }
         }

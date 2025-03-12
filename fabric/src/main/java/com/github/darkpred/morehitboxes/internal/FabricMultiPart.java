@@ -31,7 +31,7 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity 
     private AnimationOverride animationOverride;
 
     public FabricMultiPart(T parent, HitboxData hitboxData) {
-        super(parent.getType(), parent.level);
+        super(parent.getType(), parent.level());
         this.parent = parent;
         this.size = EntityDimensions.scalable(hitboxData.width(), hitboxData.height());
         this.offset = hitboxData.pos();
