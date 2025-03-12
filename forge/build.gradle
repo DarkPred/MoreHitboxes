@@ -72,7 +72,8 @@ dependencies {
 
     compileOnly project(":common")
     compileOnly annotationProcessor('com.google.auto.service:auto-service:1.1.1')
-    compileOnly fg.deobf("software.bernie.geckolib:geckolib-forge-1.19:$gecko_lib_version")
+    compileOnly fg.deobf("software.bernie.geckolib:geckolib-forge-$minecraft_version:$gecko_lib_version")
+    compileOnly "com.eliotlash.mclib:mclib:20"
 }
 
 mixin {

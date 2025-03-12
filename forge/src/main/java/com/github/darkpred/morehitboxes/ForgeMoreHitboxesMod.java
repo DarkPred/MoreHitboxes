@@ -1,6 +1,7 @@
 package com.github.darkpred.morehitboxes;
 
 import com.github.darkpred.morehitboxes.api.HitboxData;
+import com.github.darkpred.morehitboxes.internal.GeckoLibEvents;
 import com.github.darkpred.morehitboxes.internal.HitboxDataLoader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -8,6 +9,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
@@ -32,11 +34,14 @@ public class ForgeMoreHitboxesMod {
 
     public ForgeMoreHitboxesMod() {
         MoreHitboxesMod.init();
+        if (ModList.get().isLoaded("geckolib")) {
+            MinecraftForge.EVENT_BUS.addListener(GeckoLibEvents::incrementCurrentRenderTick);
+        }
         MinecraftForge.EVENT_BUS.addListener(this::onDatapackSyncEvent);
         INSTANCE.registerMessage(0, SyncHitboxDataMessage.class, SyncHitboxDataMessage::write, SyncHitboxDataMessage::new, SyncHitboxDataMessage::handle);
     }
 
-    public void onDatapackSyncEvent(OnDatapackSyncEvent event) {
+    private void onDatapackSyncEvent(OnDatapackSyncEvent event) {
         INSTANCE.send(PacketDistributor.PLAYER.with(event::getPlayer), new SyncHitboxDataMessage(HitboxDataLoader.HITBOX_DATA.getHitboxData()));
     }
 

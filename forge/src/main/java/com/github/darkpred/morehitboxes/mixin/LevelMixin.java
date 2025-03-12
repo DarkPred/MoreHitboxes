@@ -1,6 +1,5 @@
 package com.github.darkpred.morehitboxes.mixin;
 
-import com.github.darkpred.morehitboxes.MoreHitboxesMod;
 import com.github.darkpred.morehitboxes.api.MultiPart;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

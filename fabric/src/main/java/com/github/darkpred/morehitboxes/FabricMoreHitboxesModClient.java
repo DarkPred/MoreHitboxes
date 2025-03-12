@@ -1,8 +1,10 @@
 package com.github.darkpred.morehitboxes;
 
+import com.github.darkpred.morehitboxes.internal.GeckoLibEvents;
 import com.github.darkpred.morehitboxes.internal.HitboxDataLoader;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
@@ -18,5 +20,8 @@ public class FabricMoreHitboxesModClient implements ClientModInitializer {
             var map = buf.readMap(HashMap::new, FriendlyByteBuf::readResourceLocation, HitboxDataLoader::readBuf);
             client.execute(() -> HitboxDataLoader.HITBOX_DATA.replaceData(map));
         });
+        if (FabricLoader.getInstance().isModLoaded("geckolib")) {
+            GeckoLibEvents.init();
+        }
     }
 }

@@ -4,6 +4,7 @@ import com.github.darkpred.morehitboxes.MoreHitboxesMod;
 import com.github.darkpred.morehitboxes.api.MultiPart;
 import com.github.darkpred.morehitboxes.api.MultiPartEntity;
 import net.minecraft.core.SectionPos;
+import net.minecraft.util.AbortableIterationConsumer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.entity.*;
 import net.minecraft.world.phys.AABB;
@@ -13,8 +14,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.function.Consumer;
 
 @Mixin(TransientEntitySectionManager.class)
 public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess> {
@@ -28,7 +27,7 @@ public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess>
      * entities to/from their correct EntitySections.
      *
      * @see EntitySection
-     * @see EntitySectionStorage#getEntities(AABB, Consumer)
+     * @see EntitySectionStorage#getEntities(AABB, AbortableIterationConsumer)
      */
     @Inject(method = "addEntity", at = @At("HEAD"))
     private void addPartEntitiesToSections(T entity, CallbackInfo ci) {

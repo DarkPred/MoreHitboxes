@@ -7,6 +7,7 @@ import com.github.darkpred.morehitboxes.api.MultiPartEntity;
 import com.google.auto.service.AutoService;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -136,7 +137,7 @@ public class FabricMultiPart<T extends Mob & MultiPartEntity<T>> extends Entity 
     }
 
     @Override
-    public @NotNull Packet<?> getAddEntityPacket() {
+    public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
         throw new UnsupportedOperationException();
     }
 
