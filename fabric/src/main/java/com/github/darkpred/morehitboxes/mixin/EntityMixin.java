@@ -28,12 +28,12 @@ public abstract class EntityMixin {
     @Shadow
     public abstract void setPos(double x, double y, double z);
 
-    @Inject(method = "onSyncedDataUpdated", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;refreshDimensions()V"))
+    @Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;refreshDimensions()V"))
     public void saveYPos(CallbackInfo ci, @Share("oldY") LocalDoubleRef oldY) {
         oldY.set(getY());
     }
 
-    @Inject(method = "onSyncedDataUpdated", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/world/entity/Entity;refreshDimensions()V"))
+    @Inject(method = "onSyncedDataUpdated(Lnet/minecraft/network/syncher/EntityDataAccessor;)V", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/world/entity/Entity;refreshDimensions()V"))
     public void restoreYPos(CallbackInfo ci, @Share("oldY") LocalDoubleRef oldY) {
         if (this instanceof MultiPartEntity<?> multiPartEntity && multiPartEntity.getEntityHitboxData().fixPosOnRefresh()) {
             setPos(getX(), oldY.get(), getZ());

@@ -27,7 +27,7 @@ public abstract class TransientEntitySectionManagerMixin<T extends EntityAccess>
      * entities to/from their correct EntitySections.
      *
      * @see EntitySection
-     * @see EntitySectionStorage#m_261111_(AABB, AbortableIterationConsumer) EntitySectionStorage.getEntities(AABB, AbortableIterationConsumer)
+     * @see EntitySectionStorage#getEntities(AABB, AbortableIterationConsumer)
      */
     @Inject(method = "addEntity", at = @At("HEAD"))
     private void addPartEntitiesToSections(T entity, CallbackInfo ci) {
