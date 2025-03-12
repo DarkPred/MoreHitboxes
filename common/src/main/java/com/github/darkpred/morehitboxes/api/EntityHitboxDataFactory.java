@@ -16,8 +16,8 @@ public class EntityHitboxDataFactory {
      * Creates a new {@link EntityHitboxData} for the given entity
      *
      * @param entity           the entity
-     * @param fixPosOnRefresh  if {@code true} the entities y position will be saved before and applied after a {@link Entity#refreshDimensions() refreshDimensions} call.
-     *                         This can prevent odd displacement in certain scenarios
+     * @param fixPosOnRefresh  if {@code true} the entities y position will be saved before and applied after a {@link Entity#refreshDimensions() refreshDimensions}
+     *                         call due to a change in {@link Entity#getPose() pose}. This can prevent odd displacement in certain scenarios
      * @param usesAttackBounds whether {@link MultiPartEntity#makeAttackBoundingBox(float)} should be called
      * @return a new {@link EntityHitboxData} instance
      */
