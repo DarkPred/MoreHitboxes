@@ -11,7 +11,7 @@ plugins {
 }
 
 minecraft {
-    mappings channel: 'parchment', version: '2022.11.06-1.18.2'
+    mappings channel: 'parchment', version: "$parchment_date-$parchment_mc_version"
 
     runs {
         client {
