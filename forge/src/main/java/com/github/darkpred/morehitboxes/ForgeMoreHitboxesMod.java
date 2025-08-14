@@ -11,6 +11,7 @@ import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.NetworkEvent;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
@@ -34,7 +35,7 @@ public class ForgeMoreHitboxesMod {
 
     public ForgeMoreHitboxesMod() {
         MoreHitboxesMod.init();
-        if (ModList.get().isLoaded("geckolib")) {
+        if (ModList.get().isLoaded("geckolib") && FMLLoader.getDist() == Dist.CLIENT) {
             MinecraftForge.EVENT_BUS.addListener(GeckoLibEvents::incrementCurrentRenderTick);
         }
         MinecraftForge.EVENT_BUS.addListener(this::onDatapackSyncEvent);
