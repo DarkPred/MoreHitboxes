@@ -9,7 +9,10 @@ minecraft {
 
 dependencies {
     compileOnly "software.bernie.geckolib:geckolib-common-$minecraft_version:$gecko_lib_version"
-    //compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
+
+    compileOnly "org.spongepowered:mixin:0.8.5"
+    compileOnly annotationProcessor("io.github.llamalad7:mixinextras-common:0.4.1")
+    compileOnly "io.github.llamalad7:mixinextras-common:0.4.1"
 }
 
 configurations {

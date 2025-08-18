@@ -8,27 +8,14 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.entity.PartEntity;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
 
 @Mixin(Mob.class)
-public abstract class MobMixin extends LivingEntity {
+public abstract class NeoForgeMobMixin extends LivingEntity {
 
-    protected MobMixin(EntityType<? extends LivingEntity> type, Level level) {
+    protected NeoForgeMobMixin(EntityType<? extends LivingEntity> type, Level level) {
         super(type, level);
-    }
-
-    @Inject(method = "aiStep", at = @At("RETURN"))
-    public void tickCustomParts(CallbackInfo ci) {
-        if (this instanceof MultiPartEntity<?> multiPartEntity) {
-            for (MultiPart<?> part : multiPartEntity.getEntityHitboxData().getCustomParts()) {
-                part.updatePosition();
-            }
-            multiPartEntity.getEntityHitboxData().getAnchorData().updatePositions();
-        }
     }
 
     @Override
