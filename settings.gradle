@@ -4,12 +4,13 @@ pluginManagement {
         exclusiveContent {
             forRepository {
                 maven {
-                    name = 'Forge'
-                    url = "https://maven.minecraftforge.net"
+                    name = 'NeoForge'
+                    url = uri("https://maven.neoforged.net/releases")
                 }
             }
             filter {
-                includeGroupAndSubgroups("net.minecraftforge")
+                includeGroupAndSubgroups("net.neoforged")
+                includeGroup("codechicken")
             }
         }
         exclusiveContent {
@@ -24,16 +25,24 @@ pluginManagement {
                 includeGroup("fabric-loom")
             }
         }
-        maven {
-            name = 'Sponge Snapshots'
-            url = 'https://repo.spongepowered.org/repository/maven-public/'
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = 'Sponge Snapshots'
+                    url = uri("https://repo.spongepowered.org/repository/maven-public")
+                }
+            }
+            filter {
+                includeGroupAndSubgroups("org.spongepowered")
+                includeGroup("net.minecraftforge")
+            }
         }
     }
 }
 
 plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.8.0'
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
 }
 
 rootProject.name = 'morehitboxes'
-include("common", "fabric", "forge")
+include("common", "fabric", "neoforge")

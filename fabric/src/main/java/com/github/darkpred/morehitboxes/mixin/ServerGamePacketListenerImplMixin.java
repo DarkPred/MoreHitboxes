@@ -20,10 +20,10 @@ public class ServerGamePacketListenerImplMixin {
     @Shadow
     public ServerPlayer player;
 
-    @ModifyExpressionValue(method = "handleInteract", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/AABB;distanceToSqr(Lnet/minecraft/world/phys/Vec3;)D"))
-    private double modifyForMultiPartEntities(double original, @Local Entity target) {
+    @ModifyExpressionValue(method = "handleInteract", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;canInteractWithEntity(Lnet/minecraft/world/phys/AABB;D)Z"))
+    private boolean modifyForMultiPartEntities(boolean original, @Local Entity target) {
         if (target instanceof MultiPartEntity || target instanceof MultiPart<?>) {
-            return isCloseEnough(target, player.isCreative() ? 9 : 6) ? 0 : Double.MAX_VALUE;
+            return isCloseEnough(target, player.isCreative() ? 9 : 6);
         }
         return original;
     }

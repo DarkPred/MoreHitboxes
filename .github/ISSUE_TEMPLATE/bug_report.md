@@ -26,7 +26,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Mod Version**
- - e.g. Forge 1.18.2-1.0.0.0
+ - e.g. NeoForge 1.20.6-1.9.1
 
 **Additional context**
 Add any other context about the problem here.

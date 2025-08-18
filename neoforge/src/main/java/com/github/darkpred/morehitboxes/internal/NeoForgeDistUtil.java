@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 @AutoService(AttackBoxDataInternal.DistUtilFactory.class)
-public class ForgeDistUtil implements AttackBoxDataInternal.DistUtilFactory {
+public class NeoForgeDistUtil implements AttackBoxDataInternal.DistUtilFactory {
 
     @Override
     public Player handleIntersect(AABB aabb) {

@@ -6,6 +6,7 @@ import com.github.darkpred.morehitboxes.api.MultiPart;
 import com.github.darkpred.morehitboxes.api.MultiPartEntity;
 import com.google.auto.service.AutoService;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -15,20 +16,20 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.entity.PartEntity;
+import net.neoforged.neoforge.entity.PartEntity;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
-public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEntity<T> implements MultiPart<T> {
+public class NeoForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEntity<T> implements MultiPart<T> {
     private final EntityDimensions size;
     private final Vec3 offset;
     private final String partName;
     @Nullable
     private AnimationOverride animationOverride;
 
-    public ForgeMultiPart(T parent, HitboxData hitboxData) {
+    public NeoForgeMultiPart(T parent, HitboxData hitboxData) {
         super(parent);
         this.size = EntityDimensions.scalable(hitboxData.width(), hitboxData.height());
         this.offset = hitboxData.pos();
@@ -114,7 +115,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
     }
 
     @Override
-    protected void defineSynchedData() {
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
 
     }
 
@@ -134,7 +135,7 @@ public class ForgeMultiPart<T extends Mob & MultiPartEntity<T>> extends PartEnti
 
         @Override
         public <T extends Mob & MultiPartEntity<T>> MultiPart<T> create(T parent, HitboxData hitboxData) {
-            return new ForgeMultiPart<>(parent, hitboxData);
+            return new NeoForgeMultiPart<>(parent, hitboxData);
         }
     }
 }

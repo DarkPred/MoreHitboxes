@@ -9,7 +9,7 @@
     </a>
 </p>
 
-This library provides both Fabric and Forge support for multiple hitboxes on mobs. The fabric version adds an Entity 
+This library provides both Fabric and Forge(NeoForge 1.20.6+) support for multiple hitboxes on mobs. The fabric version adds an Entity 
 similar to Forge's PartEntity while the Forge version expands on the PartEntity.
 
 ## Setup

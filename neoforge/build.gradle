@@ -2,57 +2,49 @@ import net.darkhax.curseforgegradle.TaskPublishCurseForge
 
 plugins {
     id 'multiloader-loader'
-    id 'fabric-loom' version '1.7-SNAPSHOT'
-    id "com.modrinth.minotaur"
-    id "net.darkhax.curseforgegradle"
+    id 'net.neoforged.moddev' version '2.0.107'
+    id 'com.modrinth.minotaur'
+    id 'net.darkhax.curseforgegradle'
 }
 
+neoForge {
+    version = neoforge_version
 
-dependencies {
-    minecraft "com.mojang:minecraft:$minecraft_version"
-    mappings(loom.layered {
-        officialMojangMappings()
-        parchment("org.parchmentmc.data:parchment-$parchment_mc_version:$parchment_date@zip")
-    })
-    modImplementation "net.fabricmc:fabric-loader:$fabric_loader_version"
-    Set<String> apiModules = [
-            "fabric-api-base",
-            "fabric-lifecycle-events-v1",
-            "fabric-resource-loader-v0",
-            "fabric-networking-api-v1"
-    ]
-    apiModules.forEach {
-        modImplementation(fabricApi.module(it, "$fabric_api_version+$minecraft_version"))
+    parchment {
+        minecraftVersion = parchment_mc_version
+        mappingsVersion = parchment_date
     }
-    modRuntimeOnly "net.fabricmc.fabric-api:fabric-api:$fabric_api_version+$minecraft_version"
 
-    modCompileOnly "software.bernie.geckolib:geckolib-fabric-$minecraft_version:$gecko_lib_version"
-
-    compileOnly annotationProcessor('com.google.auto.service:auto-service:1.1.1')
-}
-
-loom {
-    def aw = project(":common").file("src/main/resources/${mod_id}.accesswidener")
-    if (aw.exists()) {
-        accessWidenerPath.set(aw)
-    }
-    mixin {
-        defaultRefmapName.set("${mod_id}.refmap.json")
-    }
     runs {
+        configureEach {
+            systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+            systemProperty 'mixin.env.remapRefMap', 'true'
+            systemProperty 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
+            logLevel = org.slf4j.event.Level.DEBUG
+            ideName = "NeoForge ${it.name.capitalize()} (${project.path})" // Unify the run config names with fabric
+        }
         client {
             client()
-            setConfigName("Fabric Client")
-            ideConfigGenerated(true)
-            runDir("runs/client")
         }
         server {
             server()
-            setConfigName("Fabric Server")
-            ideConfigGenerated(true)
-            runDir("runs/server")
+            programArgument '--nogui'
         }
     }
+    mods {
+        "$mod_id" {
+            sourceSet(sourceSets.main)
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+dependencies {
+    compileOnly "software.bernie.geckolib:geckolib-neoforge-$minecraft_version:$gecko_lib_version"
+
+    compileOnly annotationProcessor('com.google.auto.service:auto-service:1.1.1')
 }
 
 modrinth {
@@ -60,9 +52,10 @@ modrinth {
     projectId = "BOVAW87Z"
     versionNumber.set("$minecraft_version-$mod_version-${project.name}")
     versionType.set("release")
-    uploadFile.set(tasks.remapJar)
-    versionName = "$mod_version for Fabric $minecraft_version"
+    uploadFile.set(tasks.jarJar)
+    versionName = "$mod_version for NeoForge $minecraft_version"
     gameVersions = game_versions.split(",").toList()
+    loaders = ["neoforge"]
     debugMode = true
     dependencies {
         optional.project("geckolib")
@@ -74,9 +67,10 @@ tasks.register('publishCurseForge', TaskPublishCurseForge) {
     description = "Publishes jar to CurseForge"
     apiToken = project.property("CURSEFORGE_TOKEN") ?: "no value"
     debugMode = true
-    var mainFile = upload(1115989, tasks.remapJar)
+    var mainFile = upload(1115989, tasks.jarJar)
     mainFile.addGameVersion(game_versions.split(","))
-    mainFile.displayName = "$mod_version for Fabric $minecraft_version"
+    mainFile.addModLoader("NeoForge")
+    mainFile.displayName = "$mod_version for NeoForge $minecraft_version"
     mainFile.changelog = rootProject.file("CHANGELOG.md").text
     mainFile.changelogType = "markdown"
     mainFile.releaseType = "release"
@@ -94,6 +88,13 @@ publishing {
             artifactId "$archives_name-${project.name}-$minecraft_version"
             version version
             from components.java
+            pom.withXml {
+                asNode().dependencies.dependency.each { dep ->
+                    /*if(dep.artifactId.last().value().last() in ["forge", "mixinextras-forge"]) {
+                        assert dep.parent().remove(dep)
+                    }*/
+                }
+            }
         }
     }
 

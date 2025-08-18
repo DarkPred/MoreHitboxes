@@ -1,7 +1,6 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
-    id 'idea'
 }
 base {
     //Jar name
@@ -18,27 +17,19 @@ java {
 
 repositories {
     mavenCentral()
+    maven {
+        name = "ParchmentMC"
+        url = "https://maven.parchmentmc.org"
+    }
 
-    maven {
-        name 'Sponge / Mixin'
-        url 'https://repo.spongepowered.org/repository/maven-public/'
-    }
-    maven {
-        name "Modrinth"
-        url "https://api.modrinth.com/maven"
-        content {
-            includeGroup("maven.modrinth")
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = 'Sponge'
+                url = 'https://repo.spongepowered.org/repository/maven-public'
+            }
         }
-    }
-    maven {
-        url "https://cursemaven.com/"
-        content {
-            includeGroup("curse.maven")
-        }
-    }
-    maven {
-        name 'Gegy'
-        url 'https://maven.gegy.dev'
+        filter { includeGroupAndSubgroups("org.spongepowered") }
     }
     maven {
         name 'GeckoLib'
@@ -48,13 +39,10 @@ repositories {
             includeGroup("com.eliotlash.mclib")
         }
     }
-
-    maven { url 'https://aperlambda.github.io/maven' }
     maven {
         name 'BlameJared Maven (CrT / Bookshelf)'
         url 'https://maven.blamejared.com'
     }
-    maven { url "https://maven.shedaniel.me/" }
 }
 
 // Declare capabilities on the outgoing configurations.
@@ -74,13 +62,6 @@ sourcesJar {
     from(rootProject.file("LICENSE")) {
         rename { "${it}_${mod_name}" }
     }
-}
-
-// Disables Gradle's custom module metadata from being published to maven. The
-// metadata includes mapped dependencies which are not reasonably consumable by
-// other mod developers.
-tasks.withType(GenerateModuleMetadata).configureEach {
-    enabled = false
 }
 
 jar {
@@ -117,8 +98,8 @@ processResources {
             "mod_id"                       : mod_id,
             "mod_license"                  : mod_license,
             "mod_description"              : mod_description,
-            "forge_version_range"          : forge_version_range,
-            "forge_loader_version_range"   : forge_loader_version_range,
+            "neoforge_version_range"       : neoforge_version_range,
+            "neoforge_loader_version_range": neoforge_loader_version_range,
             "java_version"                 : java_version
     ]
 

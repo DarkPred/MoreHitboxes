@@ -8,7 +8,8 @@ minecraft {
 }
 
 dependencies {
-    compileOnly "software.bernie.geckolib:geckolib-forge-$minecraft_version:$gecko_lib_version"
+    compileOnly "software.bernie.geckolib:geckolib-common-$minecraft_version:$gecko_lib_version"
+    //compileOnly group:'org.spongepowered', name:'mixin', version:'0.8.5'
 }
 
 configurations {

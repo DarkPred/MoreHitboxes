@@ -6,17 +6,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
-import net.minecraftforge.event.AddReloadListenerEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import org.jetbrains.annotations.ApiStatus;
 
 import java.util.List;
 
 @ApiStatus.Internal
-@Mod.EventBusSubscriber(modid = MoreHitboxesMod.MOD_ID)
+@EventBusSubscriber(modid = MoreHitboxesMod.MOD_ID)
 @AutoService(com.github.darkpred.morehitboxes.ResourcePackRegistry.class)
-public class ForgeResourcePackRegistry implements com.github.darkpred.morehitboxes.ResourcePackRegistry {
+public class NeoForgeResourcePackRegistry implements com.github.darkpred.morehitboxes.ResourcePackRegistry {
     private static final List<PreparableReloadListener> serverDataReloadListeners = Lists.newArrayList();
 
     @Override

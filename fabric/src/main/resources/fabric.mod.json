@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "${mod_id}",
-  "version": "${mod_version}",
+  "version": "${minecraft_version}-${mod_version}",
   "name": "${mod_name}",
   "description": "${mod_description}",
   "authors": ["${mod_author}"],

@@ -89,11 +89,11 @@ public class HitboxDataLoader extends SimpleJsonResourceReloadListener {
         return buf.readList(HitboxData::readBuf);
     }
 
-    private static void writeBuf(FriendlyByteBuf buf, List<HitboxData> hitboxes) {
+    public static void writeBuf(FriendlyByteBuf buf, List<HitboxData> hitboxes) {
         buf.writeCollection(hitboxes, HitboxData::writeBuf);
     }
 
-    public void writeBuf(FriendlyByteBuf buf) {
+    public static void writeBuf(FriendlyByteBuf buf, Map<ResourceLocation, List<HitboxData>> hitboxData) {
         buf.writeMap(hitboxData, (buffer, key) -> buf.writeResourceLocation(key), HitboxDataLoader::writeBuf);
     }
 }
