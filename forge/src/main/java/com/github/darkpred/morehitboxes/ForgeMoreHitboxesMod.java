@@ -5,6 +5,7 @@ import com.github.darkpred.morehitboxes.internal.GeckoLibEvents;
 import com.github.darkpred.morehitboxes.internal.HitboxDataLoader;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.OnDatapackSyncEvent;
@@ -43,7 +44,11 @@ public class ForgeMoreHitboxesMod {
     }
 
     private void onDatapackSyncEvent(OnDatapackSyncEvent event) {
-        INSTANCE.send(PacketDistributor.PLAYER.with(event::getPlayer), new SyncHitboxDataMessage(HitboxDataLoader.HITBOX_DATA.getHitboxData()));
+        for(ServerPlayer p : event.getPlayers())
+        {
+            PacketDistributor.PacketTarget t = PacketDistributor.PLAYER.with(() -> p);
+            INSTANCE.send(t, new SyncHitboxDataMessage(HitboxDataLoader.HITBOX_DATA.getHitboxData()));
+        }
     }
 
     private static class SyncHitboxDataMessage {
