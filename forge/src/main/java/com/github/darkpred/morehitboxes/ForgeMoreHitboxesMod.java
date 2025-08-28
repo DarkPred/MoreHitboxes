@@ -44,9 +44,18 @@ public class ForgeMoreHitboxesMod {
     }
 
     private void onDatapackSyncEvent(OnDatapackSyncEvent event) {
-        for(ServerPlayer p : event.getPlayers())
+        //On join
+        ServerPlayer p = event.getPlayer();
+        if(p != null)
         {
             PacketDistributor.PacketTarget t = PacketDistributor.PLAYER.with(() -> p);
+            INSTANCE.send(t, new SyncHitboxDataMessage(HitboxDataLoader.HITBOX_DATA.getHitboxData()));
+        }
+
+        //On reload
+        for(ServerPlayer sp : event.getPlayers())
+        {
+            PacketDistributor.PacketTarget t = PacketDistributor.PLAYER.with(() -> sp);
             INSTANCE.send(t, new SyncHitboxDataMessage(HitboxDataLoader.HITBOX_DATA.getHitboxData()));
         }
     }
