@@ -17,11 +17,9 @@ public class FabricMoreHitboxesMod implements ModInitializer {
         MoreHitboxesMod.init();
         ResourceLocation location = new ResourceLocation(MoreHitboxesMod.MOD_ID, HitboxDataLoader.HITBOX_DATA.getName().toLowerCase());
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> {
-            if (joined) {
-                FriendlyByteBuf buf = PacketByteBufs.create();
-                HitboxDataLoader.HITBOX_DATA.writeBuf(buf);
-                ServerPlayNetworking.send(player, location, buf);
-            }
+            FriendlyByteBuf buf = PacketByteBufs.create();
+            HitboxDataLoader.HITBOX_DATA.writeBuf(buf);
+            ServerPlayNetworking.send(player, location, buf);
         });
     }
 }
