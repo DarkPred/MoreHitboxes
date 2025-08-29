@@ -1,1 +1,2 @@
-Updated to 1.19.3
+**Fixed**
+- Data /reload not working on forge and not doing anything on fabric
