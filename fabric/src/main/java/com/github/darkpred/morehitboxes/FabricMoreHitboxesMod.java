@@ -16,9 +16,7 @@ public class FabricMoreHitboxesMod implements ModInitializer {
         MoreHitboxesMod.init();
         PayloadTypeRegistry.configurationS2C().register(SyncHitboxDataPayload.TYPE, SyncHitboxDataPayload.STREAM_CODEC);
         ServerLifecycleEvents.SYNC_DATA_PACK_CONTENTS.register((player, joined) -> {
-            if (joined) {
-                ServerPlayNetworking.send(player, new SyncHitboxDataPayload(HitboxDataLoader.HITBOX_DATA.getHitboxData()));
-            }
+            ServerPlayNetworking.send(player, new SyncHitboxDataPayload(HitboxDataLoader.HITBOX_DATA.getHitboxData()));
         });
     }
 }

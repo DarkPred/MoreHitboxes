@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -42,5 +43,20 @@ public abstract class FabricLevelMixin implements MultiPartLevel {
                 list.add(parent);
             }
         }
+    }
+
+    @Override
+    public Collection<MultiPart<?>> moreHitboxes$getMultiParts() {
+        return List.of();
+    }
+
+    @Override
+    public void moreHitboxes$addMultiPart(MultiPart<?> part) {
+
+    }
+
+    @Override
+    public void moreHitboxes$removeMultiPart(MultiPart<?> part) {
+
     }
 }
