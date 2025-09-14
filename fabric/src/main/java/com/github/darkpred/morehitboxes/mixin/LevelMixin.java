@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,5 +57,20 @@ public abstract class LevelMixin implements MultiPartLevel {
                 list.add(parent);
             }
         }
+    }
+
+    @Override
+    public Collection<MultiPart<?>> moreHitboxes$getMultiParts() {
+        return List.of();
+    }
+
+    @Override
+    public void moreHitboxes$addMultiPart(MultiPart<?> part) {
+
+    }
+
+    @Override
+    public void moreHitboxes$removeMultiPart(MultiPart<?> part) {
+
     }
 }

@@ -1,2 +1,2 @@
 **Fixed**
-- Data /reload not working on forge and not doing anything on fabric
+- Potential crash when a mod uses a custom Level subclass (for example Create)
