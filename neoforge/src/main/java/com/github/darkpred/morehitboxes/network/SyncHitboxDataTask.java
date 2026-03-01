@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 
 @ApiStatus.Internal
 public record SyncHitboxDataTask() implements ICustomConfigurationTask {
-    public static final ConfigurationTask.Type TYPE = new ConfigurationTask.Type(new ResourceLocation(MoreHitboxesMod.MOD_ID, "sync_hitbox_data"));
+    public static final ConfigurationTask.Type TYPE = new ConfigurationTask.Type(ResourceLocation.fromNamespaceAndPath(MoreHitboxesMod.MOD_ID, "sync_hitbox_data"));
 
     @Override
     public void run(Consumer<CustomPacketPayload> sender) {

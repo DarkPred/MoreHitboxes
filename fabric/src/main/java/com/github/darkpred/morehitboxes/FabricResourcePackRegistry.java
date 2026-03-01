@@ -23,7 +23,7 @@ public class FabricResourcePackRegistry implements com.github.darkpred.morehitbo
 
     @Override
     public void register(PackType type, PreparableReloadListener listener) {
-        var id = new ResourceLocation(MoreHitboxesMod.MOD_ID + ":reload_" + listener.getName().toLowerCase());
+        var id = ResourceLocation.fromNamespaceAndPath(MoreHitboxesMod.MOD_ID, ":reload_" + listener.getName().toLowerCase());
         ResourceManagerHelper.get(type).registerReloadListener(new IdentifiableResourceReloadListener() {
             @Override
             public ResourceLocation getFabricId() {

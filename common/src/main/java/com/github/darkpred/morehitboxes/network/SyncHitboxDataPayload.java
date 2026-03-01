@@ -16,7 +16,7 @@ import java.util.Map;
 @ApiStatus.Internal
 public record SyncHitboxDataPayload(Map<ResourceLocation, List<HitboxData>> hitboxes) implements CustomPacketPayload {
     private static final StreamCodec<FriendlyByteBuf, Map<ResourceLocation, List<HitboxData>>> DATA = data();
-    public static final CustomPacketPayload.Type<SyncHitboxDataPayload> TYPE = new CustomPacketPayload.Type<>(new ResourceLocation(MoreHitboxesMod.MOD_ID, "sync_hitbox_data"));
+    public static final CustomPacketPayload.Type<SyncHitboxDataPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(MoreHitboxesMod.MOD_ID, "sync_hitbox_data"));
 
     public static final StreamCodec<FriendlyByteBuf, SyncHitboxDataPayload> STREAM_CODEC = net.minecraft.network.codec.StreamCodec.composite(
             DATA,
