@@ -29,7 +29,7 @@ import java.util.Map;
 public abstract class EntityRenderDispatcherMixin {
 
     @Inject(method = "renderHitbox", at = @At(value = "INVOKE", shift = At.Shift.AFTER, ordinal = 0, target = "Lnet/minecraft/client/renderer/LevelRenderer;renderLineBox(Lcom/mojang/blaze3d/vertex/PoseStack;Lcom/mojang/blaze3d/vertex/VertexConsumer;Lnet/minecraft/world/phys/AABB;FFFF)V"))
-    private static void renderMultipartHitbox(PoseStack poseStack, VertexConsumer buffer, Entity entity, float partialTicks, CallbackInfo ci) {
+    private static void renderMultipartHitbox(PoseStack poseStack, VertexConsumer buffer, Entity entity, float partialTicks, float red, float green, float blue, CallbackInfo ci) {
         if (entity instanceof Mob mob && mob instanceof MultiPartEntity<?> multiPartEntity) {
             double d = -Mth.lerp(partialTicks, entity.xOld, entity.getX());
             double e = -Mth.lerp(partialTicks, entity.yOld, entity.getY());
