@@ -12,7 +12,7 @@ public class NetworkRegistry {
     public static void init(RegisterPayloadHandlersEvent event) {
         // Sets the current network version
         PayloadRegistrar registrar = event.registrar(PROTOCOL_VERSION);
-        registrar.configurationBidirectional(
+        registrar.playToClient(
                 SyncHitboxDataPayload.TYPE,
                 SyncHitboxDataPayload.STREAM_CODEC,
                 new DirectionalPayloadHandler<>(

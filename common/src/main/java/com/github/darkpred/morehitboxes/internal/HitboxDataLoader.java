@@ -1,5 +1,6 @@
 package com.github.darkpred.morehitboxes.internal;
 
+import com.github.darkpred.morehitboxes.MoreHitboxesMod;
 import com.github.darkpred.morehitboxes.api.HitboxData;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -82,6 +83,7 @@ public class HitboxDataLoader extends SimpleJsonResourceReloadListener {
      * @param dataMap the new hitbox data
      */
     public void replaceData(Map<ResourceLocation, List<HitboxData>> dataMap) {
+        MoreHitboxesMod.LOGGER.info("Replacing client hitbox data for {} entities", dataMap.size());
         hitboxData = ImmutableMap.copyOf(dataMap);
     }
 
